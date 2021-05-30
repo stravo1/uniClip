@@ -1,0 +1,96 @@
+@charset "utf-8";
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,500,600,700');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+// Set your brand colors
+$purple: #e4385d;
+$neonPink: #ff2079;
+$neonBlue: #75d5fd;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+// Update Bulma's global variables
+$control-radius: 7px;
+$family-primary: "Poppins";
+$family-sans-serif: "Poppins",
+sans-serif;
+$menu-label-font-size: 1.5rem;
+$panel-tabs-font-size: 1.5rem;
+$message-body-padding: 0.5rem 0.75rem;
+
+$input-radius:7px;
+$input-icon-color: rgb(73,
+73,
+73);
+$input-icon-active-color: whitesmoke;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$danger: $purple;
+$success: $neonPink;  //dirty patch here too
+$link: $neonBlue;
+$info: $neonPink;
+$tabs-toggle-link-border-color:$neonPink;
+$tabs-toggle-link-border-width:2px;
+$tabs-toggle-link-radius:7px;
+$tabs-toggle-link-active-background-color:$neonPink;
+$tabs-toggle-link-active-border-color:$neonPink;
+$tabs-toggle-link-active-color: black;
+
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+// Update some of Bulma's component variables
+$body-background-color: $beige-lighter;
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+$panel-tab-active-color: whitesmoke;
+
+$panel-block-active-color: black;
+
+
+$menu-item-hover-color: whitesmoke;
+$menu-item-hover-background-color: #4f4f4f;
+
+
+
+
+// Import only what you need from Bulma
+@import "../node_modules/bulma/bulma.sass";
+
+//https://codepen.io/avstorm/pen/abdajMB
+
+.progress {
+  width: 100%;
+  max-width: 100vw;
+  height: 6px;
+  background: #e1e4e8;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress .progress-bar {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ffd33d, #ea4aaa 17%, #b34bff 34%, #01feff 51%, #ffd33d 68%, #ea4aaa 85%, #b34bff);
+  background-size: 300% 100%;
+  -webkit-animation: progress-animation 2s linear infinite;
+          animation: progress-animation 2s linear infinite;
+}
+
+@-webkit-keyframes progress-animation {
+  0% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0;
+  }
+}
+
+@keyframes progress-animation {
+  0% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0;
+  }
+}
