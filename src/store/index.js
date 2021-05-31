@@ -4,6 +4,7 @@ import { createStore } from 'vuex'
 export default createStore({
     state: {
         signInState: false,
+        refreshState: false,
         accessToken: '',
         isLoading: false,
         myDevice: '',
@@ -35,6 +36,9 @@ export default createStore({
         setAccessToken(state, arg) {
             console.log('updated', arg)
             state.accessToken = arg
+        },
+        setRefreshState(state, arg){
+            state.refreshState = arg;
         },
         setFilesList(state, list) {
             state.filesList = list
@@ -375,6 +379,7 @@ export default createStore({
                 state.unreadMessages.push(unRead[0])
                 console.log(state.unreadMessages, 'unread')
             }
+            if(!state.refreshState){return true}
             setTimeout(async() => {
                 await dispatch('markAsRead');
                 outResolve()

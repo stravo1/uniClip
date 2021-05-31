@@ -34,14 +34,17 @@ export default {
     DeviceList, SignIn
   },
   methods: {
-    },
+   },
 
   //mixins:[touchMixin]
-  /*
+  
   beforeRouteLeave (to, from) {
+    this.$store.commit('setRefreshState', true)
+  /*
   const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
   if (!answer) return false
 }*/
+}
 }
 </script>
 

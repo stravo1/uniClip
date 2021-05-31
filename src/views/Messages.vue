@@ -149,6 +149,7 @@ export default {
 
 
     this.$store.commit('setIsInMessageState',true)
+    
 
     //this.refresher = await this.$store.dispatch('refreshAll')
     var scroller = this.$refs.scroll
@@ -248,7 +249,9 @@ export default {
     //alert('leaving')
     //alert(this.refresher)
     this.$store.commit('setIsInMessageState',false)
-    clearInterval(this.refresher)
+    this.$store.commit('setRefreshState',false)
+
+    //clearInterval(this.refresher)
     next()
   }
   
