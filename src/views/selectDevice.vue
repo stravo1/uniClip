@@ -63,7 +63,7 @@ export default {
         if (!init.length) {console.log(100); this.$router.push({name: 'initialize'}); this.loading = false; return}
         var arg = {name:null,folder:'appDataFolder',mType:'application/vnd.google-apps.folder'}
         var deviceList = await this.$store.dispatch('searchFiles',arg)
-        this.deviceList = deviceList.filter(file => file.name != 'allDevices')
+        this.deviceList = deviceList.filter(file => file.name != 'allDevices' && file.name != 'myDevice')
         this.loading = false
     },
     methods:{
