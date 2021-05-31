@@ -46,7 +46,7 @@ export default {
         }
     },
     mounted(){
-        if(confirm("Please take a look at the About Page if you are completely new")){this.$router.push({name: 'about'})}
+        if(confirm("Please take a look at the About Page if you are completely new, click Cancel of you wish to continue")){this.$router.push({name: 'about'})}
 
         if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.push({name: 'myDevice'}); return}
         if(localStorage.getItem('thisDeviceId')){alert('You are already signed in! To shift to any other registered device sign out first...'); this.$router.push({name: 'myDevice'}); return}
@@ -58,6 +58,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.modal-content{
+    padding: 1rem
+}
 </style>

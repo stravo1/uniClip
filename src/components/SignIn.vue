@@ -76,7 +76,7 @@ gapi.load("",{callback:window["gapi_onload"],_c:{"jsl":{"ci":{"deviceType":"desk
 
 //end
 
-var CLIENT_ID = '154057606685-olh1p640cpk6bd7124a8a2p2587i20t7.apps.googleusercontent.com';
+var CLIENT_ID = '918194423416-2nki83u6fsusdt5f80jfi0nlbtjlkhr4.apps.googleusercontent.com';
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];

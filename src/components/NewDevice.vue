@@ -71,6 +71,7 @@ export default {
     },
     methods:{
       async start(){
+        alert('This might take a while (esp if you already have a lot of devices)...')
         this.loading = true;
         var folders = this.folders;
         var mediaList = ['audio','docs','vids','pics']

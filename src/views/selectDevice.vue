@@ -19,7 +19,7 @@
   </ul>
 </div>
     </div>
-  <button class="modal-close is-large" aria-label="close" @click="redirectToDocs"></button>
+  <button class="modal-close is-large" aria-label="close" @click="$router.push({name: 'about'})"></button>
 </div>
 <div class="modal" :class="{'is-active' : loading}">
         <div class="modal-background"></div>
