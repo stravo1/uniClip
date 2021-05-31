@@ -52,7 +52,7 @@ mounted(){
   /*text-align: center;*/
   background-color: #000000;
 }
-
+/*
 #nav {
   padding: 30px;
 }
@@ -64,6 +64,10 @@ mounted(){
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+*/
+.button{
+  font-weight: bolder
 }
 .progress{
   position: fixed;
