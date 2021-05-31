@@ -72,6 +72,7 @@ export default {
     methods:{
       async start(){
         alert('This might take a while (esp if you already have a lot of devices)...')
+        this.$emit('load')
         this.loading = true;
         var folders = this.folders;
         var mediaList = ['audio','docs','vids','pics']
@@ -122,7 +123,8 @@ export default {
     props:{
       folders: Array,
       init: Boolean,
-    }
+    },
+    emits: ['load']
 }
 </script>
 

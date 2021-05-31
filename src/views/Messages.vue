@@ -125,7 +125,8 @@
 <script>
 
 
-import touchMixin from '@vue-mixin/touch';
+
+import touchMixin from './touchMixin_modified.js';
 
 import Upload from '../components/actions/Upload';
 import Preview from '../components/actions/Preview';

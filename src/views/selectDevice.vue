@@ -7,14 +7,14 @@
     select current device
   </p>
   <ul class="menu-list">
-    <li class="device-list" v-for="device in deviceList" :key="device">
+    <li class="device-list" v-for="device in deviceList" :key="device" v-if="!registerLoading">
         <div class="box">
             <img src="../assets/pp2.png" class="profile-img">
                 <a @click="selectDevice(device.id)" class="profile-name">{{ device.name }}</a>
         </div>
     </li>
     <li class="device-list">
-        <NewDevice :folders='folders' :init='false' />
+        <NewDevice :folders='folders' :init='false' @load="registerLoading = true" />
     </li>
   </ul>
 </div>
@@ -49,6 +49,7 @@ export default {
         return{
             deviceList: [],
             loading: false,
+            registerLoading: false,
         }
     },
     computed:{
