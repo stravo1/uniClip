@@ -1,6 +1,37 @@
 //import { push } from 'core-js/core/array'
 import { createStore } from 'vuex'
 //sorry for the bloated store, will try to use modules for settings and notes
+const notes = {
+    state: {
+        isInstalled: false,
+        notesFolder: '',
+        notesList: [],
+        selectedNote: '',
+    },
+    mutations: {
+        setInstalledState(state, arg) {
+            state.isInstalled = arg
+        },
+        setSelectedNote(state, arg) {
+            state.selectedNote = arg
+        },
+    },
+    actions: {
+        async setUpNotes({ state, commit, dispatch }) {
+            console.log(state.notesFolder, "in notes")
+            state.notesList = await dispatch('refreshFilesList', state.notesFolder.id)
+            console.log(state.notesList)
+        },
+        async saveNotes({ state, commit, dispatch }, content) {
+
+        },
+        async patchNotes({ state, commit, dispatch }, content) {
+
+        }
+    }
+}
+
+
 export default createStore({
     state: {
         signInState: false,
@@ -37,7 +68,7 @@ export default createStore({
             console.log('updated', arg)
             state.accessToken = arg
         },
-        setRefreshState(state, arg){
+        setRefreshState(state, arg) {
             state.refreshState = arg;
         },
         setFilesList(state, list) {
@@ -184,7 +215,7 @@ export default createStore({
             folder != null ? fLink = "'" + folder + "'" + s[" "] + "in" + s[" "] + "parents" : fLink = "";
             var and = s[" "] + "and" + s[" "];
 
-            var link = "https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id%2C%20name%2C%20size%2C%20createdTime%2C%20mimeType)&q=" //complex turnary upcoming lol xb
+            var link = "https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id%2C%20name%2C%20size%2C%20modifiedTime%2C%20createdTime%2C%20mimeType)&q=" //complex turnary upcoming lol xb
 
             link += fLink;
 
@@ -260,11 +291,12 @@ export default createStore({
         },
         async setMyDevice({ state, dispatch }, id) {
             state.isLoading = true
-            var rootDevices = await dispatch('refreshFoldersList', 'appDataFolder')
-            state.rootDevices = rootDevices
-            state.allDevicesfolder = rootDevices.filter(folder => folder.name == "allDevices")[0]
-            console.log(state.allDevicesfolder, "aD")
-            state.myDevice = state.selectedFolder = rootDevices.filter(folder => folder.id == id)[0]
+            var rootFolders = await dispatch('refreshFoldersList', 'appDataFolder')
+            state.rootDevices = rootFolders.filter(folder => folder.name != 'notes')
+            state.notes.notesFolder = rootFolders.filter(folder => folder.name == 'notes')[0]
+            state.allDevicesfolder = rootFolders.filter(folder => folder.name == "allDevices")[0]
+            console.log(state.notes.notesFolder, "notes")
+            state.myDevice = state.selectedFolder = rootFolders.filter(folder => folder.id == id)[0]
             console.log(state.myDevice, "mm")
             state.isLoading = false
             return true
@@ -322,9 +354,10 @@ export default createStore({
 
             return true
         },
-        async getFileContent({ state }, fileId) {
+        async getFileContent({ state }, arg) {
             state.isLoading = true
-
+            var fileId = arg.fileId
+            var format = arg.format
             var outResolve, response;
             console.log(state.filesList, "messages")
             const promise = new Promise((resolve, reject) => { outResolve = resolve })
@@ -335,7 +368,8 @@ export default createStore({
             xhr.onload = function() {
                 if (this.status === 200) {
                     //console.log(this.response)
-                    response = JSON.parse(this.response).messages
+                    if (format == 'messages') response = JSON.parse(this.response).messages
+                    else response = this.response
                     outResolve()
                         //console.log("came here at last last")
                         //console.log(this.status)
@@ -356,7 +390,7 @@ export default createStore({
             var fileId = state.filesList.filter(file => file.name == 'messages.json')[0].id
                 //var accessToken = state.accessToken
             state.messageFileId = fileId
-            state.messagesList = await dispatch("getFileContent", fileId)
+            state.messagesList = await dispatch("getFileContent", { fileId: fileId, format: 'messages' })
             state.isLoading = false
             return true //added
 
@@ -375,11 +409,11 @@ export default createStore({
             console.log(files, state.newnotifications, "newnotifivations")
             console.log(files, "unrd1", files.length)
             for (var i = 0; i < files.length; i++) {
-                var unRead = await dispatch('getFileContent', files[i].id)
+                var unRead = await dispatch('getFileContent', { fileId: files[i].id, format: 'messages' })
                 state.unreadMessages.push(unRead[0])
                 console.log(state.unreadMessages, 'unread')
             }
-            if(!state.refreshState){return true}
+            if (!state.refreshState) { return true }
             setTimeout(async() => {
                 await dispatch('markAsRead');
                 outResolve()
@@ -456,5 +490,7 @@ export default createStore({
             console.log('deleted')
         }
     },
-    modules: {}
+    modules: {
+        notes: notes
+    }
 })
