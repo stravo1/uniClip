@@ -45,7 +45,7 @@ $input-shadow: none;
 $panel-tab-active-color: whitesmoke;
 $panel-block-active-color: black;
 $menu-item-hover-color: whitesmoke;
-$menu-item-hover-background-color: #4f4f4f;
+$menu-item-hover-background-color: rgb(36, 36, 36);
 // Import only what you need from Bulma
 @import "../node_modules/bulma/bulma.sass";
 @import "../node_modules/@creativebulma/bulma-divider/dist/bulma-divider.min.css";

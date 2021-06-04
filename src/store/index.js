@@ -7,6 +7,7 @@ const notes = {
         notesFolder: '',
         notesList: [],
         selectedNote: '',
+        noteContent: '',
     },
     mutations: {
         setInstalledState(state, arg) {
@@ -15,15 +16,112 @@ const notes = {
         setSelectedNote(state, arg) {
             state.selectedNote = arg
         },
+        setNoteContent(state, arg){
+            state.noteContent = arg
+        }
     },
     actions: {
+        async InitializeNotes({state, dispatch, rootState}) {
+            var accessToken = rootState.accessToken
+            var outResolve, response;
+            var promise = new Promise((resolve, reject) => {outResolve = resolve})
+            var xhr_up = new XMLHttpRequest;
+            xhr_up.open("POST","https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart")
+            xhr_up.setRequestHeader('Authorization', 'Bearer '+ accessToken)
+            xhr_up.onload = async function(){
+              if (this.status == 200){
+                console.log("Uploaded", this.response)
+                response = JSON.parse(this.response)
+                state.notesFolder = response
+                state.noteContent = "Demo"
+                await dispatch('saveNote', 'About Notes')
+                dispatch('setUpNotes')
+              }
+              else {
+                console.log("error", this.status)
+              }
+              outResolve()
+            }
+            var fileContent, fileType, fileName
+
+            fileType = 'application/vnd.google-apps.folder';
+            fileName = 'notes' ;
+          
+            var metadata = {
+              'name' : fileName,
+              'mimeType' : fileType,
+              'parents': ['appDataFolder']
+            }
+            
+            var file = new Blob([fileContent], {type: fileType});
+            
+            var data = new FormData();
+            data.append("metadata", new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
+            data.append("file", file);
+             
+            xhr_up.send(data)
+            await promise
+            return response
+          },
         async setUpNotes({ state, commit, dispatch }) {
             console.log(state.notesFolder, "in notes")
             state.notesList = await dispatch('refreshFilesList', state.notesFolder.id)
             console.log(state.notesList)
         },
-        async saveNotes({ state, commit, dispatch }, content) {
+        async refreshNotes({state, dispatch}){
+            state.notesList = await dispatch('refreshFilesList', state.notesFolder.id)
+            console.log('refreshed noteslist')
+        },
+        async saveNote({ state, rootState }, title){
+            rootState.isLoading = true
+            var method, url, fileName, fileContent, fileType
+            
+            fileName = title
+            fileContent = state.noteContent
+            fileType = 'text/plain';
+            console.log(fileContent, "ffffffff")
 
+            var metadata = {
+                'name': fileName,
+                'mimeType': fileType,
+            }
+            
+            if (state.selectedNote != '') {
+                method = 'PATCH'
+                url = "https://www.googleapis.com/upload/drive/v3/files/" + state.selectedNote.id + "?uploadType=multipart"
+            } else {
+                method = 'POST'
+                url = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
+                metadata['parents'] = [state.notesFolder.id]
+                console.log(metadata)
+            }
+            var file = new Blob([fileContent], { type: fileType });
+
+            var data = new FormData();
+            data.append("metadata", new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+            data.append("file", file);
+            
+            var response, outResolve;
+            var promise = new Promise((resolve, reject) => { outResolve = resolve })
+            var xhr_up = new XMLHttpRequest;
+            xhr_up.open(method, url)
+            xhr_up.setRequestHeader('Authorization', 'Bearer ' + rootState.accessToken)
+            xhr_up.onload = function() {
+                if (this.status == 200) {
+                    console.log("Patched/saved", this.response)
+                    response = JSON.parse(this.response)
+                } else {
+                    console.log("error", this.status)
+                }
+                outResolve()
+            }
+            
+
+            xhr_up.send(data)
+            await promise
+            rootState.isLoading = false
+
+            return response
         },
         async patchNotes({ state, commit, dispatch }, content) {
 
@@ -45,6 +143,7 @@ export default createStore({
         selectedFolder: { name: 'root', id: 'appDataFolder' },
         //previousFolders: [],
         allDevicesfolder: [],
+        rootFolders:[],
         rootDevices: [], // == allDevicesFolder
         deviceList: [],
         selectedDevice: '',
@@ -292,10 +391,15 @@ export default createStore({
         async setMyDevice({ state, dispatch }, id) {
             state.isLoading = true
             var rootFolders = await dispatch('refreshFoldersList', 'appDataFolder')
+
+            state.rootFolders = rootFolders
             state.rootDevices = rootFolders.filter(folder => folder.name != 'notes')
-            state.notes.notesFolder = rootFolders.filter(folder => folder.name == 'notes')[0]
             state.allDevicesfolder = rootFolders.filter(folder => folder.name == "allDevices")[0]
-            console.log(state.notes.notesFolder, "notes")
+
+            state.notes.notesFolder = rootFolders.filter(folder => folder.name == 'notes')[0]
+            if(state.notes.notesFolder) {state.notes.isInstalled  = true; dispatch('setUpNotes')}
+
+            console.log(state.notes.notesFolder, state.notes.isInstalled, "notes")
             state.myDevice = state.selectedFolder = rootFolders.filter(folder => folder.id == id)[0]
             console.log(state.myDevice, "mm")
             state.isLoading = false

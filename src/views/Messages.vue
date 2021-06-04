@@ -292,7 +292,7 @@ export default {
   height: 80vh;
   overflow: auto;
   border-radius: 10px;
-  background-color: rgb(41, 41, 41);
+  background-color: rgb(36, 36, 36)
 }
 
 

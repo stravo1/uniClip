@@ -3274,7 +3274,7 @@ button.dropdown-item {
     display: block;
     padding: 0.5em 0.75em; }
     .menu-list a:hover {
-      background-color: #4f4f4f;
+      background-color: #242424;
       color: whitesmoke; }
     .menu-list a.is-active {
       background-color: #75d5fd;
