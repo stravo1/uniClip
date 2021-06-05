@@ -5,7 +5,7 @@
         <p class="subtitle">
             <slot></slot>
         </p>
-        <span class="icon" @click="expand"><i class="mdi mdi-24px mdi-unfold-more-horizontal"></i></span>
+        <span class="icon" @click="expand"><i class="mdi mdi-24px mdi-fullscreen"></i></span>
     </div>
   <div class="box notes">
       <div @click="expand" class="content glanceContent" id="glanceContent"></div>

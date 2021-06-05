@@ -227,7 +227,8 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100vw;
-  padding: 1rem 0 1rem 0
+  padding: 0.5rem 0 0.75rem 0;
+  background: black;
 }
 .footer-menu{
   display: grid;
@@ -237,6 +238,7 @@ export default {
   grid-template-areas:
     ". . . . .";
   color: lightslategrey;
+  background: black;
 }
 .footer-menu .edit{
   grid-column: 1;
