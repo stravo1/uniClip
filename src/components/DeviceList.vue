@@ -1,7 +1,7 @@
 <template>
 <div class="menu">
   <div class="menu-label">
-    <i class="mdi mdi-24px mdi-cellphone-link"></i>
+    <i class="mdi mdi-24px mdi-cellphone-link" style="padding : 0.1rem;"></i>
     <p class="subtitle is-4">devices</p>
   </div>
   <ul class="menu-list">
@@ -83,7 +83,7 @@ export default {
     display: grid;
     grid-template-columns: 0.15fr 1.5fr 0.25fr;
     grid-template-rows: 1fr;
-    gap: 1em 1em;
+    gap: 0.5rem;
     grid-template-areas: ". . .";
 }
 .menu-label .subtitle{

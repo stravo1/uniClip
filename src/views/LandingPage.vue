@@ -85,7 +85,8 @@ export default {
   font-weight: 500; 
 }
 .notes-glance{
-  position: relative;
+  position: fixed;
+  width: 100vw;
   padding: 2rem;
   top: 5rem;
 }

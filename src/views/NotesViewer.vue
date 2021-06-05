@@ -54,9 +54,9 @@
   -->
   <footer class="notes-view-footer">
     <div class="footer-menu">
-      <span class="icon edit" @click="$router.replace({name: 'nEdit'})"><i class="mdi mdi-square-edit-outline mdi-24px"></i></span>
-      <span class="time">{{time}}</span>
-      <span class="icon dlt" @click="dlt"><i v-if="deleting" class="fa fa-spinner fa-pulse"></i><i class="mdi mdi-delete mdi-24px" v-if="!deleting"></i></span>
+      <span class="icon edit" @click="$router.push({name: 'nEdit'})"><i class="mdi mdi-square-edit-outline mdi-24px"></i></span>
+      <span class="time">edited {{time}}</span>
+      <span class="icon dlt" @click="dlt"><i v-if="deleting" class="fa fa-spinner fa-pulse fa-lg"></i><i class="mdi mdi-delete mdi-24px" v-if="!deleting"></i></span>
     </div>
   </footer>
   
@@ -136,7 +136,7 @@ export default {
       
       this.content = this.$store.state.notes.noteContent;
       this.title = noteFile.name;
-      this.time = noteFile.modifiedTime
+      this.time = this.$store.getters.timeFormatter(noteFile.modifiedTime)
       this.loading = false
       this.$store.commit('setNoteContent', '')
       this.$store.commit('setNoteContent', markedownContent)
@@ -186,11 +186,11 @@ export default {
 }
 .load{
   width: 100vw;
-  margin: 50vh 25vw;
+  margin: 50vh 30vw;
 }
 .title, .subtitle{
   color: lightslategrey;
-  font-family: monospace;
+  font-family: unset;
   max-width: 95vw;
   overflow: hidden;
   text-overflow: ellipsis;

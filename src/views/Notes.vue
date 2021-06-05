@@ -8,7 +8,11 @@
 <NoteEditor v-if="toggle" @close="close"/>
 -->
 <div tabindex='1' class="notesMain" @focus="isSearch =false" v-if="$store.state.notes.selectedNote == ''">
-     <p class="title">notes</p>
+     
+     <div class="notes-header">   
+          <span @click="$router.replace({name:'myDevice'})"><i class="mdi mdi-chevron-left mdi-24px"></i></span>
+          <p class="title">notes</p>
+     </div>
      <NotesGlance>most recent note </NotesGlance>
      
      <div class="notes-list">
@@ -27,7 +31,7 @@
                     <li class="notes-list-member" v-for="note in notes" :key="note" @click="selectNote(note)">
                          <span class="icon"><i class="mdi mdi-text mdi-24px"></i></span>
                          <span class="note-title"> {{note.name}}</span>
-                         <div class="note-time"> <span>{{note.modifiedTime}}</span></div> 
+                         <div class="note-time"> <span>{{$store.getters.timeFormatter(note.modifiedTime)}}</span></div> 
                     </li>
                </ul>
           </aside>
@@ -103,6 +107,17 @@ export default {
      color: aqua;
      text-align: right;
 }
+.notes-header{
+     position: sticky;
+     top: 0;
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     grid-template-rows: 1fr;
+     gap: 1em 1em;
+     grid-template-areas: ". .";
+     padding: 0 0rem 1.5rem 0;
+     color: aqua;
+}
 .notes-list{
      position: fixed;
      bottom: 0;
@@ -165,6 +180,7 @@ export default {
      /* text-align: left; */
      display: flex;
      justify-content: flex-end;
+     opacity: 75%;
 }
 
 #z-wrapperU {

@@ -17,10 +17,10 @@
         <p class="subtitle">
             notes is not installed
         </p>
-        <span class="icon"><i class="mdi mdi-24px mdi-cellphone-arrow-down"></i></span>
+        <span class="icon" @click="$router.push({name:'notes'})"><i class="mdi mdi-24px mdi-cellphone-arrow-down"></i></span>
     </div>
   <div class="box notes">
-      <div class="content glanceContent"><a href="">install notes</a></div>
+      <div class="content custom"><a @click="$router.push({name:'notes'})">install notes</a></div>
   </div>
 </div>
   <span v-show="false">{{refresh}}</span>
@@ -93,14 +93,14 @@ export default {
     padding: 1rem 0;
 }
 .glanceContent{
-    height: 35vh;
+    height: 33vh;
     overflow: auto;
     text-overflow: ellipsis;
     font-size: 0.9rem;
 }
 .custom{
-    height: 25vh;
-    overflow: hidden;
+    height: 23vh;
+    overflow:auto;
     text-overflow: ellipsis;
     font-size: 0.9rem;
     font-family: Poppins;

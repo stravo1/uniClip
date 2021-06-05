@@ -40,7 +40,7 @@
         
     </div> -->
     <footer class="note-editor-footer">
-        <span class="icon edit"  @click="save"><i v-if="saving" class="fa fa-spinner fa-pulse"></i><i class="mdi mdi-progress-check mdi-24px"></i></span>
+        <span class="icon edit"  @click="save"><i v-if="saving" class="fa fa-spinner fa-pulse fa-lg"></i><i v-if="!saving" class="mdi mdi-progress-check mdi-24px"></i></span>
       <span class="time">markdown format</span>
       <span class="icon dlt" @click="close(0)"><i class="mdi mdi-close-circle-outline mdi-24px"></i></span>
     </footer>
@@ -58,7 +58,7 @@ export default {
     methods:{
         async save(){
             var title;
-            if(this.content == '') {this.$emit('close'); console.log(1077); return}
+            if(this.content == '') {this.$emit('close'); return}
             this.title == '' ? title = this.$store.state.notes.selectedNote.name : title = this.title
             this.saving = true
             var file = await this.$store.dispatch('saveNote', title)
@@ -69,7 +69,7 @@ export default {
         async close(arg){
             if (arg) {
                 this.$store.commit('setSelectedNote', arg)
-                this.$router.push({name: 'nView'})
+                this.$router.replace({name: 'nView'})
                 this.$store.dispatch('refreshNotes')
                 //this.$store.commit('setNoteContent', '')
                 this.saving = false
@@ -77,7 +77,7 @@ export default {
             } else {
                 console.log(1088)
                 this.$store.commit('setNoteContent', this.oldContent)
-                this.$router.push({name: 'nView'})
+                this.$router.replace({name: 'nView'})
                 //this.$emit('close')
             }
         }
@@ -100,7 +100,18 @@ export default {
             return this.$store.state.notes.selectedNote.name
         }
     },
-    emits:['close']
+    emits:['close'],
+    async beforeRouteLeave (to, from, next) {
+        var title;
+        if(this.content == '') {this.$emit('close'); next(); return}
+        this.title == '' ? title = this.$store.state.notes.selectedNote.name : title = this.title
+        this.saving = true
+        var file = await this.$store.dispatch('saveNote', title)
+        file['modifiedTime'] = 'just now'
+        this.saving = false
+        this.$store.commit('setSelectedNote', file)
+        next()
+    }
 }
 </script>
 
@@ -123,6 +134,7 @@ export default {
         ". . . . .";
     color: lightslategrey;
     padding: 0 0 0.25rem 0;
+    background: black;
 }
 .note-editor-footer .edit, .note-editor-footer .time, .note-editor-footer .dlt{
     display: flex;
@@ -159,16 +171,12 @@ export default {
 }
 .textarea{
     width: 100%;
-    height: 100%;
+    height: 80%;
 }
 .danger{
   color: hsl(348, 86%, 61%);
 }
-.card-footer{
-  background-color: hsl(0, 0%, 95%);
-  border-radius: 0 0 7px 7px;
-  font-weight: bolder;
-}
+
 ::placeholder{
     color:slategrey;
     font-size: larger;
