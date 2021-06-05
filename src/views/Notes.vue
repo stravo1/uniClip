@@ -184,7 +184,7 @@ export default {
      /* text-align: left; */
      display: flex;
      justify-content: flex-end;
-     opacity: 75%;
+     padding: 0.3rem 0 0 0;
 }
 
 #z-wrapperU {
