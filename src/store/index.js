@@ -772,15 +772,16 @@ export default createStore({
           );
         } else if (now.getDate() - then.getDate() > 7) {
           return +JSON.stringify(then.getDate()) + "th, this month";
-        } else if (now.getDay() - then.getDay() > 1) {
-          return (
-            
-            new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(then) +
-            new Intl.DateTimeFormat("en-US", { hour: "numeric" }).format(then)
-          );
-        } else if (now.getDay() - then.getDay() == 1) {
+        } else if (now.getDay() - then.getDay() == 1 || now.getDay() - then.getDay() == -6) {
           return (
             "yesterday " +
+            new Intl.DateTimeFormat("en-US", { hour: "numeric" }).format(then)
+          );
+
+        } else if (now.getDay() - then.getDay() > 1 || now.getDay() - then.getDay() < -1) {
+          return (
+            
+            new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(then) + " " +
             new Intl.DateTimeFormat("en-US", { hour: "numeric" }).format(then)
           );
         } else if (now.getHours() - then.getHours() > 1) {
