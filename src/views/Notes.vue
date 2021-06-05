@@ -173,6 +173,10 @@ export default {
      padding: 0 1rem;
      font-size: larger;
      font-weight: 500;
+     width: 100%;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
 }
 .note-time{
      font-size: smaller;
@@ -198,6 +202,6 @@ export default {
 }
 .dynamic code{
      background: var(--o-color);
-     color: black;
+     color: whitesmoke;
 }
 </style>

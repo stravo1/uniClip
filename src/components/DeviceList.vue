@@ -1,8 +1,8 @@
 <template>
 <div class="menu">
   <div class="menu-label">
-    <i class="mdi mdi-24px mdi-cellphone-link" style="padding : 0.1rem;"></i>
-    <p class="subtitle is-4">devices</p>
+    <i class="mdi mdi-24px mdi-cellphone-link" style="padding : 0rem;"></i>
+    <p class="subtitle is-5">devices</p>
   </div>
   <ul class="menu-list">
       <XyzTransitionGroup class="example-grid" xyz="fade-100% down ease-in-out stagger-2.5 out-up-1" mode="out-in">

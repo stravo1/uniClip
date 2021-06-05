@@ -772,7 +772,7 @@ export default createStore({
           return +JSON.stringify(then.getDate()) + "th, this month";
         } else if (now.getDay() - then.getDay() > 1) {
           return (
-            "last " +
+            
             new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(then) +
             new Intl.DateTimeFormat("en-US", { hour: "numeric" }).format(then)
           );
@@ -788,7 +788,7 @@ export default createStore({
             JSON.stringify(now.getMinutes() - then.getMinutes()) + " minutes ago"
           );
         } else {
-          return "a few moments ago";
+          return "moments ago";
         }
       },
   },

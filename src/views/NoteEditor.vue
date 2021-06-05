@@ -53,6 +53,7 @@ export default {
             title: '',
             oldContent: '',
             saving: false,
+            autosave: true,
         }
     },
     methods:{
@@ -64,6 +65,7 @@ export default {
             var file = await this.$store.dispatch('saveNote', title)
             file['modifiedTime'] = 'just now'
             this.saving = false
+            this.autosave = false;
             this.close(file)
         },
         async close(arg){
@@ -102,8 +104,15 @@ export default {
     },
     emits:['close'],
     async beforeRouteLeave (to, from, next) {
+        
         var title;
-        if(this.content == '') {this.$emit('close'); next(); return}
+        if(this.content == '' || this.content == this.oldContent || !this.autosave) {this.$emit('close'); next(); return}
+        if(this.$store.state.notes.selectedNote == ''){
+            //alert("new save")
+
+            this.save()
+            return
+        }
         this.title == '' ? title = this.$store.state.notes.selectedNote.name : title = this.title
         this.saving = true
         var file = await this.$store.dispatch('saveNote', title)
