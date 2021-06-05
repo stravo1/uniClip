@@ -1,8 +1,9 @@
 <template>
 <div class="menu">
-  <p class="menu-label">
-    Device list
-  </p>
+  <div class="menu-label">
+    <i class="mdi mdi-24px mdi-cellphone-link" style="padding : 0rem;"></i>
+    <p class="subtitle is-5">devices</p>
+  </div>
   <ul class="menu-list">
       <XyzTransitionGroup class="example-grid" xyz="fade-100% down ease-in-out stagger-2.5 out-up-1" mode="out-in">
 
@@ -77,15 +78,27 @@ export default {
     padding: 0.5rem 2rem;
     right: 0em;
     text-transform: lowercase;
-    color:aqua;
+    color:var(--o-color);
+    margin-bottom: 0;
+    display: grid;
+    grid-template-columns: 0.15fr 1.5fr 0.25fr;
+    grid-template-rows: 1fr;
+    gap: 0.5rem;
+    grid-template-areas: ". . .";
+}
+.menu-label .subtitle{
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    padding: 0.25rem 0.25rem;
 }
 .menu-list{
     padding: 0.25rem 0.5rem  0.25em 1.5em;
-    max-height: 45vh;
+    height: 35vh;
     overflow: auto;
 }
 .box{
-    background-color: #4f4f4f;
+    background-color: rgb(36, 36, 36);
     height: 5rem;
     margin: 0.5rem 0rem;
 }
@@ -104,7 +117,7 @@ max-width: 60vw;
 left: 3.5rem;
 top: -2.5rem;
 font-weight:500;
-color:whitesmoke;
+color:var(--m-color);
 border-radius: 7px;
 }
 </style>

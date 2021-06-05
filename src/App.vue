@@ -38,6 +38,10 @@ mounted(){
 </script>
 
 <style>
+:root{
+     --m-color: rgb(145, 145, 145);
+     --o-color: rgb(95, 95, 95);
+}
 /* temp disabled 
 .body-wrapper{
   position: fixed;

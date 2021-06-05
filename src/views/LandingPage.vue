@@ -3,7 +3,9 @@
 <div class="sign-in">
   <SignIn/>
 </div>
-
+<div class="notes-glance">
+  <NotesGlance :custom="true"><span @click="$router.push({name: 'notes'})"><u>notes</u></span> at a glance </NotesGlance>
+</div>
 <div class="device-list">
 <DeviceList/>
 </div>
@@ -19,6 +21,7 @@
 // @ is an alias to /src
 import DeviceList from '@/components/DeviceList.vue'
 import SignIn from '../components/SignIn'
+import NotesGlance from '../components/NotesGlance';
 //import touchMixin from '@vue-mixin/touch';
 export default {
   name: 'Home',
@@ -31,7 +34,7 @@ export default {
 
   },
   components: {
-    DeviceList, SignIn
+    DeviceList, SignIn, NotesGlance
   },
   methods: {
    },
@@ -80,6 +83,12 @@ export default {
   -webkit-backdrop-filter: blur( 1px );
   color: rgb(00, 00, 00);
   font-weight: 500; 
-
 }
+.notes-glance{
+  position: fixed;
+  width: 100vw;
+  padding: 2rem;
+  top: 5rem;
+}
+
 </style>

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+//making the createFolder function a store action... future me plis make use of that
 const createFolder = async(accessToken, name, parent, last=false) => {
   var outResolve, response;
   var promise = new Promise((resolve, reject) => {outResolve = resolve})

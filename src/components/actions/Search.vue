@@ -1,5 +1,5 @@
 <template>
-<div class="search-wrapper">
+<div class="search-wrapper" tabindex="1">
   <nav class="panel">
   <div class="panel-block">
     <p class="control has-icons-left">
@@ -9,7 +9,7 @@
       </span>
     </p>
   </div>
-  <p class="panel-tabs">
+  <p class="panel-tabs" v-if="!folderId">
     <a tabindex="0" @click="setParent('all'), setActive('all')" class='all'>all</a>
     <a tabindex="0" :class="media.name" v-for="media in $store.state.mediaFolders" :key="media" @click.prevent="setParent(media.id), setActive(media.name)">{{ media.name }}</a>
     
@@ -44,6 +44,10 @@ export default {
             this.parentMedia = arg
         },
         setSelected(arg){
+            if(this.folderId){
+                this.$emit('selected', arg)
+                return
+            }
             this.$store.commit('setSelectedFile',arg)
         },
         setActive(arg){ //so much of work man... bulma really fucks up sometimes... maybe... or its somehow my fault//
@@ -68,6 +72,12 @@ export default {
     },
     watch:{
         async searchText(newText){
+            if(this.folderId){ ///module was too specific for messages os had to make such workarounds
+                var arg = {name : this.searchText, folder : this.folderId, mType : null}
+                var list = await this.$store.dispatch('searchFiles', arg)
+                this.$store.commit('setFilesList', list)
+                return
+            }
             if(this.parentMedia == 'all'){ //global search workaround
                 var allFolders = this.$store.state.mediaFolders
                 var filesList = []
@@ -102,7 +112,11 @@ export default {
             console.log(list,'listtt')
             this.$store.commit('setFilesList', list.filter(file => file.mimeType != 'application/vnd.google-apps.folder'))
         }
-    }
+    },
+    props:{
+        folderId: String
+    },
+    emits:['selected', 'close']
 }
 </script>
 
@@ -113,7 +127,10 @@ export default {
     backdrop-filter: blur(2px);
     background-color: rgba(00, 00, 00, 0.625);
     border-radius: 7px;
-
+}
+.panel{
+    max-height: 30vh;
+    overflow: auto;
 }
 .panel-tabs{
     max-width: 98vw;

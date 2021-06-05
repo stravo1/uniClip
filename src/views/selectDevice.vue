@@ -64,7 +64,7 @@ export default {
         if (!init.length) {console.log(100); this.$router.push({name: 'initialize'}); this.loading = false; return}
         var arg = {name:null,folder:'appDataFolder',mType:'application/vnd.google-apps.folder'}
         var deviceList = await this.$store.dispatch('searchFiles',arg)
-        this.deviceList = deviceList.filter(file => file.name != 'allDevices' && file.name != 'myDevice')
+        this.deviceList = deviceList.filter(file => file.name != 'allDevices' && file.name != 'notes')
         this.loading = false
     },
     methods:{
@@ -108,7 +108,7 @@ menu {
     overflow: auto;
 }
 .box{
-    background-color: #4f4f4f;
+    background-color: rgb(36, 36, 36);
     height: 5rem;
     margin: 0.5rem 0rem;
 }
@@ -127,7 +127,7 @@ max-width: 50vw;
 left: 3.5rem;
 top: -2.5rem;
 font-weight:500;
-color:whitesmoke;
+color:var(--m-color);
 border-radius: 7px;
 } 
 .device-list{
