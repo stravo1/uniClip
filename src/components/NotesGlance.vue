@@ -8,7 +8,7 @@
         <span class="icon" @click="expand"><i class="mdi mdi-24px mdi-unfold-more-horizontal"></i></span>
     </div>
   <div class="box notes">
-      <div class="content glanceContent" id="glanceContent"></div>
+      <div @click="expand" class="content glanceContent" id="glanceContent"></div>
   </div>
 </div>
 <div v-show="!$store.state.notes.isInstalled">
@@ -20,7 +20,11 @@
         <span class="icon" @click="$router.push({name:'notes'})"><i class="mdi mdi-24px mdi-cellphone-arrow-down"></i></span>
     </div>
   <div class="box notes">
-      <div class="content custom"><a @click="$router.push({name:'notes'})">install notes</a></div>
+        <div class="content custom">
+          <a @click="$router.push({name:'notes'})">install notes</a>
+          <br><br>
+          <em>(if already installed, your most recent note will be visible very soon)</em>
+        </div>
   </div>
 </div>
   <span v-show="false">{{refresh}}</span>
@@ -118,6 +122,18 @@ export default {
 }
 .dynamic code{
      background: var(--o-color);
-     color: black;
+     color: whitesmoke;
+     border-radius: 2px;
+}
+.dynamic pre{
+     background: var(--o-color);
+     color: whitesmoke;
+     border-radius: 5px;
+}
+.dynamic blockquote{
+     background: var(--o-color);
+     background: ivory;
+     color: var(--m-color);
+     border-radius: 2px;
 }
 </style>

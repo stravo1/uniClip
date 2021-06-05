@@ -22,6 +22,7 @@ const notes = {
   },
   actions: {
     async InitializeNotes({ state, dispatch, rootState }) {
+      var content = "## welcome to notes@uniClip!!  \nit uses [Markdown][1] for formatting your notes.   \nwith Markdown you can make your notes look ***just the way*** you want them to!\n\nfor eg, you can create lists:\n1. item1\n2. item2\n    - subitem 1\n    - subitem 2\n3. item3  \n\nsave [links][2], and cool images ![a cool pic][3] *(notes@uniClip doesn't yet support adding images directly from your local storage)*;  \n\nnote down codes:\n```\nfunction death(organism){\n    while(true){\n        sleep()\n    }\n}\n```\ncreate checkboxes:\n- [x] ~~code~~\n- [x] ~~eat~~\n- [ ] sleep  \n\n> and create blockquotes\n\nMarkdown supports all native `HTML` tags too!  \n<font color='crimson'>so</font> <font color='yellow'>go</font> <font color='steelblue'>all</font><font color='aquamarine'>-</font><font color='lightgreen'>out!!</font>\n\n---\n\n*edit this note to see how Markdown is used for formatting and for more in-depth info on how to use Markdown visit [this page][4]*\n\n[1]: https://www.markdownguide.org/\n[2]: https://github.com/Stravo1/uniClip\n[3]: https://images.unsplash.com/photo-1622565061755-fceb80b7549f\n[4]: https://www.markdownguide.org/basic-syntax/"
       var accessToken = rootState.accessToken;
       var outResolve, response;
       var promise = new Promise((resolve, reject) => {
@@ -38,7 +39,8 @@ const notes = {
           console.log("Uploaded", this.response);
           response = JSON.parse(this.response);
           state.notesFolder = response;
-          state.noteContent = "Demo";
+          state.isInstalled = true
+          state.noteContent = content;
           await dispatch("saveNote", "About Notes");
           dispatch("setUpNotes");
         } else {

@@ -75,7 +75,7 @@ export default {
           
           if(!this.$store.state.notes.isInstalled ){
                console.log('initializing notes')
-               alert('Please wait, intalling notes component...')
+               alert('Intalling notes, it might take a minute...')
                await this.$store.dispatch('InitializeNotes')
           }
           //console.log(this.$store.state.rootFolders)

@@ -186,7 +186,7 @@ export default {
 }
 .load{
   width: 100vw;
-  margin: 50vh 30vw;
+  margin: 50vh 27vw;
 }
 .title, .subtitle{
   color: lightslategrey;
