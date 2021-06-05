@@ -114,7 +114,7 @@
 
 
     <h2 id="fplans">Future Plans</h2>
-      <p class="message-body"><li>ability to take <router-link to="/notes">notes</router-link ></li>
+      <p class="message-body"><li><s>ability to take <router-link to="/notes">notes</router-link ></s>(added!)</li>
 <li>change various <router-link to="/settings">settings</router-link></li> <li>customizable themes</li><li>message forwarding</li><li>direct sharing</li><li>resumable uploads</li><li>online status</li><li>push notifications</li><li>state resumption</li><li>caching</li><li>rename/delete devices</li> and a hell lot... stay tuned</p>
 
     </div>
