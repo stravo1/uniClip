@@ -20,8 +20,8 @@
         <span class="icon" @click="$router.push({name:'notes'})"><i class="mdi mdi-24px mdi-cellphone-arrow-down"></i></span>
     </div>
   <div class="box notes">
-        <div class="content custom">
-          <a @click="$router.push({name:'notes'})">install notes</a>
+        <div class="content custom"><u>
+          <a @click="$router.push({name:'notes'})">install notes</a></u>
           <br><br>
           <em>(installing doesn't require any additional downloads, it just creates a notes component within the app. if already installed, please wait, your most recent note will be visible very soon)</em>
         </div>
