@@ -2,6 +2,7 @@
 <div class="menu">
   <div class="menu-label">
     <i class="mdi mdi-24px mdi-cellphone-link" style="padding : 0rem;"></i>
+    <span class="icon"><i class="mdi mdi-information-outline md-24px" @click="$router.push({name:'about' })" ></i></span>
     <p class="subtitle is-5">devices</p>
   </div>
   <ul class="menu-list">
@@ -75,6 +76,7 @@ export default {
 }
 .menu-label{
     position: relative;
+    width: 105%; /* bad fix */
     padding: 0.5rem 2rem;
     right: 0em;
     text-transform: lowercase;
@@ -91,6 +93,11 @@ export default {
     grid-row: 1;
     width: 100%;
     padding: 0.25rem 0.25rem;
+}
+.menu-label .icon{
+    grid-column: 3;
+    grid-row:1;
+    padding: 0.75rem 0rem 0 1.5rem;
 }
 .menu-list{
     padding: 0.25rem 0.5rem  0.25em 1.5em;

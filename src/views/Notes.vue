@@ -13,8 +13,9 @@
           <span @click="$router.replace({name:'myDevice'})"><i class="mdi mdi-chevron-left mdi-24px"></i></span>
           <p class="title">notes</p>
      </div>
+    <div class="notes-glance">
      <NotesGlance>most recent note </NotesGlance>
-     
+     </div>
      <div class="notes-list">
           <aside class="menu">
                <div class="menu-label">
@@ -118,13 +119,16 @@ export default {
      padding: 0 0rem 1.5rem 0;
      color: aqua;
 }
+.notes-glance{
+  }
 .notes-list{
      position: fixed;
-     bottom: 0;
+     top: 65vh;
      width: 90vw;
 }
 .notesMain .menu-label{
      text-transform: lowercase;
+     margin-bottom: 0.5rem
 }
 .label-grid{
     display: grid;

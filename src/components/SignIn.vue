@@ -12,15 +12,14 @@
                 <div class="card-header-title">
                     <div class="">
                         <p class="title is-4" style="text-align:left">Looks like you are not signed in</p>
-                        <p class="subtitle is-6" style="text-align:left">Sign in with your Google account to continue...</p>
+                        <p class="subtitle is-6" style="text-align:left">Continue with your Google account</p>
                     </div>
                 </div>
         </div>
 
         <div class="card-content">
             <div class="content">
-                welcome to UniClip!!
-                <br>
+                <p>Please provide all necessary permissions . Don't worry, uniClip will not have access to any of your personal files, it can access only the files it created</p>
                 <blockquote>
                     Visit the <router-link to='/about'>About page</router-link> for more info.
                 </blockquote>

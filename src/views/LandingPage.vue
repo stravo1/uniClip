@@ -56,7 +56,7 @@ export default {
 .device-list{
   position: fixed;
   width: 95vw;
-  bottom: 0;
+  top: 55vh;
 }
 .contaier{
   padding:30px;
@@ -88,7 +88,7 @@ export default {
   position: fixed;
   width: 100vw;
   padding: 2rem;
-  top: 5rem;
+  top: 10vh;
 }
 
 </style>
