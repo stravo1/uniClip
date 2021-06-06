@@ -98,6 +98,7 @@ export default {
     grid-column: 3;
     grid-row:1;
     padding: 0.75rem 0rem 0 1.5rem;
+    width: 100%;
 }
 .menu-list{
     padding: 0.25rem 0.5rem  0.25em 1.5em;
