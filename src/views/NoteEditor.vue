@@ -85,6 +85,9 @@ export default {
         }
     },
     mounted(){
+         if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.replace({name: 'myDevice'})}
+        if(!this.$store.state.notes.isInstalled){alert('Please install notes in first....'); this.$router.replace({name: 'notes'})}
+
         console.log('editor mounted')
         this.oldContent = this.$store.state.notes.noteContent
     },

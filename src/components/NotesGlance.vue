@@ -23,7 +23,7 @@
         <div class="content custom">
           <a @click="$router.push({name:'notes'})">install notes</a>
           <br><br>
-          <em>(if already installed, your most recent note will be visible very soon)</em>
+          <em>(installing doesn't require any additional downloads, it just creates a notes component within the app. if already installed, please wait, your most recent note will be visible very soon)</em>
         </div>
   </div>
 </div>

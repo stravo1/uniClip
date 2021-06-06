@@ -73,7 +73,8 @@ export default {
           },
      },
      async mounted(){
-          
+          if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.replace({name: 'myDevice'})}
+
           if(!this.$store.state.notes.isInstalled ){
                console.log('initializing notes')
                alert('Intalling notes, it might take a minute...')

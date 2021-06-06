@@ -116,6 +116,8 @@ export default {
     }
   },
   mounted(){
+    if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.replace({name: 'myDevice'})}
+
     if(this.$store.state.notes.selectedNote ==""){
       this.$router.replace({name: "notes"})
       return
