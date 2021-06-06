@@ -7,7 +7,7 @@ uniClip is like a chat app but for your devices. You can quickly send messages, 
 > [notes@uniClip](#notes) has been added! 
 
 Skip to:
-- [Notes](#notes@uniClip)
+- [Notes](#notes@uniclip)
 - [Issues](#issues)
 - [Future Plans](#future-plans)
 <!--[How it works](#working)-->
