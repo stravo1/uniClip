@@ -7,7 +7,7 @@ uniClip is like a chat app but for your devices. You can quickly send messages, 
 > [notes@uniClip](#notes) has been added! 
 
 Skip to:
-- [Notes](#notes@uniclip)
+- [Notes](#notes)
 - [Issues](#issues)
 - [Future Plans](#future-plans)
 <!--[How it works](#working)-->
@@ -35,7 +35,7 @@ uniClip solves a problem which I encounter very often, a problem which you might
 Along with these benefits you also get other features like device specific storages ('myDevice') and global storages ('allDevices')  
 > now with notes@uniClip
 
-## notes@uniClip
+## notes
 notes@uniClip is an addon to the uniClip webapp which allows you to take notes in [Markdown](https://www.markdownguide.org) format *(which is super cool... I think)*. All your notes are globally accessible to all your devices. Yup, that's it! Try it yourself.
 
 

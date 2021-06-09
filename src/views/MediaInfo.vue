@@ -1,7 +1,7 @@
 <template>
 <aside class="menu">
-  <p class="menu-label">
-    from {{ this.$route.params.device }}
+  <p class="menu-label bug">
+    from {{$route.params.device }}
   </p>
   <ul class="menu-list media-wrapper">
 <XyzTransitionGroup xyz="fade down">
@@ -33,7 +33,7 @@ export default {
     },
     mounted(){
       if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.push({name: 'myDevice'})}
-      console.log('muntred')
+      //alert('muntred')
       this.$store.commit('setIsInMessageState',false)
     },
     methods:{
@@ -48,13 +48,13 @@ export default {
 </script>
 
 <style>
- .media-wrapper{
 
+ .media-wrapper{
     border-radius: 7px;
     height: 70vh;
     overflow: auto
 }
-.menu-label{
+.bug{
     position: relative;
     text-align: right;
     padding: 0.5rem 1rem;
