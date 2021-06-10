@@ -72,12 +72,12 @@ export default {
 
 <style  scoped>
 .menu {
-    padding: 0.5rem 0.25rem;
+    padding: 0.5rem 0 0 0;
 }
 .menu-label{
     position: relative;
     width: 105%; /* bad fix */
-    padding: 0.5rem 2rem;
+    padding: 0.5rem 1.5rem;
     right: 0em;
     text-transform: lowercase;
     color:var(--o-color);

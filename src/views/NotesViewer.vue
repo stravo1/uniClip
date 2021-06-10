@@ -11,47 +11,10 @@
   <div class="box">
     <span v-if="loading">until then let's see how long you can hold your breath...</span>
     <XyzTransition xyz="fade">
-        <div class="content" id="notesView" v-show="!loading">
+        <div class="content" id="notesView" v-show="!loading" @click="$router.push({name: 'nEdit'})">
         </div>
     </XyzTransition>
   </div>
-  <!--
-  <div class="modal is-active">
-    <div class="modal-background" @click="close"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-          <p class="modal-card-title">
-            
-              <span v-if="loading">loading your note...</span>
-            
-            <XyzTransition xyz="fade">
-              <span v-if="!loading">
-                <span class="title is-3"> {{ title }} </span>
-                <br>
-                <span class="subtitle is-7">{{time}}</span>
-              </span>
-            </XyzTransition>
-          </p>
-          
-        <button class="delete" aria-label="close" @click="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <span v-if="loading">until then let's see how long you can hold your breath...</span>
-        <XyzTransition xyz="fade">
-          <div class="content" id="notesView" v-show="!loading"></div>
-        </XyzTransition>
-      </section>
-      
-        <footer class="card-footer">
-          <span class="card-footer-item" v-if="loading">~~~</span>
-          <span class="card-footer-item" @click="toggle = !toggle" v-if="!loading">Edit</span>
-          <span class="card-footer-item danger" @click="dlt" v-if="!loading">
-            <i v-if="deleting" class="fa fa-spinner fa-pulse"></i><span v-if="!deleting">Delete</span>
-          </span>
-      </footer>
-    </div>
-  </div>
-  -->
   <footer class="notes-view-footer">
     <div class="footer-menu">
       <span class="icon edit" @click="$router.push({name: 'nEdit'})"><i class="mdi mdi-square-edit-outline mdi-24px"></i></span>

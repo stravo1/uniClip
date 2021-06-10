@@ -42,12 +42,14 @@ export default {
   //mixins:[touchMixin]
   
   beforeRouteLeave (to, from) {
-    this.$store.commit('setRefreshState', true)
+    if(to.name == "messages") {
+      this.$store.commit('setRefreshState', true)
+    }
   /*
   const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
   if (!answer) return false
-}*/
-}
+  */
+  }
 }
 </script>
 
@@ -87,7 +89,7 @@ export default {
 .notes-glance{
   position: fixed;
   width: 100vw;
-  padding: 2rem;
+  padding: 1.5rem;
   top: 10vh;
 }
 

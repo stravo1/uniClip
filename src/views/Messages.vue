@@ -212,7 +212,12 @@ export default {
       //console.log(this.$refs)
     },
     clear(arg){
-      if(arg){this.fileInp = []; this.txt = ''; return}
+      if(arg){
+        this.fileInp = []; this.txt = '';
+        var scroller = this.$refs.scroll;
+        setTimeout(() => {scroller.scrollTo({top:  scroller.scrollHeight, behavior: 'smooth'})}, 100);
+        return
+      }
       this.$store.commit('setSelectedFile', '')
     },
     fileChange(){

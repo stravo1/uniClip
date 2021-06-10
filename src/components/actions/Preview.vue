@@ -131,7 +131,7 @@ const urlMaker = async(file, accessToekn) => {
     */
     console.log(110)
     
-    var html = "<embed style='max-width : 50vw' src='" + downloadUrl + "'id='preview' type='"+response[1]+"'>"
+    var html = "<a target='_blank' href='" + downloadUrl + "'><embed style='max-width : 50vw' src='" + downloadUrl + "'id='preview' type='"+response[1]+"'></a>"
     document.getElementById('preview').innerHTML=html
     
     var html2 = "<p class='title is-6'>name: " + name + "</p>"+"<span></span><p class='subtitle is-6'>type: " + response[1] +"<br>size: " + (blob.size/1024).toFixed() + "kb</p>"
@@ -217,6 +217,8 @@ export default {
             download(this.req)
         },
         async dlt(){ //add Are You Sure prompt
+            const answer = window.confirm("Are you sure? This action can't be undone!")
+            if (!answer) return false
             await deleteFile(this.$store.state.selectedFile.id, this.$store.state.accessToken)
             this.close()
         },
