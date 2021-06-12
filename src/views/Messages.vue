@@ -10,7 +10,8 @@
 </XyzTransition>
 
 <div class="message-window-header">
-  <div class="current-state title is-4 ">{{ current }}</div>
+  <span @click="$router.go(-1)"><i class="mdi mdi-chevron-left mdi-24px"></i></span>
+  <div class="current-state title is-3">{{ current }}</div>
 </div>
 <XyzTransition xyz="fade">
 
@@ -26,7 +27,7 @@
 <div class="emptyMessage" v-if="!(readMessages.length || unreadMessages.length)"> It's empty here</div>
 <div class="message-wrapper" v-for="message in readMessages" :key="message">
    <div :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}">
-  <article class="message is-link" :class="{'is-success':message.context=='sent' && message.sender == $store.state.myDevice.name}">
+  <article class="message is-link" :class="{'is-success sent':message.context=='sent' && message.sender == $store.state.myDevice.name, 'received' : message.context != 'sent' || message.sender != $store.state.myDevice.name}">
     <div class="message-body" @click="selectMessage(message)">
      
       <div :class="{'reverse':message.context=='sent' && message.sender == $store.state.myDevice.name}">
@@ -207,7 +208,11 @@ export default {
     setMedia(arg){
       var device = this.$route.params.device
       this.$store.commit('setSelectedMedia', arg) //use setSelectedFolder plzzzz
-      this.$router.push({ path: '/myDevice/messages/'+device+'/'+arg})
+      if (this.$store.state.isInMessages){ //fixing the back action issue
+        this.$router.push({ path: '/myDevice/messages/'+device+'/'+arg})
+      } else {
+        this.$router.replace({ path: '/myDevice/messages/'+device+'/'+arg})
+      }
       this.$store.commit('setIsInMessageState',false)
       //console.log(this.$refs)
     },
@@ -270,6 +275,49 @@ export default {
   padding: 0.5rem;
  
 }
+/*
+.message-window-header{
+  position: sticky;
+  padding: 1rem;
+  display: inline-block;
+}
+
+.media-tabs{
+  position: relative;
+  white-space: nowrap;
+  left: 60vw;
+  max-width: 30vw;
+  max-height: 4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.message-window-header {
+  display:flex;
+  justify-content:flex-end;
+}
+*/
+.message-window-header{
+    position: sticky;
+    top: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1em 1em;
+    grid-template-areas: ". .";
+    padding: 0 0rem 1.5rem 0;
+    color: aqua;
+    padding: 0 0.5rem;
+}
+.message-window-header .title{
+  white-space: nowrap;
+  text-align:right;
+}
+.message-window-header span{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 .message{
   display:inline-block; 
   max-width:60vw;
@@ -279,12 +327,21 @@ export default {
   justify-content: flex-end
 }
 
-.is-success {
+.sent { /* use something else than something such broad of a class like is-class name to differentiate btwn sent and received messages*/
   position: relative;
   max-width: 60vw;
   transform: rotateY(180DEG);
-  
- align-tems:center;
+  align-items:center;
+  background: rgb(63, 0, 25);
+}
+.sent .message-body{
+  color: rgb(255, 59, 137);
+}
+.received{
+  background: rgb(0, 44, 63);
+}
+.received .message-body{
+  color: rgb(102, 209, 253);
 }
 .reverse {
   transform: rotateY(-180DEG);
@@ -297,7 +354,7 @@ export default {
   height: 80vh;
   overflow: auto;
   border-radius: 10px;
-  background-color: rgb(36, 36, 36)
+  background-color: rgb(25, 25, 30)
 }
 
 
@@ -332,31 +389,6 @@ export default {
 }
 .input-text::placeholder{
   color: rgb(73, 73, 73);
-}
-.message-window-header{
-  position: sticky;
-  padding: 1rem;
-  display: inline-block;
-}
-/*
-.media-tabs{
-  position: relative;
-  white-space: nowrap;
-  left: 60vw;
-  max-width: 30vw;
-  max-height: 4rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-*/
-.title {
-  white-space: nowrap;
-  text-align:right;
-
-}
-.message-window-header {
-  display:flex;
-  justify-content:flex-end;
 }
 .emptyMessage{
   font-weight: 500;

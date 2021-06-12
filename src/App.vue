@@ -9,7 +9,6 @@
     <router-link to="/settings">Settings</router-link>
   </div>
   -->
-<div class="body-wrapper" ></div>
   <router-view/>
 </template>
 

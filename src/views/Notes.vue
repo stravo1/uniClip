@@ -62,7 +62,7 @@ export default {
           },
           select(id){
                //console.log('select', this.$store.state.notes.notesList)
-               this.$store.commit('setSelectedNote', this.$store.state.notes.notesList.filter(note => note.id = id)[0])
+               this.$store.commit('setSelectedNote', this.$store.state.notes.notesList.filter(note => note.id == id)[0])
                this.$store.commit('setNoteContent','')
                this.$router.push({name: 'nView'})
           },
