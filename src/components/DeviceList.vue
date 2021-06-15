@@ -93,6 +93,7 @@ export default {
     grid-row: 1;
     width: 100%;
     padding: 0.25rem 0.25rem;
+    font-weight: 500;
 }
 .menu-label .icon{
     grid-column: 3;

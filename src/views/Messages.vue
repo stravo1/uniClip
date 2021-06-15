@@ -45,6 +45,7 @@
     </div>
   </article>
   </div>
+  <span :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}" class="time"><i style="padding: 0 3px 0 3px;" class="mdi mdi-clock"></i>{{$store.getters.timeFormatter(message.time)}}</span>
 </div>
 <div class="new-messages message-wrapper" v-if="unreadMessages.length">
   <span class="tag is-info is-light is-medium">New messages</span> 
@@ -164,7 +165,7 @@ export default {
   computed: {
     current(){
       var x;
-      !this.$store.state.isInMessages ? (this.$route.params.media ? x = this.$route.params.media : x = 'messages') : x = 'messages' //reverse the order later, too confusing
+      !this.$store.state.isInMessages ? (this.$route.params.media ? x = this.$route.params.media : x = 'texts') : x = 'texts' //reverse the order later, too confusing
       return x
     },
     readMessages(){
@@ -307,7 +308,7 @@ export default {
     grid-template-areas: ". .";
     padding: 0 0rem 1.5rem 0;
     color: aqua;
-    padding: 0 0.5rem;
+    padding: 0.5rem 0.5rem 1.5rem 0.5rem;
 }
 .message-window-header .title{
   white-space: nowrap;
@@ -356,7 +357,11 @@ export default {
   border-radius: 10px;
   background-color: rgb(25, 25, 30)
 }
-
+.message-wrapper .time{
+  font-size: small;
+  font-weight: lighter;
+  
+}
 
 .title, .subtitle {
   color:  aqua;

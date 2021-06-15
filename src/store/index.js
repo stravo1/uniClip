@@ -767,10 +767,10 @@ export default createStore({
           );
         } else if (now.getMonth() - then.getMonth() > 0) {
           return (
-            new Intl.DateTimeFormat("en-US", { month: "long" }).format(then) +
+            new Intl.DateTimeFormat("en-US", { month: "long" }).format(then) + ", " +
             JSON.stringify(then.getDate())
           );
-        } else if (now.getDate() - then.getDate() > 7) {
+        } else if (now.getDate() - then.getDate() >= 7) {
           return +JSON.stringify(then.getDate()) + "th, this month";
         } else if (now.getDay() - then.getDay() == 1 || now.getDay() - then.getDay() == -6) {
           return (

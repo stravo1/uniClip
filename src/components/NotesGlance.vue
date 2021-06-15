@@ -89,6 +89,7 @@ export default {
     grid-column: 2;
     width: 100%;
     padding: 0.25rem 0.25rem;
+    font-weight: 500;
 }
 .glance-header .icon{
     grid-column: 3;
