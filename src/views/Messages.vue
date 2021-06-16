@@ -31,12 +31,11 @@
     <div class="message-body" @click="selectMessage(message)">
      
       <div :class="{'reverse':message.context=='sent' && message.sender == $store.state.myDevice.name}">
-         <div v-if="message.type != 'text'">
-           <span v-if="message.type != 'text'" class="icon">
-             
+         <div class="message-file" v-if="message.type != 'text'">
+           <span class="icon">
              <i class="mdi" :class="{'mdi-image': message.type.includes('image'),'mdi-video': message.type.includes('video'),'mdi-file-document': message.type.includes('application') || message.type.includes('text'),'mdi-volume-high': message.type.includes('audio')}"></i>
            </span>
-            File: {{message.fileName}}
+            {{message.type.includes('application') || message.type.includes('text') ? message.type.slice(message.type.indexOf('/')+1, message.type.length) : message.type.slice(0, message.type.indexOf('/'))}} : {{message.fileName}}
          </div>
          
         {{ message.message }}
@@ -272,9 +271,18 @@ export default {
 
 <style scoped>
 
+.title, .subtitle {
+  color:  aqua;
+  margin: 0.5rem 0.5rem;
+}
+#z-wrapperU {
+    z-index: 3;
+    position: absolute;
+    width: 100vw;
+    --xyz-translate-y: -350%;
+}
 .message-wrapper, .new-messages{
   padding: 0.5rem;
- 
 }
 /*
 .message-window-header{
@@ -328,7 +336,7 @@ export default {
   justify-content: flex-end
 }
 
-.sent { /* use something else than something such broad of a class like is-class name to differentiate btwn sent and received messages*/
+.sent {
   position: relative;
   max-width: 60vw;
   transform: rotateY(180DEG);
@@ -350,6 +358,16 @@ export default {
 .message-body {
   word-wrap: break-word;
 }
+.received .message-file{
+  background: rgb(0, 34, 49);
+  padding: 0.25rem;
+  border-radius: 3px;
+}
+.sent .message-file{
+  background: rgb(50, 0, 15);
+  padding: 0.25rem;
+  border-radius: 3px;
+}
 .wrapper {
   margin: 0.5rem 0.5rem;
   height: 80vh;
@@ -362,18 +380,6 @@ export default {
   font-weight: lighter;
   
 }
-
-.title, .subtitle {
-  color:  aqua;
-  margin: 0.5rem 0.5rem;
-}
-#z-wrapperU {
-    z-index: 3;
-    position: absolute;
-    width: 100vw;
-    --xyz-translate-y: -350%;
-}
-
 .compose-box, .media-box {
   width: 98vw;
   position: absolute;
