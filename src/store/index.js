@@ -669,7 +669,7 @@ export default createStore({
         return true;
       }
       setTimeout(async () => {
-        await dispatch("markAsRead");
+        state.unreadMessages.length ? await dispatch("markAsRead") : false;
         outResolve();
       }, 1500);
       await promise;
@@ -778,7 +778,7 @@ export default createStore({
             new Intl.DateTimeFormat("en-US", { hour: "numeric" }).format(then)
           );
 
-        } else if (now.getDay() - then.getDay() > 1 || now.getDay() - then.getDay() < -1) {
+        } else if (now.getDay() - then.getDay() > 1 || now.getDay() - then.getDay() <= -1) {
           return (
             
             new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(then) + " " +

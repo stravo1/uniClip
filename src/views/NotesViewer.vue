@@ -11,7 +11,7 @@
   <div class="box">
     <span v-if="loading">until then let's see how long you can hold your breath...</span>
     <XyzTransition xyz="fade">
-        <div class="content" id="notesView" v-show="!loading" @click="$router.push({name: 'nEdit'})">
+        <div class="content" id="notesView" v-show="!loading">
         </div>
     </XyzTransition>
   </div>
@@ -73,6 +73,8 @@ export default {
       this.$router.replace({name: 'notes'})
     },
     async dlt(){
+      const answer = window.confirm("Are you sure? This action can't be undone!")
+      if (!answer) return false
       this.deleting = true
       this.deleting = !await deleteFile(this.$store.state.notes.selectedNote.id, this.$store.state.accessToken)
       this.close()

@@ -14,11 +14,11 @@
             <div class="card-content">
             <div class="content">
                 <div  id='preview'>
-                    {{message.message}}
+                    <span v-html="checkForLink(message.message)"></span>
                 </div>
                 <div class="content">
                     <blockquote  id="info">
-                        time: {{message.time}} <br>
+                        time: {{new Date(message.time).toLocaleString('en-GB', { timeZone: 'IST' })}} <br>
                         sender: {{message.sender}} <br>
                         file included: {{message.fileName}} <br>
                         type: {{message.type}} <br>
@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import linkifyHTMl from 'linkifyjs/html';
+
 export default {
     data(){
         return{
@@ -43,7 +45,15 @@ export default {
         }
     },
     methods:{
+        checkForLink(arg){
+            return linkifyHTMl(arg,{target: {
+                url: '_blank'
+                },
+            })
+        },  
         dlt(){
+            const answer = window.confirm("Are you sure? This action can't be undone!")
+            if (!answer) return false
             this.$store.dispatch('deleteMessage',this.message)
             this.$emit('close')
         },

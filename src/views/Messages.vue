@@ -38,7 +38,7 @@
             {{message.type.includes('application') || message.type.includes('text') ? message.type.slice(message.type.indexOf('/')+1, message.type.length) : message.type.slice(0, message.type.indexOf('/'))}} : {{message.fileName}}
          </div>
          
-        {{ message.message }}
+        <span v-html="checkForLink(message.message)"></span>
         </div>
       
     </div>
@@ -128,6 +128,7 @@
 
 
 import touchMixin from './touchMixin_modified.js';
+import linkifyHTMl from 'linkifyjs/html';
 
 import Upload from '../components/actions/Upload';
 import Preview from '../components/actions/Preview';
@@ -203,7 +204,12 @@ export default {
             this.isSearch = !this.isSearch;
             this.$refs.scroll.scrollTop=this.$refs.scroll.scrollHeight
         },
-
+    checkForLink(arg){
+      return linkifyHTMl(arg,{target: {
+        url: '_blank'
+        },
+      })
+    },
 
     setMedia(arg){
       var device = this.$route.params.device
