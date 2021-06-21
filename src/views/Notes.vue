@@ -10,7 +10,7 @@
 <div tabindex='1' class="notesMain" @focus="isSearch =false">
      
      <div class="notes-header">   
-          <span @click="$router.replace({name:'myDevice'})"><i class="mdi mdi-chevron-left mdi-24px"></i></span>
+          <span @click="$router.go(-1)"><i class="mdi mdi-chevron-left mdi-24px"></i></span>
           <p class="title">notes</p>
      </div>
     <div class="notes-glance">
@@ -23,15 +23,17 @@
                          
                          <span class="icon" @click="toggleSearch"><i class="mdi mdi-24px mdi-text-search"></i></span>
                          <span class="icon end" @click="$router.push({name:'nEdit'})"><i class="mdi mdi-24px mdi-plus-box-outline"></i></span>
-                         <p class="subtitle is-4">
-                              all notes
-                         </p>
+                         <div class="select is-medium is-fullwidth">
+                              <select v-model="selectedTag">
+                              <option v-for="tag in tags" :key="tag">{{tag}}</option>
+                              </select>
+                         </div>
                     </div>
                </div>
                <ul class="menu-list">
                     <li class="notes-list-member" v-for="note in notes" :key="note" @click="selectNote(note)">
                          <span class="icon"><i class="mdi mdi-text mdi-24px"></i></span>
-                         <span class="note-title"> {{note.name}}</span>
+                         <span class="note-title"> {{note.name.slice(0, note.name.indexOf('#') != -1 ? note.name.indexOf('#') : note.name.length)}}</span>
                          <div class="note-time"> <span>{{$store.getters.timeFormatter(note.modifiedTime)}}</span></div> 
                     </li>
                </ul>
@@ -52,6 +54,7 @@ export default {
           return{
                toggle: false,
                isSearch: false,
+               selectedTag: 'all notes',
           }
      },
      methods:{
@@ -91,7 +94,27 @@ export default {
                return this.$store.state.notes.notesFolder.id
           },
           notes(){
-               return this.$store.state.notes.notesList
+               if(this.selectedTag == 'all notes') return this.$store.state.notes.notesList
+               return this.$store.state.notes.notesList.filter(note => note.name.includes(this.selectedTag))
+          },
+          tags(){
+               var tags = ['all notes']
+               var notesList = this.$store.state.notes.notesList
+               for (var i = 0; i < notesList.length; i++){
+                    var name = notesList[i].name
+                    console.log(name, "nnn")
+                    var tagMatches = [...name.matchAll('#')]
+                    console.log(tagMatches, "tgm")
+                    if(tagMatches.length == 0) {}
+                    else if(tagMatches.length == 1) tags.push(name.slice(tagMatches[0].index))
+                    else {
+                         for (var j = 0; j < tagMatches.length - 1; j++){
+                              tags.push(name.slice(tagMatches[j].index, tagMatches[j+1].index))
+                         }
+                         tags.push(name.slice(tagMatches[tagMatches.length - 1].index))
+                    }
+               }
+               return [...new Set(tags)]
           }
      },
      components:{
@@ -138,10 +161,10 @@ export default {
     gap: 1em 1em;
     grid-template-areas: ". . .";
 }
-.label-grid .subtitle{
+.label-grid .select{
     grid-column: 1;
     grid-row: 1;
-    width: 100%;
+    
     padding: 0.25rem 0.25rem;
 }
 .label-grid .icon{
@@ -159,7 +182,7 @@ export default {
     padding: 1rem 0;
 }
 .label-grid .icon, .label-grid .end{
-     padding: 1rem 0 0 0;
+     padding: 1.75rem 0 0 0;
 }
 .notesMain .menu-list{
      height: 30vh;

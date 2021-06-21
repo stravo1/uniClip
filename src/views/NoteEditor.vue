@@ -4,7 +4,7 @@
                 <div class="editor-header">
                     <div class="field has-addons">
                         <p class="control is-expanded">
-                            <input class="input" type="text" :placeholder="placeholder" v-model="title">
+                            <input class="input" type="text" :placeholder="placeholder" v-model="title" @click="fill">
                         </p>
                     </div>
                 </div>
@@ -103,6 +103,10 @@ export default {
         placeholder(){
             if(this.$store.state.notes.selectedNote == '') return 'your title here...'
             return this.$store.state.notes.selectedNote.name
+        },
+        fill(){
+           if(this.placeholder == 'your title here...') this.title = ''
+           else this.title = this.placeholder
         }
     },
     emits:['close'],
