@@ -7,7 +7,7 @@
 <NotesViewer v-if="$store.state.notes.selectedNote != ''"/>
 <NoteEditor v-if="toggle" @close="close"/>
 -->
-<div tabindex='1' class="notesMain" @focus="isSearch =false" v-if="$store.state.notes.selectedNote == ''">
+<div tabindex='1' class="notesMain" @focus="isSearch =false">
      
      <div class="notes-header">   
           <span @click="$router.replace({name:'myDevice'})"><i class="mdi mdi-chevron-left mdi-24px"></i></span>

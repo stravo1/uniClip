@@ -143,12 +143,13 @@ export default {
 
            this.loading = true
            var files = this.uploadContent[1]
-           var txt = this.uploadContent[0]
+           var txt = this.uploadContent[0].replace(/\n/g,'<br>')
            var accessToken = this.$store.state.accessToken
            var selectedDevice = this.$store.state.selectedDevice.name
            var device = this.$store.state.myDevice.name
            if(!files.length){
               var body = await sendMessage(txt, this.$store.state.fU.id, accessToken, device, selectedDevice)
+              console.log(body)
               var inMyMessageList = JSON.parse(body).messages[0]
               inMyMessageList.context = 'sent'
               console.log(inMyMessageList,"inm")

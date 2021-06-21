@@ -78,7 +78,7 @@
 
         <div class="field has-addons">
               <div class="control has-icons-left is-expanded">
-                <input class="input input-text is-info" type="text" :placeholder="'message to ' + $route.params.device" v-model="txt">
+                <textarea class="input input-text is-info" type="text" :placeholder="'message to ' + $route.params.device" v-model="txt"></textarea>
                   <span class="icon is-small is-left">
                     <i class="mdi mdi-message"></i>
                   </span>
@@ -129,6 +129,8 @@
 
 import touchMixin from './touchMixin_modified.js';
 import linkifyHTMl from 'linkifyjs/html';
+import DOMpurfiy from 'dompurify';
+import marked from 'marked';
 
 import Upload from '../components/actions/Upload';
 import Preview from '../components/actions/Preview';
@@ -205,10 +207,14 @@ export default {
             this.$refs.scroll.scrollTop=this.$refs.scroll.scrollHeight
         },
     checkForLink(arg){
-      return linkifyHTMl(arg,{target: {
-        url: '_blank'
-        },
-      })
+      var x = DOMpurfiy.sanitize(marked(linkifyHTMl(arg,{target: {
+          url: '_blank'
+          },
+        })
+        )
+      )
+      console.log(x)
+      return x
     },
 
     setMedia(arg){

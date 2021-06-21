@@ -37,6 +37,8 @@
 
 <script>
 import linkifyHTMl from 'linkifyjs/html';
+import DOMpurify from 'dompurify';
+import marked from 'marked';
 
 export default {
     data(){
@@ -46,10 +48,12 @@ export default {
     },
     methods:{
         checkForLink(arg){
-            return linkifyHTMl(arg,{target: {
-                url: '_blank'
-                },
-            })
+            return DOMpurify.sanitize(marked(linkifyHTMl(arg,{target: {
+                    url: '_blank'
+                    },
+                })
+              )
+            )
         },  
         dlt(){
             const answer = window.confirm("Are you sure? This action can't be undone!")
