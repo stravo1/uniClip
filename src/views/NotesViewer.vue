@@ -70,7 +70,7 @@ export default {
     close(){
       //console.log('hello')
       
-      this.$router.replace({name: 'notes'})
+      this.$router.go(-1)
     },
     async dlt(){
       const answer = window.confirm("Are you sure? This action can't be undone!")
@@ -102,7 +102,7 @@ export default {
       console.log(markedownContent, 'md')
       
       this.content = this.$store.state.notes.noteContent;
-      this.title = noteFile.name;
+      this.title = noteFile.name.slice(0, noteFile.name.indexOf('#') != -1 ? noteFile.name.indexOf('#') : noteFile.name.length)
       this.time = this.$store.getters.timeFormatter(noteFile.modifiedTime)
       this.loading = false
       this.$store.commit('setNoteContent', '')
@@ -132,7 +132,7 @@ export default {
   },
   beforeRouteLeave (to, from, next) {
     
-    if(to.name == 'notes'){
+    if(to.name == 'notes' || to.name == 'myDevice'){
       console.log(to, from, 'router')
       this.$store.commit('setSelectedNote', '')
       this.$store.commit('setNoteContent', '')
