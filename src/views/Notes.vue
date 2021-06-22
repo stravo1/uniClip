@@ -167,7 +167,7 @@ export default {
 }
 .select select{
      background-color: hsl(0, 0%, 5%);
-     color: hsl(0, 0%, 40%);
+     color: hsl(0, 0%, 70%);
 }
 .label-grid .icon{
     grid-column: 2;

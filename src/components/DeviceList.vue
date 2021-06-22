@@ -80,19 +80,20 @@ export default {
     padding: 0.5rem 1.5rem;
     right: 0em;
     text-transform: lowercase;
-    color:var(--o-color);
+    color: hsl(0, 0%, 60%);
     margin-bottom: 0;
     display: grid;
     grid-template-columns: 0.15fr 1.5fr 0.25fr;
     grid-template-rows: 1fr;
     gap: 0.5rem;
     grid-template-areas: ". . .";
+
 }
 .menu-label .subtitle{
     grid-column: 2;
     grid-row: 1;
     width: 100%;
-    padding: 0.25rem 0.25rem;
+    padding: 0.25rem 0.7rem 0.25rem;
     font-weight: 500;
 }
 .menu-label .icon{
