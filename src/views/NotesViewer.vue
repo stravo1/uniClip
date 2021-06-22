@@ -187,7 +187,7 @@ export default {
     grid-template-rows: 1fr;
     gap: 1em 1em;
     grid-template-areas: ". .";
-    padding: 0.75rem 1rem 0 0.75rem;
+    padding: 1.5rem 1rem 0 0.75rem;
     color: lightslategrey;
 }
 .notes-view-footer{
@@ -232,7 +232,6 @@ export default {
     color: black;
     /* overflow: auto; */
     margin: 1rem;
-    margin-top: 1.5rem;
     padding: 0.75rem;
 }
 .content{

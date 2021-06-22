@@ -23,9 +23,10 @@
                          
                          <span class="icon" @click="toggleSearch"><i class="mdi mdi-24px mdi-text-search"></i></span>
                          <span class="icon end" @click="$router.push({name:'nEdit'})"><i class="mdi mdi-24px mdi-plus-box-outline"></i></span>
-                         <div class="select is-medium is-fullwidth">
+                         <div class="select is-medium is-fullwidth is-dark">
                               <select v-model="selectedTag">
                               <option v-for="tag in tags" :key="tag">{{tag}}</option>
+                              <option disabled style="color:hsl(0, 0%, 20%)"><span>no more tags found...</span></option>
                               </select>
                          </div>
                     </div>
@@ -143,11 +144,9 @@ export default {
      padding: 0 0rem 1.5rem 0;
      color: aqua;
 }
-.notes-glance{
-  }
 .notes-list{
      position: fixed;
-     top: 65vh;
+     top: 62vh;
      width: 90vw;
 }
 .notesMain .menu-label{
@@ -163,9 +162,12 @@ export default {
 }
 .label-grid .select{
     grid-column: 1;
-    grid-row: 1;
-    
+    grid-row: 1;  
     padding: 0.25rem 0.25rem;
+}
+.select select{
+     background-color: hsl(0, 0%, 5%);
+     color: hsl(0, 0%, 40%);
 }
 .label-grid .icon{
     grid-column: 2;

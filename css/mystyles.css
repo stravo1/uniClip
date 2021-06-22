@@ -299,7 +299,7 @@ pre {
   font-family: monospace; }
 
 body {
-  color: #757763;
+  color: #666666;
   font-size: 1em;
   font-weight: 400;
   line-height: 1.5; }
@@ -352,7 +352,7 @@ fieldset {
 pre {
   -webkit-overflow-scrolling: touch;
   background-color: whitesmoke;
-  color: #757763;
+  color: #666666;
   font-size: 0.875em;
   overflow-x: auto;
   padding: 1.25rem 1.5rem;
@@ -385,7 +385,7 @@ table th {
   background-color: white;
   border-radius: 6px;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
-  color: #757763;
+  color: #666666;
   display: block;
   padding: 1.25rem; }
 
@@ -431,12 +431,12 @@ a.box:active {
     .button:focus:not(:active), .button.is-focused:not(:active) {
       box-shadow: 0 0 0 0.125em rgba(117, 213, 253, 0.25); }
   .button:active, .button.is-active {
-    border-color: #757763;
+    border-color: #666666;
     color: #363636; }
   .button.is-text {
     background-color: transparent;
     border-color: transparent;
-    color: #757763;
+    color: #666666;
     text-decoration: underline; }
     .button.is-text:hover, .button.is-text.is-hovered, .button.is-text:focus, .button.is-text.is-focused {
       background-color: whitesmoke;
@@ -1651,11 +1651,11 @@ div.icon-text {
   .progress::-webkit-progress-bar {
     background-color: #ededed; }
   .progress::-webkit-progress-value {
-    background-color: #757763; }
+    background-color: #666666; }
   .progress::-moz-progress-bar {
-    background-color: #757763; }
+    background-color: #666666; }
   .progress::-ms-fill {
-    background-color: #757763;
+    background-color: #666666;
     border: none; }
   .progress.is-white::-webkit-progress-value {
     background-color: white; }
@@ -1743,7 +1743,7 @@ div.icon-text {
     animation-name: moveIndeterminate;
     animation-timing-function: linear;
     background-color: #ededed;
-    background-image: linear-gradient(to right, #757763 30%, #ededed 30%);
+    background-image: linear-gradient(to right, #666666 30%, #ededed 30%);
     background-position: top left;
     background-repeat: no-repeat;
     background-size: 150% 150%; }
@@ -1940,7 +1940,7 @@ div.icon-text {
   align-items: center;
   background-color: whitesmoke;
   border-radius: 4px;
-  color: #757763;
+  color: #666666;
   display: inline-flex;
   font-size: 0.75rem;
   height: 2em;
@@ -2091,7 +2091,7 @@ a.tag:hover {
     font-size: 0.75rem; }
 
 .subtitle {
-  color: #757763;
+  color: #666666;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.25; }
@@ -2707,7 +2707,7 @@ a.tag:hover {
 
 .file-cta {
   background-color: whitesmoke;
-  color: #757763; }
+  color: #666666; }
 
 .file-name {
   border-color: #dbdbdb;
@@ -3010,7 +3010,7 @@ a.tag:hover {
   background-color: white;
   border-radius: 0.25rem;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
-  color: #757763;
+  color: #666666;
   max-width: 100%;
   position: relative; }
 
@@ -3111,7 +3111,7 @@ a.tag:hover {
   padding-top: 0.5rem; }
 
 .dropdown-item {
-  color: #757763;
+  color: #666666;
   display: block;
   font-size: 0.875rem;
   line-height: 1.5;
@@ -3270,7 +3270,7 @@ button.dropdown-item {
   line-height: 1.25; }
   .menu-list a {
     border-radius: 2px;
-    color: #757763;
+    color: #666666;
     display: block;
     padding: 0.5em 0.75em; }
     .menu-list a:hover {
@@ -3388,7 +3388,7 @@ button.dropdown-item {
 
 .message-header {
   align-items: center;
-  background-color: #757763;
+  background-color: #666666;
   border-radius: 4px 4px 0 0;
   color: #fff;
   display: flex;
@@ -3411,7 +3411,7 @@ button.dropdown-item {
   border-radius: 4px;
   border-style: solid;
   border-width: 0 0 0 4px;
-  color: #757763;
+  color: #666666;
   padding: 0.5rem 0.75rem; }
   .message-body code,
   .message-body pre {
@@ -3998,7 +3998,7 @@ body.has-navbar-fixed-bottom {
   overflow-y: hidden; }
 
 .navbar-burger {
-  color: #757763;
+  color: #666666;
   cursor: pointer;
   display: block;
   height: 3.25rem;
@@ -4036,7 +4036,7 @@ body.has-navbar-fixed-bottom {
 
 .navbar-item,
 .navbar-link {
-  color: #757763;
+  color: #666666;
   display: block;
   line-height: 1.5;
   padding: 0.5rem 0.75rem;
@@ -4509,11 +4509,11 @@ a.navbar-item,
     margin-bottom: -1px;
     padding: 0.5em; }
     .panel-tabs a.is-active {
-      border-bottom-color: #757763;
+      border-bottom-color: #666666;
       color: whitesmoke; }
 
 .panel-list a {
-  color: #757763; }
+  color: #666666; }
   .panel-list a:hover {
     color: #75d5fd; }
 
@@ -4575,7 +4575,7 @@ label.panel-block {
     border-bottom-color: #dbdbdb;
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    color: #757763;
+    color: #666666;
     display: flex;
     justify-content: center;
     margin-bottom: -1px;
@@ -5737,10 +5737,10 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   background-color: #363636 !important; }
 
 .has-text-grey-dark {
-  color: #757763 !important; }
+  color: #666666 !important; }
 
 .has-background-grey-dark {
-  background-color: #757763 !important; }
+  background-color: #666666 !important; }
 
 .has-text-grey {
   color: #7a7a7a !important; }

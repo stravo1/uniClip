@@ -1,5 +1,5 @@
 <template>
-<div class="modal is-active">
+<div class="modal" :class="{'is-active': !loading}">
     <div class="modal-background"></div>
     <div class="modal-content">
         <div class="menu">
@@ -21,25 +21,28 @@
     </div>
   <button class="modal-close is-large" aria-label="close" @click="$router.push({name: 'about'})"></button>
 </div>
-<div class="modal" :class="{'is-active' : loading}">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="card">
-                <div class="card-content is-narrow" style="text-align: center">
-                    <div class="title">Setting up...</div>
-                <div class="load"><looping-rhombuses-spinner
-                 :animation-duration="2500"
-                 :rhombus-size="15"
-                 color="black"
-                 /></div>
-                </div>
-            </div>
-        </div>
-  </div>
+  <loading v-model:active="loading"
+                 :is-full-page="fullPage"
+                 :blur="loader.blur"
+                 :background-color="loader.bgColor"
+                 
+                 >
+                 <div class="loaderDiv">
+                    <div class="loaderLoader">
+                        <self-building-square-spinner
+                        :animation-duration="5000"
+                        :size="40"
+                        :color="loader.color"
+                        />
+                    </div>
+                    <br>
+                    <span class="loaderText">Setting up devices...</span>
+                 </div>
+  </loading>
 </template>
 
 <script>
-import { LoopingRhombusesSpinner } from 'epic-spinners'
+import { SelfBuildingSquareSpinner } from 'epic-spinners'
 
 import NewDevice from '../components/NewDevice';
 import { toHandlers } from '@vue/runtime-core';
@@ -50,6 +53,11 @@ export default {
             deviceList: [],
             loading: false,
             registerLoading: false,
+            loader: {
+                color: '#ffffff',
+                blur: '100px',
+                bgColor: 'hsl(0, 0%, 30%)'
+            }
         }
     },
     computed:{
@@ -81,7 +89,7 @@ export default {
         }
     },
     components:{
-        NewDevice, LoopingRhombusesSpinner
+        NewDevice, SelfBuildingSquareSpinner
     }
 }
 </script>
