@@ -23,7 +23,7 @@ $input-icon-color: rgb(73,
 73,
 73);
 $input-icon-active-color: whitesmoke;
-$grey-dark: $brown;
+$grey-dark: hsl(0, 0%, 40%);
 $grey-light: $beige-light;
 $danger: $purple;
 $success: $neonPink; //dirty patch here too
@@ -49,6 +49,7 @@ $menu-item-hover-background-color: rgb(36, 36, 36);
 // Import only what you need from Bulma
 @import "../node_modules/bulma/bulma.sass";
 @import "../node_modules/@creativebulma/bulma-divider/dist/bulma-divider.min.css";
+
 //https://codepen.io/avstorm/pen/abdajMB
 .progress {
     width: 100%;

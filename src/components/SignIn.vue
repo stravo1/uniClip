@@ -32,7 +32,7 @@
   </div>
   </div>
   </div>
-  <div class="modal" :class="{'is-active' : loading}">
+  <div class="modal">
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="card">
@@ -41,12 +41,32 @@
                 <div class="load"><looping-rhombuses-spinner
                  :animation-duration="2500"
                  :rhombus-size="15"
-                 color="black"
+                 color="blue"
                  /></div>
                 </div>
             </div>
         </div>
   </div>
+  <transition name="slide-fade">
+  <loading v-model:active="loading"
+                 :is-full-page="fullPage"
+                 :blur="loader.blur"
+                 :background-color="loader.bgColor"
+                 
+                 >
+                 <div class="loaderDiv">
+                    <div class="loaderLoader">
+                        <self-building-square-spinner
+                        :animation-duration="5000"
+                        :size="40"
+                        :color="loader.color"
+                        />
+                    </div>
+                    <br>
+                    
+                 </div>
+  </loading>
+  </transition>
   <button class="button is-warning" @click="sOUT">Sign Out</button>
 </template>
 
@@ -85,16 +105,27 @@ var SCOPES = 'https://www.googleapis.com/auth/drive.appdata';
 
 
 import { LoopingRhombusesSpinner } from 'epic-spinners'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css'
+import { FulfillingSquareSpinner } from 'epic-spinners'
+import { SelfBuildingSquareSpinner } from 'epic-spinners'
+
 
 export default {
     data(){
         return{
-            loading: true
+            loading: false,
+            loader: {
+                color: '#ffffff',
+                blur: '100px',
+                bgColor: 'hsl(0, 0%, 0%)'
+            }
         }
     },
     mounted(){
         console.log("mounted")
         var callback = this.signInStateUpdate
+        this.loading = true
         var loader = this.loading
         gapi.load('client:auth2', function(){
             //console.log(108)
@@ -149,7 +180,7 @@ export default {
             return this.$store.state.signInState
             }
     },
-    components: { LoopingRhombusesSpinner },
+    components: { LoopingRhombusesSpinner, Loading, FulfillingSquareSpinner, SelfBuildingSquareSpinner},
 
 }
 </script>
@@ -170,4 +201,5 @@ export default {
   display:flex;
   justify-content: center 
 }
+
 </style>
