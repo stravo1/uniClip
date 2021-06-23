@@ -143,7 +143,7 @@ export default {
 
            this.loading = true
            var files = this.uploadContent[1]
-           var txt = this.uploadContent[0].replace(/\n/g,'<br>')
+           var txt = this.uploadContent[0].replace(/\n/g,'<br>').replace(/"/g, "'")
            var accessToken = this.$store.state.accessToken
            var selectedDevice = this.$store.state.selectedDevice.name
            var device = this.$store.state.myDevice.name

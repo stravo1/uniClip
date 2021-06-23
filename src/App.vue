@@ -24,15 +24,30 @@ export default{
   components:{
     
   },
-mounted(){
+  mounted(){
         this.$router.push({name: 'myDevice'}) //added on 26th may (future use this step for state resumption)
         //alert(108)
-},
-  methods: {
-       
+  },
+  watch: {
+    '$route.params.device': function() {
+      //alert('device changed'+this.$route.params.device)
+      var deviceNames = []
+      this.$store.state.deviceList.forEach(device => deviceNames.push(device.name))
+      //alert(!deviceNames.includes(this.$route.params.device) && this.$route.params.device != undefined)
+      if(!deviceNames.includes(this.$route.params.device) && this.$route.params.device != undefined) this.$router.push({name:'NotFound'})
     },
+    '$route.params.media': function() { //bugs exist down
+      //alert('media changed'+this.$route.params.media)
+      var mediaNames = []
+      this.$store.state.mediaFolders.forEach(media => mediaNames.push(media.name))
+      //alert(!mediaNames.includes(this.$route.params.media) && this.$route.params.media != undefined)
+      if(!mediaNames.includes(this.$route.params.media) && this.$route.params.media != undefined) {this.$router.push({name:'NotFound'})}
+    }
+  },
+methods: {
+       
+},
     //mixins:[touchMixin]
-
 }
 </script>
 
@@ -59,7 +74,7 @@ mounted(){
     justify-content: center;
     align-items: flex-end;
 }
-.loaderLoader{
+.loaderLoader:last-child{
     grid-row: 2;
     display: flex;
     align-content: center;

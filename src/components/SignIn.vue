@@ -62,7 +62,6 @@
                         :color="loader.color"
                         />
                     </div>
-                    <br>
                     
                  </div>
   </loading>

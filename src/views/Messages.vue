@@ -176,6 +176,10 @@ export default {
     },
     unreadMessages(){
       console.log(this.$store.state.unreadMessages,"kk")
+      if(this.$store.state.unreadMessages.length) {
+        var scroller = this.$refs.scroll
+        setTimeout(() => {scroller.scrollTo({top:  scroller.scrollHeight, behavior: 'smooth'})}, 1)
+      }
       return this.$store.state.unreadMessages
     },
     upload(){
