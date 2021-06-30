@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import {toast} from 'bulma-toast';
 export default {
     data(){
         return{
@@ -37,7 +38,15 @@ export default {
             this.saving = true
             var file = await this.$store.dispatch('saveNote', title)
             file['modifiedTime'] = 'just now'
-            this.saving = false
+            this.saving = false;
+            toast({
+                message: 'Saved',
+                type: 'is-dark',
+                pauseOnHover: false,
+                position: 'bottom-center',
+                closeOnClick: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
+            })
             this.autosave = false;
             this.close(file)
         },
@@ -50,7 +59,7 @@ export default {
                 this.saving = false
                 //this.$emit('close', file)
             } else {
-                console.log(1088)
+                //console.log(1088)
                 this.$store.commit('setNoteContent', this.oldContent)
                 this.$router.replace({name: 'nView'})
                 //this.$emit('close')
@@ -61,7 +70,7 @@ export default {
          if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.replace({name: 'myDevice'})}
         if(!this.$store.state.notes.isInstalled){alert('Please install notes in first....'); this.$router.replace({name: 'notes'})}
 
-        console.log('editor mounted')
+        //console.log('editor mounted')
         this.oldContent = this.$store.state.notes.noteContent
     },
     computed: {

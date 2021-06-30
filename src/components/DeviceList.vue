@@ -8,7 +8,7 @@
   <ul class="menu-list">
       <XyzTransitionGroup class="example-grid" xyz="fade-100% down ease-in-out stagger-2.5 out-up-1" mode="out-in">
 
-        <li v-for="device in deviceList" :key="device" v-if="loaded"> <!-- i can get away with v-if set to isLoading cos here, on this oage, of its isLoading then its the device list which is being refreshed for sure, nothing else...maybe  -->
+        <li v-for="device in $store.state.deviceList" :key="device" v-if="loaded"> <!-- i can get away with v-if set to isLoading cos here, on this oage, of its isLoading then its the device list which is being refreshed for sure, nothing else...maybe  -->
             <div class="box">
                 <img src="../assets/pp2.png" class="profile-img">
                 <a @click="selectDevice(device.name)" class="profile-name">{{ device.name }}</a>
@@ -30,12 +30,9 @@ export default {
 
     },
     computed:{
-        deviceList(){
-            return this.$store.state.deviceList
-        },
         loaded(){
             var deviceList = this.$store.state.deviceList
-            console.log(deviceList,'dd')
+            //console.log(deviceList,'dd')
             return deviceList.length
         }
     },
@@ -44,26 +41,26 @@ export default {
             this.$store.commit('setSelectedDevice', arg)
             await this.$store.dispatch('setReceivingDevice', arg)
             this.$router.push({ name: 'messages', params: { device: arg } })
-            console.log(100)
+            //console.log(100)
         },
         /* ↑ */
         touchSwipeToUp() {
-            console.log("Up")
+            //console.log("Up")
         },
  
         /* ← */
         touchSwipeToLeft() {
-            console.log("Left")
+            //console.log("Left")
         },
  
         /* → */
         touchSwipeToRight() {
-            console.log("Right")
+            //console.log("Right")
         },
  
         /* ↓ */
         touchSwipeToDown() {
-            console.log("Down")
+            //console.log("Down")
         },
     },
 

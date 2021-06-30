@@ -38,6 +38,10 @@ export default {
   beforeRouteLeave (to, from) {
     if(to.name == "messages") {
       this.$store.commit('setRefreshState', true)
+      this.$store.commit('setIsInMessageState',true)
+    }
+    if(to.name == "messages" && this.$store.state.selectedDevice.name == "allDevices") {
+      this.$store.commit('setRefreshState', "allDevices") //special refresh for allDevices
     }
   /*
   const answer = window.confirm('Do you really want to leave? you have unsaved changes!')

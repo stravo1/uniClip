@@ -11,19 +11,38 @@
 
 <script>
 
+var Nanobar = require('nanobar/nanobar')
+var nanobar = new Nanobar()
+
+var fileSize
+function updateProgress(progress){
+    //console.log(progress)
+    var percent;
+    if(progress.lengthComputable){
+        percent = (progress.loaded / progress.total) * 100;
+    }
+    else{
+        percent = (progress.loaded / fileSize) * 100;
+    }
+    nanobar.go(percent)
+}
+
+
 const uploadFiles = async(accessToken, content, parent) => {
   var outResolve,response;
   var promise = new Promise((resolve, reject) => {outResolve = resolve})
   var xhr_up = new XMLHttpRequest;
+  nanobar.go(5)
   xhr_up.open("POST","https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart")
   xhr_up.setRequestHeader('Authorization', 'Bearer '+ accessToken)
+  xhr_up.upload.onprogress = updateProgress
   xhr_up.onload = function(){
     if (this.status == 200){
-      console.log("Uploaded", this.response)
+      //console.log("Uploaded", this.response)
       response = JSON.parse(this.response)
     }
     else {
-      console.log("error", this.status)
+      //console.log("error", this.status)
     }
     outResolve()
   }
@@ -52,10 +71,10 @@ const uploadFiles = async(accessToken, content, parent) => {
   return response
 }
 
-const sendMessage = async(message, parent, accessToken, device, selectedDevice, filetype='text',fileid=null, fileName = null) => {
+const sendMessage = async(message, parent, accessToken, device, selectedDevice, filetype='text',fileid=null, fileName = null, fileSize = null) => {
   //alert(selectedDevice)
-  var body = '{"messages":[{"message":"'+ message + '", "time" : '+ JSON.stringify(new Date()) + ',"type":"'+filetype+'","fileId":"'+fileid+'","sender":"'+ device + '","fileName":"'+ fileName + '","context":"received"}]}'
-  console.log(body,"body")
+  var body = '{"messages":[{"message":"'+ message + '", "time" : '+ JSON.stringify(new Date()) + ',"type":"'+filetype+'","fileId":"'+fileid+'","sender":"'+ device + '","fileName":"'+ fileName + '","fileSize":"'+ fileSize + '","context":"received"}]}'
+  //console.log(body,"body")
   if(selectedDevice == 'allDevices' || selectedDevice == 'myDevice'){
     //alert('In all deivces')
     return body
@@ -67,10 +86,10 @@ const sendMessage = async(message, parent, accessToken, device, selectedDevice, 
   xhr_up.setRequestHeader('Authorization', 'Bearer '+ accessToken)
   xhr_up.onload = function(){
     if (this.status == 200){
-      console.log("Uploaded", this.response)
+      //console.log("Uploaded", this.response)
     }
     else {
-      console.log("error", this.status)
+      //console.log("error", this.status)
     }
     outResolve()
   }
@@ -99,7 +118,7 @@ const sendMessage = async(message, parent, accessToken, device, selectedDevice, 
 }
 
 const matchMedia = (arg) => {
-  console.log('mediaArg',arg)
+  //console.log('mediaArg',arg)
   if(arg.includes('image')) return 'pics'
   else if (arg.includes('video')) return 'vids'
   else if (arg.includes('audio')) return 'music'
@@ -124,10 +143,10 @@ export default {
            var device = this.$store.state.myDevice.name
            if(!files.length){
               var body = await sendMessage(txt, this.$store.state.fU.id, accessToken, device, selectedDevice)
-              console.log(body)
+              //console.log(body)
               var inMyMessageList = JSON.parse(body).messages[0]
               inMyMessageList.context = 'sent'
-              console.log(inMyMessageList,"inm")
+              //console.log(inMyMessageList,"inm")
               this.$store.state.messagesList.push(inMyMessageList)
               //this.$store.dispatch('refreshFilesList')
               //this.$store.dispatch('refreshFoldersList')
@@ -137,7 +156,7 @@ export default {
            else{
              for(var i = 0; i < files.length; i++){
                var mediaFolder = matchMedia(files[i].type)
-               console.log(files, files[i], mediaFolder,"mtype folder")
+               //console.log(files, files[i], mediaFolder,"mtype folder")
                var parentId = this.$store.state.recievingDeviceMediafolders.filter(folder => folder.name == mediaFolder)[0].id
                var fileId = await uploadFiles(accessToken,files[i],parentId)
                var caption;
@@ -147,11 +166,11 @@ export default {
                else{
                  caption = this.uploadContent[0]
                }
-               var body = await sendMessage(caption,this.$store.state.fU.id, accessToken, device, selectedDevice, files[i].type, fileId.id, files[i].name)
+               var body = await sendMessage(caption,this.$store.state.fU.id, accessToken, device, selectedDevice, files[i].type, fileId.id, files[i].name, files[i].size)
                var inMyMessageList = JSON.parse(body).messages[0]
-               //console.log(inMyMessageList,'oriiginal', inMyMessageList.context,'context')
+               ////console.log(inMyMessageList,'oriiginal', inMyMessageList.context,'context')
                inMyMessageList.context = 'sent'
-               console.log(inMyMessageList,"inm")
+               //console.log(inMyMessageList,"inm")
                this.$store.state.messagesList.push(inMyMessageList)
              }
              this.$store.dispatch('patchMessageFile')

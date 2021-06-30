@@ -16,9 +16,9 @@ async function deleteFile(id, accessToken) {
   xhr_dlt.setRequestHeader('Authorization', 'Bearer '+accessToken)
   xhr_dlt.onload = function (){
     if (this.status == 204){ // 204 = success => No Content
-      console.log("Deleted!")
+      //console.log("Deleted!")
     }
-    console.log(this.response, this.status)
+    //console.log(this.response, this.status)
     outResolve()
   }
   xhr_dlt.send()
@@ -34,9 +34,9 @@ export default {
     },
     methods: {
         async dlt(folder){
-          console.log(folder,"fld")
+          //console.log(folder,"fld")
             if(!folder && this.$store.state.selectedFile == '') {alert("Nothing to delete, select a file..."); return}
-            //console.log(this.$store.state.selectedFile, 'ss')
+            ////console.log(this.$store.state.selectedFile, 'ss')
             this.loading = true
             folder ? this.loading =  !await deleteFile(this.$store.state.selectedFolder.id, this.$store.state.accessToken) : this.loading =  !await deleteFile(this.$store.state.selectedFile.id, this.$store.state.accessToken)
             
@@ -46,7 +46,7 @@ export default {
               name: prevFolders[prevFolders.length - 1],
               flow: 'backward'
             }
-            console.log(arg)
+            //console.log(arg)
             this.$store.commit('setSelectedFolder', arg)
             //bug_fix_end
             this.$store.dispatch('refreshFilesList')

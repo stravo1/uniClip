@@ -29,18 +29,18 @@ const blobMaker = async(fileId, accessToken) => {
         type = xhr.getResponseHeader('Content-Type');
         blob = new Blob([this.response], { type: type })
         }
-        console.log(xhr.getResponseHeader('Content-Type'),'hh')
+        //console.log(xhr.getResponseHeader('Content-Type'),'hh')
         outResolve()
-        console.log("came here at last last")
-        console.log(this.status)
+        //console.log("came here at last last")
+        //console.log(this.status)
       }
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       //xhr.send($.param(params));
       //xhr.withCredentials = true;
       xhr.send();
       await tmp;
-      console.log('bye')
-      console.log(blob,type)
+      //console.log('bye')
+      //console.log(blob,type)
       return [blob,type]
   };
  
@@ -53,7 +53,7 @@ const download = async(id,name, accessToekn, bool=false) => {
     // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
     window.navigator.msSaveBlob(blob, filename);
   } else {
-    console.log('elseee')
+    //console.log('elseee')
     var URL = window.URL || window.webkitURL;
     downloadUrl = URL.createObjectURL(blob);
     if (filename) {
@@ -63,7 +63,7 @@ const download = async(id,name, accessToekn, bool=false) => {
       if (typeof a.download === 'undefined') {
         window.location = downloadUrl;
       } else {
-        console.log('else2')
+        //console.log('else2')
         a.href = downloadUrl;
         a.download = filename;
         document.body.appendChild(a);

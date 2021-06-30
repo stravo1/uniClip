@@ -107,12 +107,12 @@ export default {
         }
     },
     mounted(){
-        console.log("mounted")
+        //console.log("mounted")
         var callback = this.signInStateUpdate
         this.loading = true
         var loader = this.loading
         gapi.load('client:auth2', function(){
-            //console.log(108)
+            ////console.log(108)
             gapi.client.init({
                 clientId: CLIENT_ID,
                 discoveryDocs: DISCOVERY_DOCS,
@@ -130,7 +130,7 @@ export default {
     },
     methods:{
         async signInStateUpdate(arg){
-            //console.log("Signed In?", arg)
+            ////console.log("Signed In?", arg)
             this.loading=false
             this.$store.commit('setSignInState', arg)
             if(!this.$store.state.signInState) return
@@ -139,7 +139,7 @@ export default {
              //level 1 folders
              //localStorage.setItem('thisDeviceId','1Qo8TQY19PdDd3GPU3wmAmOcw1WByN3lalKkFMHxTwhvCJ-U1ig')
             var id =  localStorage.getItem('thisDeviceId')
-            console.log(id,'id')
+            //console.log(id,'id')
             if (!id){
                 this.$router.replace({name:'selectDevice'})
             }
@@ -160,7 +160,7 @@ export default {
     },
     computed: {
         signInState(){
-            //console.log("heyy")
+            ////console.log("heyy")
             return this.$store.state.signInState
             }
     },

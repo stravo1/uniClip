@@ -61,11 +61,11 @@ export default {
      methods:{
           toggleSearch(){
                this.isSearch = !this.isSearch;
-               //console.log(this.$store.state.notes.notesList,'gg')
+               ////console.log(this.$store.state.notes.notesList,'gg')
                document.getElementById('z-wrapperU').focus()
           },
           select(id){
-               //console.log('select', this.$store.state.notes.notesList)
+               ////console.log('select', this.$store.state.notes.notesList)
                this.$store.commit('setSelectedNote', this.$store.state.notes.notesList.filter(note => note.id == id)[0])
                this.$store.commit('setNoteContent','')
                this.$router.push({name: 'nView'})
@@ -80,11 +80,11 @@ export default {
           if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.replace({name: 'myDevice'})}
 
           if(!this.$store.state.notes.isInstalled ){
-               console.log('initializing notes')
+               //console.log('initializing notes')
                alert('Intalling notes, it might take a minute...')
                await this.$store.dispatch('InitializeNotes')
           }
-          //console.log(this.$store.state.rootFolders)
+          ////console.log(this.$store.state.rootFolders)
           //this.$store.dispatch('setUpNotes')
      },
      computed:{
@@ -103,9 +103,9 @@ export default {
                var notesList = this.$store.state.notes.notesList
                for (var i = 0; i < notesList.length; i++){
                     var name = notesList[i].name
-                    console.log(name, "nnn")
+                    //console.log(name, "nnn")
                     var tagMatches = [...name.matchAll('#')]
-                    console.log(tagMatches, "tgm")
+                    //console.log(tagMatches, "tgm")
                     if(tagMatches.length == 0) {}
                     else if(tagMatches.length == 1) tags.push(name.slice(tagMatches[0].index))
                     else {

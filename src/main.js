@@ -9,4 +9,5 @@ import '../css/fa/css/font-awesome.min.css';
 import '../node_modules/@mdi/font/css/materialdesignicons.css'
 import VueAnimXyz from '@animxyz/vue3'
 import '@animxyz/core'
+import '../node_modules/animate.css/animate.min.css'
 createApp(App).use(store).use(router).use('Vue3TouchEvents').use(VueAnimXyz).mount('#app')

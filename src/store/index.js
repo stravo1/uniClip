@@ -1,6 +1,9 @@
 //import { push } from 'core-js/core/array'
+import { test } from "linkifyjs";
 import { createStore } from "vuex";
 //sorry for the bloated store, will try to use modules for settings and notes
+import { toast } from 'bulma-toast'
+
 const notes = {
   state: {
     isInstalled: false,
@@ -36,7 +39,7 @@ const notes = {
       xhr_up.setRequestHeader("Authorization", "Bearer " + accessToken);
       xhr_up.onload = async function() {
         if (this.status == 200) {
-          console.log("Uploaded", this.response);
+          //console.log("Uploaded", this.response);
           response = JSON.parse(this.response);
           state.notesFolder = response;
           state.isInstalled = true
@@ -44,7 +47,7 @@ const notes = {
           await dispatch("saveNote", "About Notes");
           dispatch("setUpNotes");
         } else {
-          console.log("error", this.status);
+          //console.log("error", this.status);
         }
         outResolve();
       };
@@ -73,19 +76,19 @@ const notes = {
       return response;
     },
     async setUpNotes({ state, commit, dispatch }) {
-      console.log(state.notesFolder, "in notes");
+      //console.log(state.notesFolder, "in notes");
       state.notesList = await dispatch(
         "refreshFilesList",
         state.notesFolder.id
       );
-      console.log(state.notesList);
+      //console.log(state.notesList);
     },
     async refreshNotes({ state, dispatch }) {
       state.notesList = await dispatch(
         "refreshFilesList",
         state.notesFolder.id
       );
-      console.log("refreshed noteslist");
+      //console.log("refreshed noteslist");
     },
     async saveNote({ state, rootState }, title) {
       rootState.isLoading = true;
@@ -94,7 +97,7 @@ const notes = {
       fileName = title;
       fileContent = state.noteContent;
       fileType = "text/plain";
-      console.log(fileContent, "ffffffff");
+      //console.log(fileContent, "ffffffff");
 
       var metadata = {
         name: fileName,
@@ -112,7 +115,7 @@ const notes = {
         url =
           "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart";
         metadata["parents"] = [state.notesFolder.id];
-        console.log(metadata);
+        //console.log(metadata);
       }
       var file = new Blob([fileContent], { type: fileType });
 
@@ -135,10 +138,10 @@ const notes = {
       );
       xhr_up.onload = function() {
         if (this.status == 200) {
-          console.log("Patched/saved", this.response);
+          //console.log("Patched/saved", this.response);
           response = JSON.parse(this.response);
         } else {
-          console.log("error", this.status);
+          //console.log("error", this.status);
         }
         outResolve();
       };
@@ -183,11 +186,11 @@ export default createStore({
   },
   mutations: {
     setSignInState(state, bool) {
-      console.log("updated", bool);
+      //console.log("updated", bool);
       state.signInState = bool;
     },
     setAccessToken(state, arg) {
-      console.log("updated", arg);
+      //console.log("updated", arg);
       state.accessToken = arg;
     },
     setRefreshState(state, arg) {
@@ -200,9 +203,9 @@ export default createStore({
       state.foldersList = list;
     },
     setSelectedFile(state, id) {
-      //console.log(name, "name")
+      ////console.log(name, "name")
       state.selectedFile = state.filesList.filter((file) => file.id == id)[0];
-      //console.log(state.selectedFile.name)
+      ////console.log(state.selectedFile.name)
     },
     setSelectedFolder(state, arg) {
       //only one 'payload' allowed it seems; i.e., (state, para1, para2) not allowed
@@ -210,13 +213,13 @@ export default createStore({
         (folder) => folder.name == arg
       )[0];
 
-      console.log(state.selectedFolder.name, "hh", state.previousFolders);
+      //console.log(state.selectedFolder.name, "hh", state.previousFolders);
     },
     setMyDevice(state, arg) {
       state.myDevice = state.selectedFolder = state.foldersList.filter(
         (folder) => folder.id == arg
       )[0];
-      console.log(state.myDevice, "mm");
+      //console.log(state.myDevice, "mm");
     },
     setSelectedDevice(state, arg) {
       //only one 'payload' allowed it seems; i.e., (state, para1, para2) not allowed
@@ -224,15 +227,15 @@ export default createStore({
       state.selectedDevice = state.selectedFolder = state.deviceList.filter(
         (folder) => folder.name == arg
       )[0];
-      console.log(state.selectedDevice, "selectedDevice set");
+      //console.log(state.selectedDevice, "selectedDevice set");
     },
     setDeviceList(state, list) {
       state.deviceList = list;
-      console.log("hh", list);
+      //console.log("hh", list);
     },
     setMediaFolders(state, list) {
       state.mediaFolders = list;
-      console.log("hh");
+      //console.log("hh");
     },
     setReceivingDeviceMediaFoldrs(state, list) {
       state.recievingDeviceMediafolders = list;
@@ -243,18 +246,21 @@ export default createStore({
         (folder) => folder.name == arg
       )[0];
 
-      console.log(state.selectedFolder.name, "hh");
+      //console.log(state.selectedFolder.name, "hh");
     },
     setNewnotifications(state, list) {
       state.newnotifications = list;
-      console.log("nn", state.newnotifications, list);
+      //console.log("nn", state.newnotifications, list);
     },
     setIsInMessageState(state, bool) {
       state.isInMessages = bool;
     },
+    setMessagesList(state, lst){
+      state.messagesList = lst
+    },
     dirtyLoadFile(state, arg) {
       state.selectedFile = arg;
-      console.log("dirty set", arg);
+      //console.log("dirty set", arg);
     },
   },
   actions: {
@@ -264,7 +270,7 @@ export default createStore({
       var mType = arg.mType;
       var name = arg.name;
       var outResolve, response;
-      //console.log(setFolders, "gg")
+      ////console.log(setFolders, "gg")
       var promise = new Promise((resolve, reject) => {
         outResolve = resolve;
       });
@@ -312,7 +318,7 @@ export default createStore({
         : (link += "");
       link += mLink;
 
-      console.log(link);
+      //console.log(link);
       var xhr_s = new XMLHttpRequest();
 
       xhr_s.open("GET", link);
@@ -321,9 +327,9 @@ export default createStore({
 
       xhr_s.onload = function() {
         response = JSON.parse(this.response).files;
-        console.log(response, "resp");
+        //console.log(response, "resp");
         //setFolders ? commit('setFoldersList', JSON.parse(this.response).files) : false
-        //setFolders ? console.log(state.foldersList) : console.log(response)
+        //setFolders ? //console.log(state.foldersList) : //console.log(response)
         outResolve();
       };
 
@@ -345,9 +351,17 @@ export default createStore({
       xhr_dlt.onload = function() {
         if (this.status == 204) {
           // 204 = success => No Content
-          console.log("Deleted!");
+          //console.log("Deleted!");
+          toast({
+            message: 'Deleted',
+            type: 'is-dark',
+            pauseOnHover: false,
+            position: 'bottom-center',
+            closeOnClick: true,
+            animate: { in: 'fadeIn', out: 'fadeOut' },
+          })
         }
-        console.log(this.response, this.status);
+        //console.log(this.response, this.status);
         outResolve();
       };
       xhr_dlt.send();
@@ -382,7 +396,7 @@ export default createStore({
 
       link += fLink;
 
-      console.log(link);
+      //console.log(link);
       var xhr_s = new XMLHttpRequest();
 
       xhr_s.open("GET", link);
@@ -390,12 +404,12 @@ export default createStore({
       xhr_s.setRequestHeader("Authorization", "Bearer " + state.accessToken);
 
       xhr_s.onload = function() {
-        console.log(this.response, "files");
+        //console.log(this.response, "files");
         response = JSON.parse(this.response).files.filter(
           (file) => file.mimeType != "application/vnd.google-apps.folder"
         );
         setFiles ? commit("setFilesList", response) : false;
-        setFiles ? console.log(response, state.filesList) : false;
+        //setFiles ? //console.log(response, state.filesList) : false;
         outResolve();
       };
 
@@ -472,7 +486,7 @@ export default createStore({
         : (link += "");
       link += mLink;
 
-      console.log(link);
+      //console.log(link);
       var xhr_s = new XMLHttpRequest();
 
       xhr_s.open("GET", link);
@@ -482,7 +496,7 @@ export default createStore({
       xhr_s.onload = function() {
         state.selectedFolder = JSON.parse(this.response).files[0];
         outResolve();
-        console.log(state.selectedFolder);
+        //console.log(state.selectedFolder);
       };
 
       xhr_s.send();
@@ -509,11 +523,11 @@ export default createStore({
         dispatch("setUpNotes");
       }
 
-      console.log(state.notes.notesFolder, state.notes.isInstalled, "notes");
+      //console.log(state.notes.notesFolder, state.notes.isInstalled, "notes");
       state.myDevice = state.selectedFolder = rootFolders.filter(
         (folder) => folder.id == id
       )[0];
-      console.log(state.myDevice, "mm");
+      //console.log(state.myDevice, "mm");
       state.isLoading = false;
       return true;
     },
@@ -527,7 +541,7 @@ export default createStore({
         false
       ); //level 2 folders
       deviceList.push(state.allDevicesfolder);
-      console.log(115, deviceList, "deviceList");
+      ////console.log(115, deviceList, "deviceList");
       commit("setDeviceList", deviceList);
 
       state.isLoading = false;
@@ -547,7 +561,7 @@ export default createStore({
       //alert(state.recievingDevice, rootDevices, "recieving")
     },
     async setUpMessages({ commit, dispatch, state }, arg = false) {
-      console.log(state.selectedDevice, "ss");
+      //console.log(state.selectedDevice, "ss");
       var mediaList = await dispatch(
         "refreshFoldersList",
         state.selectedDevice.id,
@@ -569,7 +583,7 @@ export default createStore({
           (devices) => devices.name == state.myDevice.name
         )[0];
         state.fU = thisDevice;
-        console.log(state.fU);
+        //console.log(state.fU);
       }
 
       var receivingMediaList = await dispatch(
@@ -578,9 +592,9 @@ export default createStore({
       );
       //var receivingFileList = await dispatch('refreshFilesList', thisDevice.id)
       //state.recievingDeviceMessageFile = receivingFileList.filter(file => file.name == 'newNotification.json')[0]
-      //console.log(state.recievingDeviceMessageFile)
-      console.log(receivingMediaList, "receiveingmedia");
-      console.log(state.selectedDevice, mediaList, "medialIst"); //level 3 folders
+      ////console.log(state.recievingDeviceMessageFile)
+      //console.log(receivingMediaList, "receiveingmedia");
+      //console.log(state.selectedDevice, mediaList, "medialIst"); //level 3 folders
       commit("setMediaFolders", mediaList);
       commit("setReceivingDeviceMediaFoldrs", receivingMediaList);
       //dispatch('goIntoFolder', 'messages')
@@ -592,11 +606,12 @@ export default createStore({
       return true;
     },
     async getFileContent({ state }, arg) {
-      state.isLoading = true;
+      if(state.selectedDevice.name != 'allDevices')state.isLoading = true;
+      ////console.log(arg, "messages/notes")
       var fileId = arg.fileId;
       var format = arg.format;
       var outResolve, response;
-      console.log(state.filesList, "messages");
+      //console.log(state.filesList, "messages");
       const promise = new Promise((resolve, reject) => {
         outResolve = resolve;
       });
@@ -610,20 +625,20 @@ export default createStore({
       xhr.setRequestHeader("Authorization", "Bearer " + state.accessToken);
       xhr.onload = function() {
         if (this.status === 200) {
-          //console.log(this.response)
+          ////console.log(this.response)
           if (format == "messages")
             response = JSON.parse(this.response).messages;
           else response = this.response;
           outResolve();
-          //console.log("came here at last last")
-          //console.log(this.status)
+          ////console.log("came here at last last")
+          ////console.log(this.status)
         }
       };
 
       //xhr.withCredentials = true;
       xhr.send();
       await promise;
-      console.log("bye");
+      //console.log("bye");
       state.isLoading = false;
 
       return response;
@@ -631,20 +646,48 @@ export default createStore({
     async setMessagesList({ state, dispatch }) {
       state.isLoading = true;
 
-      var fileId = state.filesList.filter(
+      var file = state.filesList.filter(
         (file) => file.name == "messages.json"
-      )[0].id;
+      )[0];
       //var accessToken = state.accessToken
-      state.messageFileId = fileId;
+      state.messageFileId = file.id;
       state.messagesList = await dispatch("getFileContent", {
-        fileId: fileId,
+        fileId: file.id,
         format: "messages",
+        size: file.size
       });
       state.isLoading = false;
       return true; //added
     },
     async refreshMessagesList({ state, dispatch, commit }) {
-      //console.log(state.filesList, "unrd")
+      ////console.log(state.filesList, "unrd")
+      if (!state.refreshState) {
+        return true;
+      }
+      if(state.refreshState == 'paused'){
+        setTimeout(() => {
+          dispatch("refreshMessagesList");
+          ////console.log("refreshed ALLDEVICES");
+        }, 10000);
+        //console.log('paused')
+        return true
+      }
+      if(state.refreshState == 'allDevices'){
+        state.messagesList = await dispatch("getFileContent", {
+          fileId: state.filesList.filter(
+            (file) => file.name == "messages.json"
+          )[0].id,
+          format: "messages",
+          size: state.filesList.filter(
+            (file) => file.name == "messages.json"
+          )[0].size
+        });
+        setTimeout(() => {
+          dispatch("refreshMessagesList");
+          ////console.log("refreshed ALLDEVICES");
+        }, 10000);
+        return true
+      }
       var outResolve;
       var promise = new Promise((resolve, reject) => {
         outResolve = resolve;
@@ -655,18 +698,16 @@ export default createStore({
       );
       files = files.reverse();
       commit("setNewnotifications", files);
-      console.log(files, state.newnotifications, "newnotifivations");
-      console.log(files, "unrd1", files.length);
+      ////console.log(files, state.newnotifications, "newnotifivations");
+      ////console.log(files, "unrd1", files.length);
       for (var i = 0; i < files.length; i++) {
         var unRead = await dispatch("getFileContent", {
           fileId: files[i].id,
           format: "messages",
+          size: files[i].size
         });
         state.unreadMessages.push(unRead[0]);
-        console.log(state.unreadMessages, "unread");
-      }
-      if (!state.refreshState) {
-        return true;
+        //console.log(state.unreadMessages, "unread");
       }
       setTimeout(async () => {
         state.unreadMessages.length ? await dispatch("markAsRead") : false;
@@ -676,17 +717,17 @@ export default createStore({
       //alert('awaited')
       setTimeout(() => {
         dispatch("refreshMessagesList");
-        console.log("refreshed");
+        //console.log("refreshed");
       }, 5000);
       return true;
     },
     async markAsRead({ state, dispatch }) {
-      console.log(state.unreadMessages.length, "lngth");
+      //console.log(state.unreadMessages.length, "lngth");
       var length = state.unreadMessages.length;
       for (var i = 0; i < length; i++) {
         //nice... (i < state.unreadMessages.length) <= this one had me
         state.messagesList.push(state.unreadMessages.shift());
-        console.log(state.unreadMessages);
+        //console.log(state.unreadMessages);
         await dispatch("deleteFiles", state.newnotifications[i].id);
       }
       await dispatch("patchMessageFile");
@@ -695,7 +736,8 @@ export default createStore({
     },
     async patchMessageFile({ state }) {
       state.isLoading = true;
-
+      var oldRefreshstate = state.refreshState //prevention of any tampering while patching + patch zombie mesages in alldevices
+      state.refreshState = "paused"
       var id = state.messageFileId;
       var outResolve;
       var promise = new Promise((resolve, reject) => {
@@ -711,9 +753,9 @@ export default createStore({
       xhr_up.setRequestHeader("Authorization", "Bearer " + state.accessToken);
       xhr_up.onload = function() {
         if (this.status == 200) {
-          console.log("Patched", this.response);
+          //console.log("Patched", this.response);
         } else {
-          console.log("error", this.status);
+          //console.log("error", this.status);
         }
         outResolve();
       };
@@ -721,7 +763,7 @@ export default createStore({
 
       fileContent = '{"messages":' + JSON.stringify(state.messagesList) + "}";
       fileType = "application/json";
-      console.log(fileContent, "ffffffff");
+      //console.log(fileContent, "ffffffff");
 
       var metadata = {
         mimeType: fileType,
@@ -739,20 +781,26 @@ export default createStore({
       xhr_up.send(data);
       await promise;
       state.isLoading = false;
-
+      state.refreshState = oldRefreshstate
       return fileContent;
     },
     async refreshAll({ dispatch }) {
       return setInterval(async () => {
-        console.log("refreshing");
+        //console.log("refreshing");
         //await dispatch('refreshFilesList');
         await dispatch("refreshMessagesList");
       }, 7000);
     },
-    async deleteMessage({ state, dispatch }, arg) {
-      state.messagesList.splice(state.messagesList.indexOf(arg), 1);
-      setTimeout(() => dispatch("patchMessageFile"), 500);
-      console.log("deleted");
+    async deleteMessage({ state, dispatch }, message) {
+      state.messagesList.splice(state.messagesList.indexOf(message), 1);
+      setTimeout(() => dispatch("patchMessageFile"), 1);
+      if(message.type != 'text'){
+        const answer = window.confirm("There's a file associated with this message, do you want to delete the associated file too?")
+        if (answer) {
+              dispatch("deleteFiles", message.fileId)
+        }
+      }
+      //console.log("deleted");
     },
   },
   getters: {

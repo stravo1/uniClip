@@ -68,8 +68,8 @@ export default {
         this.loading = true
         if(localStorage.getItem('thisDeviceId')){alert('You are already signed in! To shift to any other registered device sign out first...'); this.$router.replace({name: 'myDevice'})}
         var init = await this.$store.dispatch('searchFiles',{name:'initialized.json', folder:'appDataFolder', mType:'application/json'})
-        console.log(init.length, 'init')
-        if (!init.length) {console.log(100); this.$router.replace({name: 'initialize'}); this.loading = false; return}
+        //console.log(init.length, 'init')
+        if (!init.length) {/*console.log(100)*/; this.$router.replace({name: 'initialize'}); this.loading = false; return}
         var arg = {name:null,folder:'appDataFolder',mType:'application/vnd.google-apps.folder'}
         var deviceList = await this.$store.dispatch('searchFiles',arg)
         this.deviceList = deviceList.filter(file => file.name != 'allDevices' && file.name != 'notes')

@@ -22,7 +22,7 @@
 
 <XyzTransition xyz="fade">
 
-<div class="wrapper" v-show="isInMessages" ref="scroll" @click="isSearch=false">
+<div class="wrapper" v-show="isInMessages && !loading" ref="scroll" @click="isSearch=false">
 <MessagePreview :message="selectedMessage" v-if="selectedMessage != ''" @close="selectMessage('')"/>
 <div class="emptyMessage" v-if="!(readMessages.length || unreadMessages.length)"> It's empty here</div>
 <div class="message-wrapper" v-for="message in readMessages" :key="message">
@@ -146,14 +146,14 @@ export default {
       isSearch:false,
       selectedMessage: '',
       compose:true,
+      loading: true,
     }
   },
   async mounted(){
     if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.push({name: 'myDevice'})}
     await this.$store.dispatch('setUpMessages', this.$route.params.device == 'allDevices' ? 'allDevices' : this.$route.params.device == 'myDevice' ? 'myDevice' : false )
-
-
-    this.$store.commit('setIsInMessageState',true)
+    this.loading = false
+    //this.$store.commit('setIsInMessageState',true)
     
 
     //this.refresher = await this.$store.dispatch('refreshAll')
@@ -171,11 +171,11 @@ export default {
       return x
     },
     readMessages(){
-      console.log('mmm',this.$store.state.messagesList.filter(message => message.read == 'true'))
+      //console.log('mmm',this.$store.state.messagesList.filter(message => message.read == 'true'))
       return this.$store.state.messagesList
     },
     unreadMessages(){
-      console.log(this.$store.state.unreadMessages,"kk")
+      //console.log(this.$store.state.unreadMessages,"kk")
       if(this.$store.state.unreadMessages.length) {
         var scroller = this.$refs.scroll
         setTimeout(() => {scroller.scrollTo({top:  scroller.scrollHeight, behavior: 'smooth'})}, 1)
@@ -217,7 +217,7 @@ export default {
         })
         )
       )
-      console.log(x)
+      ////console.log(x)
       return x
     },
 
@@ -230,7 +230,7 @@ export default {
         this.$router.replace({ path: '/myDevice/messages/'+device+'/'+arg})
       }
       this.$store.commit('setIsInMessageState',false)
-      //console.log(this.$refs)
+      ////console.log(this.$refs)
     },
     clear(arg){
       if(arg){
@@ -243,23 +243,23 @@ export default {
     },
     fileChange(){
         this.fileInp = this.$refs.file.files
-        console.log(this.fileInp)
+        //console.log(this.fileInp)
     },
     fileSelect(){
         document.getElementById('file').click()
     },
     onFocus(arg){
-      //console.log('focused',arg)
+      ////console.log('focused',arg)
       document.getElementsByClassName(arg)[0].classList.add('is-active')
     },
     onBlur(arg){
-      //console.log('blurred',arg)
+      ////console.log('blurred',arg)
       document.getElementsByClassName(arg)[0].classList.remove('is-active')
     },
     selectMessage(arg){
-      console.log(arg,'arg')
+      //console.log(arg,'arg')
       this.selectedMessage = arg
-      console.log(this.selectedMessage)
+      //console.log(this.selectedMessage)
     },
   },/*
   watch: {
@@ -277,7 +277,7 @@ export default {
     //alert(this.refresher)
     this.$store.commit('setIsInMessageState',false)
     this.$store.commit('setRefreshState',false)
-
+    this.$store.commit('setMessagesList',[])
     //clearInterval(this.refresher)
     next()
   }

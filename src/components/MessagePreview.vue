@@ -62,8 +62,8 @@ export default {
             this.$emit('close')
         },
         preview(){
-            this.$store.commit('dirtyLoadFile',{name : this.message.fileName, id: this.message.fileId})
-            alert('Preview of file will appear soon...')
+            this.$store.commit('dirtyLoadFile',{name : this.message.fileName, id: this.message.fileId, size: this.message.fileSize})
+            //alert('Preview of file will appear soon...')
             this.$emit('close')
         },
         close(){
