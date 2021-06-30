@@ -48,9 +48,9 @@ export default {
     mounted(){
         if(confirm("Please take a look at the About Page if you are completely new, click Cancel of you wish to continue")){this.$router.push({name: 'about'})}
 
-        if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.push({name: 'myDevice'}); return}
-        if(localStorage.getItem('thisDeviceId')){alert('You are already signed in! To shift to any other registered device sign out first...'); this.$router.push({name: 'myDevice'}); return}
-        if(this.$store.state.rootDevices.length){alert('No need to go through this step anymore'); this.$router.push({name: 'selectDevice'}); return}
+        if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.replace({name: 'myDevice'}); return}
+        if(localStorage.getItem('thisDeviceId')){alert('You are already signed in! To shift to any other registered device sign out first...'); this.$router.replace({name: 'myDevice'}); return}
+        if(this.$store.state.rootDevices.length){alert('No need to go through this step anymore'); this.$router.replace({name: 'selectDevice'}); return}
     },
     components:{
         NewDevice

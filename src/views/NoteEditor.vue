@@ -12,33 +12,6 @@
                 <textarea v-model="content" class="textarea is-focused" placeholder="your note here..." :disabled='title == "" && $store.state.notes.selectedNote ==""'></textarea>
     </section>
 </div>
- <!--
-    <div class="modal is-active">
-    <div class="modal-background" @click="close(1)"></div>
-        <div class="modal-card">
-            <section class="modal-card-body">
-                <div class="editor-header">
-                    <div class="field has-addons">
-                        <p class="control is-expanded">
-                            <input class="input" type="text" :placeholder="placeholder" v-model="title">
-                        </p>
-                        
-                    </div>
-                </div>
-                <br>
-                <textarea v-model="content" class="textarea is-focused" placeholder="your note here..." :disabled='title == "" && $store.state.notes.selectedNote ==""'></textarea>
-            </section>
-      
-            <footer class="card-footer">
-                <span class="card-footer-item" @click="close(1)">
-                    <i v-if="saving" class="fa fa-spinner fa-pulse"></i><span v-if="!saving">Save</span>
-                </span>
-                <span class="card-footer-item danger" @click="close(0)">Discard</span>
-            </footer>
-                
-        </div>
-        
-    </div> -->
     <footer class="note-editor-footer">
         <span class="icon edit"  @click="save"><i v-if="saving" class="fa fa-spinner fa-pulse fa-lg"></i><i v-if="!saving" class="mdi mdi-progress-check mdi-24px"></i></span>
       <span class="time">markdown format</span>

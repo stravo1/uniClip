@@ -114,31 +114,6 @@ export default {
     },
     methods: {
         async upld(folder){
-            //make it less repeating as both if else has almost same code
-            /*
-            if(!this.uploadContent[0] && !this.uploadContent[1].length){alert('Nothing to upload'); return}
-            console.log(folder)
-            var accessToken = this.$store.state.accessToken
-            var parent = this.$store.state.selectedFolder.id
-            
-            if(folder && this.uploadContent[0]){
-              this.loading = true
-              
-              this.loading = !await uploadFiles(accessToken, this.uploadContent[0], false, true, parent)
-              console.log('folder done')
-            }
-            if(!folder && this.uploadContent[0]){
-                this.loading = true
-                this.loading = !await uploadFiles(accessToken, this.uploadContent[0], true, false, parent)
-                console.log('text done')
-                
-            }
-            if(this.uploadContent[1].length){
-                this.loading = true
-                this.loading = !await uploadFiles(accessToken, this.uploadContent[1][0], false, false, parent)
-                console.log('file done')
-            }
-            */
            if(!this.uploadContent[0] && !this.uploadContent[1].length){alert('Nothing to upload'); return}
 
            this.loading = true

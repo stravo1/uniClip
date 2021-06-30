@@ -1,26 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-//import Home from '../views/Messages.vue'
-//import store from '../store'
 
 const routes = [
-  /*
-    {
-          path: '/:device',
-          name: 'Home',
-          component: Home,
-          children: [{
-                  path: 'messages',
-                  component: () =>
-                      import ('../views/DeviceMessages')
-              },
-              {
-                  path: 'deviceList',
-                  component: () =>
-                      import ('../views/DeviceList')
-              }
-          ]
-      },
-      */
   {
     path: "/",
     redirect: "/myDevice",
@@ -55,11 +35,8 @@ const routes = [
   {
     path: "/settings",
     name: "Settings",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Settings.vue"),
+      import("../views/Settings.vue"),
   },
   {
     path: "/notes",

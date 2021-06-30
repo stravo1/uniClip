@@ -32,21 +32,6 @@
   </div>
   </div>
   </div>
-  <div class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="card">
-                <div class="card-content is-narrow" style="text-align: center">
-                    <div class="title">Loading...</div>
-                <div class="load"><looping-rhombuses-spinner
-                 :animation-duration="2500"
-                 :rhombus-size="15"
-                 color="blue"
-                 /></div>
-                </div>
-            </div>
-        </div>
-  </div>
   <transition name="slide-fade">
   <loading v-model:active="loading"
                  :is-full-page="fullPage"
@@ -156,7 +141,7 @@ export default {
             var id =  localStorage.getItem('thisDeviceId')
             console.log(id,'id')
             if (!id){
-                this.$router.push({name:'selectDevice'})
+                this.$router.replace({name:'selectDevice'})
             }
             else{
                 await this.$store.dispatch('setMyDevice', id)
