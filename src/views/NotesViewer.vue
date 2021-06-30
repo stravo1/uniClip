@@ -18,7 +18,7 @@
   <footer class="notes-view-footer">
     <div class="footer-menu">
       <span class="icon edit" @click="$router.push({name: 'nEdit'})"><i class="mdi mdi-square-edit-outline mdi-24px"></i></span>
-      <span class="time">edited {{time}}</span>
+      <span class="time"><span v-show="!loading">edited {{time}}</span></span>
       <span class="icon dlt" @click="dlt"><i v-if="deleting" class="fa fa-spinner fa-pulse fa-lg"></i><i class="mdi mdi-delete mdi-24px" v-if="!deleting"></i></span>
     </div>
   </footer>
@@ -29,25 +29,6 @@
 
 
 <script>
-
-async function deleteFile(id, accessToken) {
-  var outResolve;
-  var promise = new Promise((resolve, reject) => {outResolve = resolve})
-  var xhr_dlt = new XMLHttpRequest;
-  var link = "https://www.googleapis.com/drive/v3/files/" + id
-  xhr_dlt.open("DELETE", link)
-  xhr_dlt.setRequestHeader('Authorization', 'Bearer '+accessToken)
-  xhr_dlt.onload = function (){
-    if (this.status == 204){ // 204 = success => No Content
-      console.log("Deleted!")
-    }
-    console.log(this.response, this.status)
-    outResolve()
-  }
-  xhr_dlt.send()
-  await promise
-  return true
-}
 
 import marked from "marked";
 import DOMpurify from "dompurify";
@@ -65,10 +46,10 @@ export default {
   },
   methods:{
     test(){
-      console.log(1099)
+      //console.log(1099)
     },
     close(){
-      //console.log('hello')
+      ////console.log('hello')
       
       this.$router.go(-1)
     },
@@ -76,7 +57,7 @@ export default {
       const answer = window.confirm("Are you sure? This action can't be undone!")
       if (!answer) return false
       this.deleting = true
-      this.deleting = !await deleteFile(this.$store.state.notes.selectedNote.id, this.$store.state.accessToken)
+      this.deleting = !await this.$store.dispatch("deleteFiles",this.$store.state.notes.selectedNote.id)
       this.close()
     }
   },
@@ -92,14 +73,15 @@ export default {
     async refresh() {
       this.loading = true
       
-      console.log('notesrefresh')
+      //console.log('notesrefresh')
       var noteFile = this.$store.state.notes.selectedNote;
       if (noteFile == "") return 0; //dont bother if nothing selected
       var markedownContent = await this.$store.dispatch("getFileContent", {
         fileId: noteFile.id,
         format: "raw",
+        size: noteFile.size
       });
-      console.log(markedownContent, 'md')
+      //console.log(markedownContent, 'md')
       
       this.content = this.$store.state.notes.noteContent;
       this.title = noteFile.name.slice(0, noteFile.name.indexOf('#') != -1 ? noteFile.name.indexOf('#') : noteFile.name.length)
@@ -107,7 +89,7 @@ export default {
       this.loading = false
       this.$store.commit('setNoteContent', '')
       this.$store.commit('setNoteContent', markedownContent)
-      console.log(this.$store.state.notes.noteContent,'refresh')
+      //console.log(this.$store.state.notes.noteContent,'refresh')
       var notesView = document.getElementById("notesView")
       notesView.innerHTML = DOMpurify.sanitize(
           marked(this.$store.state.notes.noteContent)
@@ -119,7 +101,7 @@ export default {
   /*
   watch: {
     '$store.state.notes.noteContent': function() {
-    console.log(this.$store.state.notes.noteContent,'refresh')
+    //console.log(this.$store.state.notes.noteContent,'refresh')
     var notesView = document.getElementById("notesView")
     notesView.innerHTML = DOMpurify.sanitize(
         marked(this.$store.state.notes.noteContent)
@@ -133,7 +115,7 @@ export default {
   beforeRouteLeave (to, from, next) {
     
     if(to.name == 'notes' || to.name == 'myDevice'){
-      console.log(to, from, 'router')
+      //console.log(to, from, 'router')
       this.$store.commit('setSelectedNote', '')
       this.$store.commit('setNoteContent', '')
       this.$store.dispatch('refreshNotes')

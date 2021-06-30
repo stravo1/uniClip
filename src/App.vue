@@ -2,18 +2,10 @@
 <div class="progress" v-if="$store.state.isLoading">
   <span class="progress-bar" style="width: 100%"></span>
 </div>
-<!--
-  <div id="nav">
-    <router-link to="/notes">Notes</router-link> |
-    <router-link to="/myDevice/">Home</router-link> |
-    <router-link to="/settings">Settings</router-link>
-  </div>
-  -->
   <router-view/>
 </template>
 
 <script>
-
 
 export default{
   data(){
@@ -135,5 +127,17 @@ methods: {
   position: fixed;
   top: 0;
   z-index: 10;
+}
+.nanobar {
+  width: 100%;
+  height: 5px;
+  z-index: 9999;
+  top:0
+}
+.bar {
+  width: 0;
+  height: 100%;
+  transition: height .3s;
+  background:whitesmoke;
 }
 </style>

@@ -91,7 +91,7 @@ export default {
             }
             var arg = {name : newText, folder : this.parentMedia, mType : null}
             var list = await this.$store.dispatch('searchFiles', arg)
-            console.log(list,'listtt')
+            //console.log(list,'listtt')
             this.$store.commit('setFilesList', list.filter(file => file.mimeType != 'application/vnd.google-apps.folder'))
         },
         async parentMedia(newParent){
@@ -109,7 +109,7 @@ export default {
             }
             var arg = {name : this.searchText, folder : newParent, mType : null}
             var list = await this.$store.dispatch('searchFiles', arg)
-            console.log(list,'listtt')
+            //console.log(list,'listtt')
             this.$store.commit('setFilesList', list.filter(file => file.mimeType != 'application/vnd.google-apps.folder'))
         }
     },

@@ -32,21 +32,6 @@
   </div>
   </div>
   </div>
-  <div class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="card">
-                <div class="card-content is-narrow" style="text-align: center">
-                    <div class="title">Loading...</div>
-                <div class="load"><looping-rhombuses-spinner
-                 :animation-duration="2500"
-                 :rhombus-size="15"
-                 color="blue"
-                 /></div>
-                </div>
-            </div>
-        </div>
-  </div>
   <transition name="slide-fade">
   <loading v-model:active="loading"
                  :is-full-page="fullPage"
@@ -122,12 +107,12 @@ export default {
         }
     },
     mounted(){
-        console.log("mounted")
+        //console.log("mounted")
         var callback = this.signInStateUpdate
         this.loading = true
         var loader = this.loading
         gapi.load('client:auth2', function(){
-            //console.log(108)
+            ////console.log(108)
             gapi.client.init({
                 clientId: CLIENT_ID,
                 discoveryDocs: DISCOVERY_DOCS,
@@ -145,7 +130,7 @@ export default {
     },
     methods:{
         async signInStateUpdate(arg){
-            //console.log("Signed In?", arg)
+            ////console.log("Signed In?", arg)
             this.loading=false
             this.$store.commit('setSignInState', arg)
             if(!this.$store.state.signInState) return
@@ -154,9 +139,9 @@ export default {
              //level 1 folders
              //localStorage.setItem('thisDeviceId','1Qo8TQY19PdDd3GPU3wmAmOcw1WByN3lalKkFMHxTwhvCJ-U1ig')
             var id =  localStorage.getItem('thisDeviceId')
-            console.log(id,'id')
+            //console.log(id,'id')
             if (!id){
-                this.$router.push({name:'selectDevice'})
+                this.$router.replace({name:'selectDevice'})
             }
             else{
                 await this.$store.dispatch('setMyDevice', id)
@@ -175,7 +160,7 @@ export default {
     },
     computed: {
         signInState(){
-            //console.log("heyy")
+            ////console.log("heyy")
             return this.$store.state.signInState
             }
     },

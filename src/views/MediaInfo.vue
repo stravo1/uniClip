@@ -4,6 +4,7 @@
     from {{$route.params.device }}
   </p>
   <ul class="menu-list media-wrapper">
+  <div class="emptyMessage" v-if="!$store.state.filesList.length"> It's empty here</div>
 <XyzTransitionGroup xyz="fade down">
     <li v-if="$store.state.filesList.length"><a v-for="file in this.$store.state.filesList.filter(file =>file.name!='messages.json') " :key="file" @click.capture="selectFile(file.id)">
         <div class="fl">
@@ -23,7 +24,7 @@ export default {
         this.$watch(
             () => this.$route.params,
             () => {
-                console.log(108)
+                //console.log(108)
                 this.$store.dispatch('refreshFilesList')
         },
             // fetch the data when the view is created and the data is
@@ -83,5 +84,10 @@ export default {
     padding: 0rem 0rem 0 0.5rem;
     font-weight: 500;
     color: whitesmoke;
+}
+.emptyMessage{
+  font-weight: 500;
+  text-align: center;
+  padding: 1rem;
 }
 </style>

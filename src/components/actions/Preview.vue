@@ -44,6 +44,21 @@
 </template>
 
 <script>
+var Nanobar = require('nanobar/nanobar')
+var nanobar = new Nanobar()
+
+var fileSize
+function updateProgress(progress){
+    //console.log(progress)
+    var percent;
+    if(progress.lengthComputable){
+        percent = (progress.loaded / progress.total) * 100;
+    }
+    else{
+        percent = (progress.loaded / fileSize) * 100;
+    }
+    nanobar.go(percent)
+}
 const blobMaker = async(fileId, accessToken) => {
   var blob, type, outResolve;
   const tmp = new Promise((resolve, reject) => {outResolve = resolve})
@@ -52,6 +67,7 @@ const blobMaker = async(fileId, accessToken) => {
   xhr.open("GET", "https://www.googleapis.com/drive/v3/files/"+fileId+'?alt=media', true);
   xhr.setRequestHeader('Authorization','Bearer '+accessToken);
   xhr.responseType = 'arraybuffer'
+  xhr.onprogress = updateProgress
   xhr.onload = function () {
     if (this.status === 200) {
         /*for existing file clash*/
@@ -67,7 +83,7 @@ const blobMaker = async(fileId, accessToken) => {
         if(type=="application/json"){
             var arrayBufferToJSON  = JSON.parse(String.fromCharCode.apply(null, new Uint8Array(this.response)))
             if(arrayBufferToJSON.messages){
-                console.log('Messege found')
+                //console.log('Messege found')
                 blob = arrayBufferToJSON.messages
                 outResolve()
                 return [blob,type]
@@ -75,23 +91,23 @@ const blobMaker = async(fileId, accessToken) => {
         }
         blob = new Blob([this.response], { type: type })
         }
-        console.log(xhr.getResponseHeader('Content-Type'),'hh')
+        //console.log(xhr.getResponseHeader('Content-Type'),'hh')
         outResolve()
-        console.log("came here at last last")
-        console.log(this.status)
+        //console.log("came here at last last")
+        //console.log(this.status)
       }
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       //xhr.send($.param(params));
       //xhr.withCredentials = true;
       xhr.send();
       await tmp;
-      console.log('bye')
-      console.log(blob,type)
+      //console.log('bye')
+      //console.log(blob,type)
       return [blob,type]
   };
 const urlMaker = async(file, accessToekn) => {
     /*if(file.size > 500*1000){
-        console.log("too big to preview!!")
+        //console.log("too big to preview!!")
         var html = "<embed style='width : 50vw' src='" + "../../assets/error.png'" + "'id='preview' type='"+file.type+"'>"
         document.getElementById('preview').innerHTML=html
  
@@ -104,7 +120,7 @@ const urlMaker = async(file, accessToekn) => {
     var name = file.name
     var response = await blobMaker(id, accessToekn);
     var blob = response[0];
-    console.log(blob)
+    //console.log(blob)
     if(Array.isArray(blob)){
         var html_message = "<blockquote><p>"+JSON.stringyfy(blob)+"</p></blockquote>"
         document.getElementById('preview').innerHTML = html_message
@@ -116,7 +132,7 @@ const urlMaker = async(file, accessToekn) => {
         // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
         window.navigator.msSaveBlob(blob, filename);
     } else {
-        console.log('elseee')
+        //console.log('elseee')
         var URL = window.URL || window.webkitURL;
         downloadUrl = URL.createObjectURL(blob);
 
@@ -129,7 +145,7 @@ const urlMaker = async(file, accessToekn) => {
     document.getElementById('holder').appendChild(embed)
     return downloadUrl
     */
-    console.log(110)
+    //console.log(110)
     
     var html = "<a target='_blank' href='" + downloadUrl + "'><embed style='max-width : 50vw' src='" + downloadUrl + "'id='preview' type='"+response[1]+"'></a>"
     document.getElementById('preview').innerHTML=html
@@ -148,7 +164,7 @@ const download = async(arg) => {
     // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
     window.navigator.msSaveBlob(blob, filename);
   } else {
-    console.log('elseee')
+    //console.log('elseee')
     var URL = window.URL || window.webkitURL;
     downloadUrl = URL.createObjectURL(blob);
     if (filename) {
@@ -158,7 +174,7 @@ const download = async(arg) => {
       if (typeof a.download === 'undefined') {
         window.location = downloadUrl;
       } else {
-        console.log('else2')
+        //console.log('else2')
         a.href = downloadUrl;
         a.download = filename;
         document.body.appendChild(a);
@@ -170,26 +186,9 @@ const download = async(arg) => {
     }
   }
 }
-async function deleteFile(id, accessToken) {
-  var outResolve;
-  var promise = new Promise((resolve, reject) => {outResolve = resolve})
-  var xhr_dlt = new XMLHttpRequest;
-  var link = "https://www.googleapis.com/drive/v3/files/" + id
-  xhr_dlt.open("DELETE", link)
-  xhr_dlt.setRequestHeader('Authorization', 'Bearer '+accessToken)
-  xhr_dlt.onload = function (){
-    if (this.status == 204){ // 204 = success => No Content
-      console.log("Deleted!")
-    }
-    console.log(this.response, this.status)
-    outResolve()
-  }
-  xhr_dlt.send()
-  await promise
-  return true
-}
+
 async function share(arg) {
-    console.log(arg)
+    //console.log(arg)
   var blob = arg[0];
   var type = arg[1];
   var name = arg[2]
@@ -219,7 +218,7 @@ export default {
         async dlt(){ //add Are You Sure prompt
             const answer = window.confirm("Are you sure? This action can't be undone!")
             if (!answer) return false
-            await deleteFile(this.$store.state.selectedFile.id, this.$store.state.accessToken)
+            await this.$store.dispatch("deleteFiles",this.$store.state.selectedFile.id)
             this.close()
         },
         async share(){
@@ -232,22 +231,25 @@ export default {
                 resultPara.textContent = 'MDN shared successfully'
             } catch(err) {
                 resultPara.textContent = 'Error: ' + err
-                console.log(JSON.stringify(resultPara))
+                //console.log(JSON.stringify(resultPara))
             }
         }
     },
     computed:{
         async refresh(){
-            console.log(108)
+            //console.log(108)
             var file = this.$store.state.selectedFile
-            console.log('file c',file)
+            //console.log("fileeee",file, "file")
             if(file){
+                fileSize = file.size
+                nanobar.go(5)
                 this.req = await urlMaker(file,this.$store.state.accessToken)
                 this.isActive = true
-                console.log(109)
                 
             }
-            else this.isActive = false
+            else{
+                this.isActive = false
+            }
         }
     },
     emits:['complete']

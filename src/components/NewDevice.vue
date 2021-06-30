@@ -26,11 +26,11 @@ const createFolder = async(accessToken, name, parent, last=false) => {
   xhr_up.setRequestHeader('Authorization', 'Bearer '+ accessToken)
   xhr_up.onload = function(){
     if (this.status == 200){
-      console.log("Uploaded", this.response)
+      //console.log("Uploaded", this.response)
       response = JSON.parse(this.response)
     }
     else {
-      console.log("error", this.status)
+      //console.log("error", this.status)
     }
     outResolve()
   }
@@ -82,15 +82,15 @@ export default {
         //handling this in other devices
         for(var i = 0; i < folders.length; i++){
           var createdThisDeviceInOthers = await createFolder(accessToken,name,folders[i].id)
-          console.log('created ',name,' in ', folders[i].name)
+          //console.log('created ',name,' in ', folders[i].name)
           for(var j = 0; j < mediaList.length; j++){
             await createFolder(accessToken, mediaList[j], createdThisDeviceInOthers.id)
-            console.log('created ', mediaList[j], ' in me')
+            //console.log('created ', mediaList[j], ' in me')
           }
           await createFolder(accessToken,'messages.json',createdThisDeviceInOthers.id, true)
-          console.log('messages done')
+          //console.log('messages done')
         }
-        console.log("this in others completed")
+        //console.log("this in others completed")
         //handling others in this device
         var createdThisDeviceInRoot = await  createFolder(accessToken,name,'appDataFolder')
         if(this.init){
@@ -99,21 +99,21 @@ export default {
           for(var a = 0; a < mediaList.length; a++){
             await createFolder(accessToken, mediaList[a], allDevices.id)
           }
-          console.log('allDevices Done')
+          //console.log('allDevices Done')
           await createFolder(accessToken, 'messages.json', allDevices.id, true)
-          console.log('messages done, all devices')
+          //console.log('messages done, all devices')
         }
         folders.push({name:'myDevice'})
-        console.log('created ',name,' in root')
+        //console.log('created ',name,' in root')
         for(var k = 0; k < folders.length; k++){
           var othersInThis = await createFolder(accessToken,folders[k].name, createdThisDeviceInRoot.id)
-          console.log('created ',folders[k].name, ' in me')
+          //console.log('created ',folders[k].name, ' in me')
           for(var m = 0; m < mediaList.length; m++){
             await createFolder(accessToken,mediaList[m],othersInThis.id)
-            console.log('created ',mediaList[m],' in ', folders[k].name, ' in me')
+            //console.log('created ',mediaList[m],' in ', folders[k].name, ' in me')
           }
           await createFolder(accessToken,'messages.json',othersInThis.id, true)
-          console.log('messages done')
+          //console.log('messages done')
         }
         localStorage.setItem('thisDeviceId', createdThisDeviceInRoot.id)
         this.$router.push({name: 'myDevice'}) //added on 26th may

@@ -12,33 +12,6 @@
                 <textarea v-model="content" class="textarea is-focused" placeholder="your note here..." :disabled='title == "" && $store.state.notes.selectedNote ==""'></textarea>
     </section>
 </div>
- <!--
-    <div class="modal is-active">
-    <div class="modal-background" @click="close(1)"></div>
-        <div class="modal-card">
-            <section class="modal-card-body">
-                <div class="editor-header">
-                    <div class="field has-addons">
-                        <p class="control is-expanded">
-                            <input class="input" type="text" :placeholder="placeholder" v-model="title">
-                        </p>
-                        
-                    </div>
-                </div>
-                <br>
-                <textarea v-model="content" class="textarea is-focused" placeholder="your note here..." :disabled='title == "" && $store.state.notes.selectedNote ==""'></textarea>
-            </section>
-      
-            <footer class="card-footer">
-                <span class="card-footer-item" @click="close(1)">
-                    <i v-if="saving" class="fa fa-spinner fa-pulse"></i><span v-if="!saving">Save</span>
-                </span>
-                <span class="card-footer-item danger" @click="close(0)">Discard</span>
-            </footer>
-                
-        </div>
-        
-    </div> -->
     <footer class="note-editor-footer">
         <span class="icon edit"  @click="save"><i v-if="saving" class="fa fa-spinner fa-pulse fa-lg"></i><i v-if="!saving" class="mdi mdi-progress-check mdi-24px"></i></span>
       <span class="time">markdown format</span>
@@ -47,6 +20,7 @@
 </template>
 
 <script>
+import {toast} from 'bulma-toast';
 export default {
     data(){
         return{
@@ -64,7 +38,15 @@ export default {
             this.saving = true
             var file = await this.$store.dispatch('saveNote', title)
             file['modifiedTime'] = 'just now'
-            this.saving = false
+            this.saving = false;
+            toast({
+                message: 'Saved',
+                type: 'is-dark',
+                pauseOnHover: false,
+                position: 'bottom-center',
+                closeOnClick: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
+            })
             this.autosave = false;
             this.close(file)
         },
@@ -77,7 +59,7 @@ export default {
                 this.saving = false
                 //this.$emit('close', file)
             } else {
-                console.log(1088)
+                //console.log(1088)
                 this.$store.commit('setNoteContent', this.oldContent)
                 this.$router.replace({name: 'nView'})
                 //this.$emit('close')
@@ -88,7 +70,7 @@ export default {
          if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.replace({name: 'myDevice'})}
         if(!this.$store.state.notes.isInstalled){alert('Please install notes in first....'); this.$router.replace({name: 'notes'})}
 
-        console.log('editor mounted')
+        //console.log('editor mounted')
         this.oldContent = this.$store.state.notes.noteContent
     },
     computed: {

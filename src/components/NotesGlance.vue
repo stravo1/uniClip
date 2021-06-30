@@ -61,6 +61,7 @@ export default {
             var markedownContent = await this.$store.dispatch("getFileContent", {
                 fileId: this.$store.state.notes.notesList[0].id,
                 format: "raw",
+                size: this.$store.state.notes.notesList[0].size
             });
             var glance = document.getElementById("glanceContent")
             glance.innerHTML = DOMpurify.sanitize(
