@@ -338,7 +338,9 @@ export default createStore({
       state.isLoading = false;
       return response;
     },
-    async deleteFiles({ state }, id) {
+    async deleteFiles({ state }, arg) {
+      var id = arg.id
+      var toastEnable = arg.toast
       state.isLoading = true;
       var outResolve;
       var promise = new Promise((resolve, reject) => {
@@ -352,7 +354,7 @@ export default createStore({
         if (this.status == 204) {
           // 204 = success => No Content
           //console.log("Deleted!");
-          toast({
+          if(toastEnable) toast({
             message: 'Deleted',
             type: 'is-dark',
             pauseOnHover: false,
@@ -361,6 +363,16 @@ export default createStore({
             animate: { in: 'fadeIn', out: 'fadeOut' },
           })
         }
+        if (this.status === 404) {
+          toast({
+              message: 'File is missing (may already be deleted)',
+              type: 'is-dark',
+              pauseOnHover: false,
+              position: 'bottom-center',
+              closeOnClick: true,
+              animate: { in: 'fadeIn', out: 'fadeOut' },
+          })
+      }
         //console.log(this.response, this.status);
         outResolve();
       };
@@ -669,7 +681,7 @@ export default createStore({
           dispatch("refreshMessagesList");
           ////console.log("refreshed ALLDEVICES");
         }, 10000);
-        //console.log('paused')
+        console.log('paused')
         return true
       }
       if(state.refreshState == 'allDevices'){
@@ -698,7 +710,7 @@ export default createStore({
       );
       files = files.reverse();
       commit("setNewnotifications", files);
-      ////console.log(files, state.newnotifications, "newnotifivations");
+      console.log(files, state.filesList, state.newnotifications, "newnotifivations");
       ////console.log(files, "unrd1", files.length);
       for (var i = 0; i < files.length; i++) {
         var unRead = await dispatch("getFileContent", {
@@ -728,7 +740,7 @@ export default createStore({
         //nice... (i < state.unreadMessages.length) <= this one had me
         state.messagesList.push(state.unreadMessages.shift());
         //console.log(state.unreadMessages);
-        await dispatch("deleteFiles", state.newnotifications[i].id);
+        await dispatch("deleteFiles", {id: state.newnotifications[i].id, toast: false});
       }
       await dispatch("patchMessageFile");
       return true;
@@ -797,7 +809,7 @@ export default createStore({
       if(message.type != 'text'){
         const answer = window.confirm("There's a file associated with this message, do you want to delete the associated file too?")
         if (answer) {
-              dispatch("deleteFiles", message.fileId)
+              dispatch("deleteFiles", {id: message.fileId, toast: true})
         }
       }
       //console.log("deleted");

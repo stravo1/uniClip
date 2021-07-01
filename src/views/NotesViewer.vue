@@ -57,7 +57,7 @@ export default {
       const answer = window.confirm("Are you sure? This action can't be undone!")
       if (!answer) return false
       this.deleting = true
-      this.deleting = !await this.$store.dispatch("deleteFiles",this.$store.state.notes.selectedNote.id)
+      this.deleting = !await this.$store.dispatch("deleteFiles",{id:this.$store.state.notes.selectedNote.id, toast: true})
       this.close()
     }
   },
