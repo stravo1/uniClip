@@ -365,7 +365,7 @@ export default createStore({
         }
         if (this.status === 404) {
           toast({
-              message: 'File is missing (may already be deleted)',
+              message: 'File is missing\n(may already be deleted)',
               type: 'is-dark',
               pauseOnHover: false,
               position: 'bottom-center',
