@@ -44,6 +44,7 @@ export default {
     },
     beforeRouteLeave (to, from, next) {
       this.$store.commit('setIsInMessageState',true)
+      this.$store.commit('setSelectedDevice', this.$route.params.device)
     }
 }
 </script>

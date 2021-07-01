@@ -38,7 +38,6 @@ export default {
             this.saving = true
             var file = await this.$store.dispatch('saveNote', title)
             file['modifiedTime'] = 'just now'
-            this.saving = false;
             toast({
                 message: 'Saved',
                 type: 'is-dark',
@@ -47,6 +46,7 @@ export default {
                 closeOnClick: true,
                 animate: { in: 'fadeIn', out: 'fadeOut' },
             })
+            this.saving = false;
             this.autosave = false;
             this.close(file)
         },

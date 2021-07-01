@@ -70,7 +70,7 @@
 
 <XyzTransition xyz="fade">
 
-<div class="compose-box" v-if="compose" @click="$store.commit('setIsInMessageState',true)">
+<div class="compose-box" v-if="compose" @click="composeClick">
         <div class="fileSelected" v-if="fileInp.length">
             <span class="icon"><i class="mdi mdi-file"></i> </span> {{fileInp.length}} file(s) selected
         <span class="icon cross" @click="fileInp = []"><i class="mdi mdi-close-thick"></i></span>
@@ -255,6 +255,11 @@ export default {
     onBlur(arg){
       ////console.log('blurred',arg)
       document.getElementsByClassName(arg)[0].classList.remove('is-active')
+    },
+    composeClick(){
+      if(!this.$store.state.isInMessages) {
+        this.$store.commit('setIsInMessageState',true)
+        this.$router.go(-1)}
     },
     selectMessage(arg){
       //console.log(arg,'arg')

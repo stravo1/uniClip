@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import {toast} from 'bulma-toast';
 var Nanobar = require('nanobar/nanobar')
 var nanobar = new Nanobar()
 
@@ -90,6 +91,16 @@ const blobMaker = async(fileId, accessToken) => {
             }
         }
         blob = new Blob([this.response], { type: type })
+        }
+        if (this.status === 404) {
+            toast({
+                message: 'File is missing',
+                type: 'is-dark',
+                pauseOnHover: false,
+                position: 'bottom-center',
+                closeOnClick: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
+            })
         }
         //console.log(xhr.getResponseHeader('Content-Type'),'hh')
         outResolve()
@@ -218,7 +229,7 @@ export default {
         async dlt(){ //add Are You Sure prompt
             const answer = window.confirm("Are you sure? This action can't be undone!")
             if (!answer) return false
-            await this.$store.dispatch("deleteFiles",this.$store.state.selectedFile.id)
+            await this.$store.dispatch("deleteFiles",{id:this.$store.state.selectedFile.id, toast:true})
             this.close()
         },
         async share(){
