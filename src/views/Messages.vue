@@ -25,7 +25,7 @@
 <div class="wrapper" v-show="isInMessages && !loading" ref="scroll" @click="isSearch=false">
 <MessagePreview :message="selectedMessage" v-if="selectedMessage != ''" @close="selectMessage('')"/>
 <div class="emptyMessage" v-if="!(readMessages.length || unreadMessages.length)"> It's empty here</div>
-<div class="message-wrapper" v-for="message in readMessages" :key="message">
+<div class="message-wrapper" v-for="message in readMessages" :key="message" :class="addClass(message.message)">
    <div :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}">
   <article class="message is-link" :class="{'is-success sent':message.context=='sent' && message.sender == $store.state.myDevice.name, 'received' : message.context != 'sent' || message.sender != $store.state.myDevice.name}">
     <div class="message-body" @click="selectMessage(message)">
@@ -44,7 +44,13 @@
     </div>
   </article>
   </div>
-  <span :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}" class="time"><i style="padding: 0 3px 0 3px;" class="mdi mdi-clock"></i>{{$store.getters.timeFormatter(message.time)}}</span>
+
+  <div class="sub">
+    <span :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}" class="time"><i style="padding: 0 3px 0 3px;" class="mdi mdi-clock"></i>{{$store.getters.timeFormatter(message.time)}}</span>
+    <br v-if="!(message.context=='sent' && message.sender == $store.state.myDevice.name)">
+    <span v-show="groupsText(message)" :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}" class="groupText" @click="toggleGroup(message.message)"><i style="padding: 0 3px 0 3px;" class="mdi mdi-dots-horizontal"></i></span>
+  </div>
+
 </div>
 <div class="new-messages message-wrapper" v-if="unreadMessages.length">
   <span class="tag is-info is-light is-medium">New messages</span> 
@@ -136,6 +142,13 @@ import Upload from '../components/actions/Upload';
 import Preview from '../components/actions/Preview';
 import MessagePreview from '../components/MessagePreview';
 import Search from '../components/actions/Search';
+
+var tempClass
+var tempClass2
+function removeSpace(param) {
+  var wSpace = param.split(" ") //removing spaces from added classnames ("gg hh jj" => "gghhjj")
+  return wSpace.join("")
+}
 export default {
   data(){
     return{
@@ -217,10 +230,8 @@ export default {
         })
         )
       )
-      ////console.log(x)
       return x
     },
-
     setMedia(arg){
       var device = this.$route.params.device
       this.$store.commit('setSelectedMedia', arg) //use setSelectedFolder plzzzz
@@ -266,6 +277,46 @@ export default {
       this.selectedMessage = arg
       //console.log(this.selectedMessage)
     },
+    addClass(arg){
+      var name = removeSpace(arg)
+      //var prev = this.tempClass
+      //this.tempClass = name
+      if (tempClass == name){
+        return name + " group"
+      }
+      //console.log(name)
+      tempClass = String(name)
+      //onsole.log(tempClass)
+      return ''
+    },
+    groupsText(arg){
+      //console.log(tempClass, tempClass2, arg.message)
+      //console.log(tempClass2 != arg.message)
+      if(this.readMessages.length != this.readMessages.indexOf(arg)+1){
+        if(this.readMessages[this.readMessages.indexOf(arg) + 1].message == arg.message && tempClass2 != arg.message){
+          console.log("gg")
+          tempClass2 = arg.message
+          return true
+          }
+        }
+      if(this.readMessages.length == this.readMessages.indexOf(arg)+1){
+        tempClass2 = ''
+      }
+      return false
+    },
+    toggleGroup(arg){
+      console.log('clicked',document.getElementsByClassName(removeSpace(arg))[0].classList.contains('group'))
+      var elements = document.getElementsByClassName(removeSpace(arg));
+      for (var i in elements) {
+        var toggle = ['ungroup','group']
+        if(document.getElementsByClassName(removeSpace(arg))[i].classList.contains('ungroup')){
+          toggle = ['group','ungroup']
+        }
+          elements[i].classList.add(toggle[0]);
+          elements[i].classList.remove(toggle[1]);
+        
+      }
+    }
   },/*
   watch: {
   '$store.state.isInMessages': function() {
@@ -396,10 +447,20 @@ export default {
   border-radius: 10px;
   background-color: rgb(25, 25, 30)
 }
+.group{
+  display: none;
+}
+.ungroup{
+  display: inline;
+}
 .message-wrapper .time{
   font-size: small;
   font-weight: lighter;
-  
+}
+.message-wrapper .groupText{
+  font-size: small;
+  font-weight: lighter;
+  grid-row: 1;
 }
 .compose-box, .media-box {
   width: 98vw;
