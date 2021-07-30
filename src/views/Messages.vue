@@ -46,8 +46,9 @@
   </div>
 
   <div class="sub">
-    <span :class="{'fix-to-right right-time':message.context=='sent' && message.sender == $store.state.myDevice.name, 'left-time': !(message.context=='sent' && message.sender == $store.state.myDevice.name)}" class="time"><i style="padding: 0 3px 0 3px;" class="mdi mdi-clock"></i>{{$store.getters.timeFormatter(message.time)}}</span>
-    <span v-show="groupsText(message)" :class="{'fix-to-right right-grTxt':message.context=='sent' && message.sender == $store.state.myDevice.name, 'left-grTxt': !(message.context=='sent' && message.sender == $store.state.myDevice.name)}" class="groupText" @click="toggleGroup(message.message)"><i style="padding: 0 30px 0 30px;" class="mdi mdi-dots-horizontal"></i></span>
+    <span :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}" class="time"><i style="padding: 0 3px 0 3px;" class="mdi mdi-clock"></i>{{$store.getters.timeFormatter(message.time)}}</span>
+    <br v-if="!(message.context=='sent' && message.sender == $store.state.myDevice.name)">
+    <span v-show="groupsText(message)" :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}" class="groupText" @click="toggleGroup(message.message)"><i style="padding: 0 3px 0 3px;" class="mdi mdi-dots-horizontal"></i></span>
   </div>
 
 </div>
@@ -446,10 +447,6 @@ export default {
   border-radius: 10px;
   background-color: rgb(25, 25, 30)
 }
-.sub{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
 .group{
   display: none;
 }
@@ -459,18 +456,6 @@ export default {
 .message-wrapper .time{
   font-size: small;
   font-weight: lighter;
-}
-.right-time{
-  grid-column: 2;
-}
-.right-grTxt{
-  grid-column: 1;
-}
-.left-time{
-  grid-column: 1;
-}
-.left-grTxt{
-  grid-column: 2;
 }
 .message-wrapper .groupText{
   font-size: small;
