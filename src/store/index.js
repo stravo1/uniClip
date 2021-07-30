@@ -846,10 +846,18 @@ export default createStore({
           );
         } else if (now.getHours() - then.getHours() > 1) {
           return JSON.stringify(now.getHours() - then.getHours()) + " hours ago";
+        } else if (now.getHours() - then.getHours() == 1 && now.getMinutes() - then.getMinutes() > 1) {
+          return "1 hour ago";
+
         } else if (now.getMinutes() - then.getMinutes() > 1) {
           return (
             JSON.stringify(now.getMinutes() - then.getMinutes()) + " minutes ago"
           );
+        } else if(now.getMinutes() - then.getMinutes() < - 1) {
+          return (
+            JSON.stringify(60 + (now.getMinutes() - then.getMinutes()) ) + " minutes ago"
+
+          ); 
         } else {
           return "moments ago";
         }
