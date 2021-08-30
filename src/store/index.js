@@ -156,6 +156,183 @@ const notes = {
   },
 };
 
+const clipBoard = {
+  state: {
+    isInstalled: false,
+    isClipLoading: false,
+    clipBoardFolder: '',
+    textFile: null,
+    textContent: null,
+    mediaFile: null,
+    xhr_l: null,
+    promise: null,
+  },
+  mutations: {
+    setInstalledState(state, bool){
+      state.isInstalled = bool;
+    },
+    setClipTextContent(state, text){
+      state.textContent = text
+    },
+  },
+  actions: {
+    async InstallClpiboard({state, dispatch, rootState}){
+      var accessToken = rootState.accessToken;
+      var outResolve, response;
+      var promise = new Promise((resolve, reject) => {
+        outResolve = resolve;
+      });
+      var xhr_up = new XMLHttpRequest();
+      xhr_up.open(
+        "POST",
+        "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
+      );
+      xhr_up.setRequestHeader("Authorization", "Bearer " + accessToken);
+      xhr_up.onload = async function() {
+        if (this.status == 200) {
+          //console.log("Uploaded", this.response);
+          response = JSON.parse(this.response);
+          state.clipBoardFolder = response;
+          state.isInstalled = true;
+          state.textContent = "clipboard"
+          dispatch('saveClipBoardText')
+          dispatch('setUpClipBoard');
+        } else {
+          //console.log("error", this.status);
+        }
+        outResolve();
+      };
+      var fileContent, fileType, fileName;
+
+      fileType = "application/vnd.google-apps.folder";
+      fileName = "clipBoard";
+
+      var metadata = {
+        name: fileName,
+        mimeType: fileType,
+        parents: ["appDataFolder"],
+      };
+
+      var file = new Blob([fileContent], { type: fileType });
+
+      var data = new FormData();
+      data.append(
+        "metadata",
+        new Blob([JSON.stringify(metadata)], { type: "application/json" })
+      );
+      data.append("file", file);
+
+      xhr_up.send(data);
+      await promise;
+      return response;
+    },
+    async setUpClipBoard({ state, commit, dispatch }) {
+      //console.log(state.notesFolder, "in notes");
+      var files = await dispatch(
+        "refreshFilesList",
+        state.clipBoardFolder.id
+      )
+      state.textFile = files.filter((file) => file.name == 'clipText')[0];
+      state.mediaFile = files.filter((file) => file.name != 'clipText')[0];
+      state.textContent = await dispatch('getFileContent', {
+        fileId: state.textFile.id,
+        format: "raw",
+        size: state.textFile.size
+      })
+      //console.log(state.notesList);
+    },
+    async saveClipBoardText({ state, commit, dispatch, rootState }) {
+      var prev_promise = state.promise;
+      state.outResolve =  null,
+      state.promise = new Promise((resolve, reject) => {
+        state.outResolve = resolve;
+      })
+      if(state.xhr_l != null){
+        state.xhr_l.abort()
+      }
+      state.isClipLoading = true;
+      var method, url, fileName, fileContent, fileType;
+
+      fileName = "clipText";
+      fileContent = state.textContent;
+      fileType = "text/plain";
+      //console.log(fileContent, "ffffffff");
+
+      var metadata = {
+        name: fileName,
+        mimeType: fileType,
+      };
+
+      if (state.textFile!= null) {
+        method = "PATCH";
+        url =
+          "https://www.googleapis.com/upload/drive/v3/files/" +
+          state.textFile.id +
+          "?uploadType=multipart";
+      } else {
+        method = "POST";
+        url =
+          "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart";
+        metadata["parents"] = [state.clipBoardFolder.id];
+        //console.log(metadata);
+      }
+      var file = new Blob([fileContent], { type: fileType });
+
+      var data = new FormData();
+      data.append(
+        "metadata",
+        new Blob([JSON.stringify(metadata)], { type: "application/json" })
+      );
+      data.append("file", file);
+
+      var response, outResolve;
+      /*
+      var promise = new Promise((resolve, reject) => {
+        outResolve = resolve;
+      });
+      */
+     
+      var xhr_up;
+      state.xhr_l = xhr_up = new XMLHttpRequest();
+      xhr_up.open(method, url);
+      xhr_up.setRequestHeader(
+        "Authorization",
+        "Bearer " + rootState.accessToken
+      );
+      //xhr_up.onprogress = () => console.log(xhr_up.status)
+      xhr_up.onabort = () => {
+        console.log('aborted');
+        state.outResolve();
+      }
+      xhr_up.onload = function() {
+        if (this.status == 200) {
+          
+          response = JSON.parse(this.response);
+        } else {
+          console.log("error", this.status);
+        }
+        state.outResolve();
+        console.log("Patched/saved", this.response);
+      };
+
+      
+      if(prev_promise != null ) {
+        console.log('gg')
+        await prev_promise;
+        state.xhr_l.send(data);
+        console.log('hh')
+      }
+      else {
+        xhr_up.send(data);
+        console.log('ii')
+      }
+      state.isClipLoading = false;
+
+      return xhr_up;
+    },
+  }
+}
+
 export default createStore({
   state: {
     signInState: false,
@@ -534,6 +711,17 @@ export default createStore({
         state.notes.isInstalled = true;
         dispatch("setUpNotes");
       }
+      state.clipBoard.clipBoardFolder = rootFolders.filter(
+        (folder) => folder.name == "clipBoard"
+      )[0];
+      if (state.clipBoard.clipBoardFolder) {
+        state.notes.isInstalled = true;
+        dispatch("setUpClipBoard");
+      } else{
+        alert('Initializing clipboard, please wait');
+        await dispatch('InstallClpiboard');
+        alert('Clipboard sync is now available');
+      }
 
       //console.log(state.notes.notesFolder, state.notes.isInstalled, "notes");
       state.myDevice = state.selectedFolder = rootFolders.filter(
@@ -865,5 +1053,6 @@ export default createStore({
   },
   modules: {
     notes: notes,
+    clipBoard: clipBoard,
   },
 });

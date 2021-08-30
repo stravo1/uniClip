@@ -1,8 +1,13 @@
 <template>
 
+<div class="clipboard">
+  <Clipboard/>
+</div>
+
 <div class="sign-in">
   <SignIn/>
 </div>
+
 <div class="notes-glance">
   <NotesGlance :custom="true"><span @click="$router.push({name: 'notes'})"><u>notes</u></span> at a glance </NotesGlance>
 </div>
@@ -16,6 +21,7 @@
 import DeviceList from '@/components/DeviceList.vue'
 import SignIn from '../components/SignIn'
 import NotesGlance from '../components/NotesGlance';
+import Clipboard from '../components/Clipboard.vue';
 //import touchMixin from '@vue-mixin/touch';
 export default {
   name: 'Home',
@@ -28,7 +34,7 @@ export default {
 
   },
   components: {
-    DeviceList, SignIn, NotesGlance
+    DeviceList, SignIn, NotesGlance, Clipboard
   },
   methods: {
    },
@@ -52,11 +58,14 @@ export default {
 </script>
 
 <style scoped>
-
+.clipboard{
+  position: fixed;
+  top: 90vh;
+}
 .device-list{
   position: fixed;
   width: 95vw;
-  top: 55vh;
+  top: 45vh;
 }
 .contaier{
   padding:30px;
@@ -88,7 +97,7 @@ export default {
   position: fixed;
   width: 100vw;
   padding: 1.5rem;
-  top: 10vh;
+  top: 1vh;
 }
 
 </style>
