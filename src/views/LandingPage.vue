@@ -1,8 +1,6 @@
 <template>
 
-<div class="clipboard">
-  <Clipboard/>
-</div>
+
 
 <div class="sign-in">
   <SignIn/>
@@ -13,6 +11,9 @@
 </div>
 <div class="device-list">
 <DeviceList/>
+</div>
+<div class="clipboard">
+  <Clipboard/>
 </div>
 </template>
 
