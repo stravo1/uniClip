@@ -1,6 +1,9 @@
 <template>
 <div id="clip_wrapper">
-  
+    <div class="fileSelected" v-if="fileInp.length">
+            <span class="icon"><i class="mdi mdi-file"></i> </span> <div class="fileClip">{{fileInp[0].name}}</div>
+        <span class="icon cross" @click="fileInp = []"><i class="mdi mdi-close-thick"></i></span>
+    </div>
     <div class="field has-addons">
               <div class="control has-icons-left is-expanded">
                 <textarea class="input input-text is-success" type="text" v-model="content" :disabled='isClipLoading' :placeholder="$store.state.clipBoard.textContent" id="clipInp"></textarea>
@@ -14,9 +17,9 @@
               </div>
               <div class="control">
                 
-              <a class="button is-success is-outlined is-rounded" @click="fileSelect">
+              <a class="button is-success is-outlined is-rounded" @click="fileSelectClip">
               
-               <input type="file" style="display: none" ref="file" id="file" @change="fileChange" multiple> 
+               <input type="file" style="display: none" ref="fileClip" id="fileClip" @change="fileChangeClip"> 
                 <i class="mdi mdi-file-plus "></i>
               </a>
               
@@ -48,6 +51,7 @@ export default {
             loading:false,
             timer: null,
             typing: false,
+            fileInp: []
         }
     },
     mounted(){
@@ -72,7 +76,15 @@ export default {
         },
         copy(){
             navigator.clipboard.writeText(document.getElementById('clipInp').value)
-        }
+        },
+        fileChangeClip(){
+            this.fileInp = this.$refs.fileClip.files
+            this.$store.dispatch('saveClipBoardText', this.fileInp[0])
+            //console.log(this.fileInp)
+        },
+        fileSelectClip(){
+            document.getElementById('fileClip').click()
+        },
     },
     computed:{
         content: {
@@ -143,10 +155,11 @@ export default {
 }
 */
 .fileSelected{
-  width: inherit - 1.5rem;
+  width: 95vw;
+  display: grid;
   align-content: center; 
   border-radius: 5px 5px 0 0; 
-  padding: inherit; 
+  padding: 0.5rem; 
   background: rgba( 00, 00, 00 , 0.625);
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 1.5px );
@@ -154,8 +167,14 @@ export default {
   color: rgb(200, 200, 200);
   font-weight: 500;
 }
+.fileClip{
+  width: 65vw;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 .cross{
-  position:absolute;
+  grid-column: 3;
   right: 1rem;
 }
 </style>

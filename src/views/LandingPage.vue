@@ -60,12 +60,12 @@ export default {
 <style scoped>
 .clipboard{
   position: fixed;
-  top: 90vh;
+  bottom: 0;
 }
 .device-list{
   position: fixed;
   width: 95vw;
-  top: 45vh;
+  top: 42vh;
 }
 .contaier{
   padding:30px;

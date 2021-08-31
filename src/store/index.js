@@ -246,21 +246,26 @@ const clipBoard = {
       state.isClipLoading = false;
       //console.log(state.notesList);
     },
-    async saveClipBoardText({ state, commit, dispatch, rootState }) {
+    async saveClipBoardText({ state, commit, dispatch, rootState }, fileClip=null) {
       state.isClipLoading = true;
 
       var method, url, fileName, fileContent, fileType;
-
-      fileName = "clipText";
-      fileContent = state.textContent;
-      fileType = "text/plain";
-
+      if(fileClip==null){
+        fileName = "clipText";
+        fileContent = state.textContent;
+        fileType = "text/plain";
+      } else {
+        fileContent = fileClip
+        fileType = fileContent.type;
+        fileName = fileContent.name;
+      }
+      
       var metadata = {
-        name: fileName,
-        mimeType: fileType,
-      };
+        'name' : fileName,
+        'mimeType' : fileType,
+      }
 
-      if (state.textFile!= null) {
+      if (state.textFile!= null && fileClip==null) {
         method = "PATCH";
         url =
           "https://www.googleapis.com/upload/drive/v3/files/" +
@@ -304,6 +309,10 @@ const clipBoard = {
         if (this.status == 200) {
           
           response = JSON.parse(this.response);
+          if(fileClip!=null){
+            if(state.mediaFile!=null) dispatch('deleteFiles', state.mediaFile)
+            state.mediaFile = response
+          }
         } else {
           console.log("error", this.status);
         }
