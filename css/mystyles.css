@@ -2922,7 +2922,7 @@ a.tag:hover {
   .control.has-icons-right .select.is-large ~ .icon {
     font-size: 1.5rem; }
   .control.has-icons-left .icon, .control.has-icons-right .icon {
-    color: #494949;
+    color: #8c8c8c;
     height: 2.5em;
     pointer-events: none;
     position: absolute;

@@ -494,7 +494,7 @@ export default {
   color: whitesmoke;
 }
 .input-text::placeholder{
-  color: rgb(73, 73, 73);
+  color: rgb(140, 140, 140);
 }
 .emptyMessage{
   font-weight: 500;

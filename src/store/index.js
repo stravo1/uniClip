@@ -162,10 +162,10 @@ const clipBoard = {
     isClipLoading: false,
     clipBoardFolder: '',
     textFile: null,
-    textContent: null,
+    textContent: 'syncing clipboard',
     mediaFile: null,
     xhr_l: null,
-    promise: null,
+    isTyping: false,
   },
   mutations: {
     setInstalledState(state, bool){
@@ -173,6 +173,9 @@ const clipBoard = {
     },
     setClipTextContent(state, text){
       state.textContent = text
+    },
+    setIsTyping(state, bool){
+      state.isTyping = bool
     },
   },
   actions: {
@@ -194,7 +197,7 @@ const clipBoard = {
           response = JSON.parse(this.response);
           state.clipBoardFolder = response;
           state.isInstalled = true;
-          state.textContent = "clipboard"
+          state.textContent = "access synced clipboard here"
           dispatch('saveClipBoardText')
           dispatch('setUpClipBoard');
         } else {
@@ -228,6 +231,7 @@ const clipBoard = {
     },
     async setUpClipBoard({ state, commit, dispatch }) {
       //console.log(state.notesFolder, "in notes");
+      state.isClipLoading = true
       var files = await dispatch(
         "refreshFilesList",
         state.clipBoardFolder.id
@@ -239,24 +243,17 @@ const clipBoard = {
         format: "raw",
         size: state.textFile.size
       })
+      state.isClipLoading = false;
       //console.log(state.notesList);
     },
     async saveClipBoardText({ state, commit, dispatch, rootState }) {
-      var prev_promise = state.promise;
-      state.outResolve =  null,
-      state.promise = new Promise((resolve, reject) => {
-        state.outResolve = resolve;
-      })
-      if(state.xhr_l != null){
-        state.xhr_l.abort()
-      }
       state.isClipLoading = true;
+
       var method, url, fileName, fileContent, fileType;
 
       fileName = "clipText";
       fileContent = state.textContent;
       fileType = "text/plain";
-      //console.log(fileContent, "ffffffff");
 
       var metadata = {
         name: fileName,
@@ -286,14 +283,14 @@ const clipBoard = {
       data.append("file", file);
 
       var response, outResolve;
-      /*
+      
       var promise = new Promise((resolve, reject) => {
         outResolve = resolve;
       });
-      */
-     
-      var xhr_up;
-      state.xhr_l = xhr_up = new XMLHttpRequest();
+      
+      
+      var xhr_up, response;
+      xhr_up = new XMLHttpRequest();
       xhr_up.open(method, url);
       xhr_up.setRequestHeader(
         "Authorization",
@@ -302,7 +299,6 @@ const clipBoard = {
       //xhr_up.onprogress = () => console.log(xhr_up.status)
       xhr_up.onabort = () => {
         console.log('aborted');
-        state.outResolve();
       }
       xhr_up.onload = function() {
         if (this.status == 200) {
@@ -311,25 +307,33 @@ const clipBoard = {
         } else {
           console.log("error", this.status);
         }
-        state.outResolve();
-        console.log("Patched/saved", this.response);
+        outResolve();
+        //state.stack.pop()
+        console.log("Patched/saved", response);
       };
 
-      
-      if(prev_promise != null ) {
-        console.log('gg')
-        await prev_promise;
-        state.xhr_l.send(data);
-        console.log('hh')
+      /*
+      if(state.xhr_l != null){
+        state.xhr_l.abort()
       }
-      else {
-        xhr_up.send(data);
-        console.log('ii')
-      }
+      */
+      xhr_up.send(data);
+      await promise
       state.isClipLoading = false;
-
-      return xhr_up;
+      return response;
     },
+    async refreshClipBoard({state, commit, dispatch}){
+      console.log('refreshing')
+      if(state.isClipLoading || state.isTyping) return;
+      state.isClipLoading = true;
+      state.textContent = await dispatch('getFileContent', {
+        fileId: state.textFile.id,
+        format: "raw",
+        size: state.textFile.size,
+        refresh: false,
+      })
+      state.isClipLoading = false;
+    }
   }
 }
 
@@ -698,7 +702,7 @@ export default createStore({
 
       state.rootFolders = rootFolders;
       state.rootDevices = rootFolders.filter(
-        (folder) => folder.name != "notes"
+        (folder) => (folder.name != "notes" && folder.name != "clipBoard")
       );
       state.allDevicesfolder = rootFolders.filter(
         (folder) => folder.name == "allDevices"
@@ -806,8 +810,9 @@ export default createStore({
       return true;
     },
     async getFileContent({ state }, arg) {
-      if(state.selectedDevice.name != 'allDevices')state.isLoading = true;
+      if(state.selectedDevice.name != 'allDevices' && arg.refresh!=false)state.isLoading = true;
       ////console.log(arg, "messages/notes")
+      //console.log(arg.refresh)
       var fileId = arg.fileId;
       var format = arg.format;
       var outResolve, response;

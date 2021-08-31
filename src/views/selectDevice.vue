@@ -72,7 +72,7 @@ export default {
         if (!init.length) {/*console.log(100)*/; this.$router.replace({name: 'initialize'}); this.loading = false; return}
         var arg = {name:null,folder:'appDataFolder',mType:'application/vnd.google-apps.folder'}
         var deviceList = await this.$store.dispatch('searchFiles',arg)
-        this.deviceList = deviceList.filter(file => file.name != 'allDevices' && file.name != 'notes')
+        this.deviceList = deviceList.filter(file => file.name != 'allDevices' && file.name != 'notes' && file.name != 'clipBoard')
         this.loading = false
     },
     methods:{

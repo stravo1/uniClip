@@ -1,13 +1,15 @@
 <template>
 <div id="clip_wrapper">
+  
     <div class="field has-addons">
-              <div class="control is-expanded">
-                <textarea class="input input-text is-success" type="text" v-model="content"></textarea>
-                  <!--
+              <div class="control has-icons-left is-expanded">
+                <textarea class="input input-text is-success" type="text" v-model="content" :disabled='isClipLoading' :placeholder="$store.state.clipBoard.textContent" id="clipInp"></textarea>
+                  
                   <span class="icon is-small is-left">
-                    <i class="mdi mdi-clipboard"></i>
+                    <i v-show="isClipLoading" class="mdi mdi-autorenew mdi-spin"></i>
+                    <i v-show="!isClipLoading" class="mdi mdi-autorenew"></i>
                   </span>
-                  -->
+                  
         
               </div>
               <div class="control">
@@ -20,16 +22,16 @@
               
             </div>
             <div class="control">
-                <a @click.prevent="upld(false)" class="button is-outlined is-success"> <!-- had to pass(false) to pld cos by defalut it passes $event-->
+                <a @click="view" class="button is-outlined is-success"> <!-- had to pass(false) to pld cos by defalut it passes $event-->
                     <span v-if="!loading"><i class="mdi mdi-content-paste"></i></span>
-                    <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                    
                 </a>
                   
             </div>
             <div class="control">
-                <a @click.prevent="upld(false)" class="button is-outlined is-success"> <!-- had to pass(false) to pld cos by defalut it passes $event-->
+                <a @click="copy" class="button is-outlined is-success"> <!-- had to pass(false) to pld cos by defalut it passes $event-->
                     <span v-if="!loading"><i class="mdi mdi-content-copy"></i></span>
-                    <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                    
                 </a>
                   
             </div>
@@ -38,32 +40,68 @@
 </template>
 
 <script>
+
+
 export default {
     data(){
         return{
-            lastXHR: null,
-            newXHR: null,
             loading:false,
+            timer: null,
+            typing: false,
         }
+    },
+    mounted(){
+      var store = this.$store;
+      setInterval(() => {store.dispatch('refreshClipBoard')}, 5000)
     },
     methods:{
         patch(){
             console.log('patching')
             this.$store.dispatch('saveClipBoardText');
+        },
+        view(){
+          var store = this.$store;
+            function append(params) {
+              store.commit('setClipTextContent', params);
+              store.dispatch('saveClipBoardText');
+            }
+            navigator.clipboard.readText().then(
+            clipText => append(clipText))
+            //this.$store.commit('setClipTextContent', document.querySelector("#clipInp").value);
+            //this.$store.dispatch('saveClipBoardText');
+        },
+        copy(){
+            navigator.clipboard.writeText(document.getElementById('clipInp').value)
         }
     },
     computed:{
         content: {
             get () {
-            return this.$store.state.clipBoard.textContent
+              if(this.$store.state.clipBoard.isClipLoading) return ''
+              return this.$store.state.clipBoard.textContent
             },
             set (value) {
-                //if(this.lastXHR!= null) this.lastXHR.abort()
-                this.$store.commit('setClipTextContent', value)
-                this.$store.dispatch('saveClipBoardText')
-                //console.log(this.lastXHR)
+                if(this.timer!= null){
+                  console.log('Timer closed');
+                  clearTimeout(this.timer);
+                  this.typing = true
+                  this.$store.commit('setIsTyping', true)
+                }
+                var store = this.$store
+                var ths = this;
+                this.$store.commit('setClipTextContent', value);
+                this.timer = setTimeout(() => {
+                  console.log(store.state.clipBoard.textContent, ths)
+                  store.dispatch('saveClipBoardText')
+                  ths.typing = false;
+                  store.commit('setIsTyping', false)
+                }, 1500)
+                this.typing = ths.typing
             }
         },
+        isClipLoading(){
+          return this.$store.state.clipBoard.isClipLoading
+        }
     }
 }
 </script>
@@ -86,7 +124,7 @@ export default {
   color: whitesmoke;
 }
 .input-text::placeholder{
-  color: rgb(73, 73, 73);
+  color: rgb(161, 161, 161);
 }
 .emptyMessage{
   font-weight: 500;

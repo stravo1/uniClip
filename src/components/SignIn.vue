@@ -51,7 +51,9 @@
                  </div>
   </loading>
   </transition>
+  <!--
   <button class="button is-warning" @click="sOUT">Sign Out</button>
+  -->
 </template>
 
 <script>
