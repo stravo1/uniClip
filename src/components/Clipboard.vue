@@ -1,6 +1,48 @@
 <template>
 <div id="clip_wrapper">
-  
+  <div v-show="$store.state.notes.isInstalled">
+    <div class="glance-header">
+        <i class="mdi mdi-24px mdi-clipboard-outline"></i>
+        <p class="subtitle">
+            clipboard n <span @click="$router.push({name: 'notes'})"><u>notes</u></span>
+        </p>
+        <span class="icon" @click="$store.dispatch('refreshClipBoard')">
+          <i v-show="isClipLoading" class="mdi mdi-autorenew mdi-spin"></i>
+          <i v-show="!isClipLoading" class="mdi mdi-autorenew"></i>
+        </span>
+    </div>
+    <textarea class="input input-text is-success" type="text" v-model="content" :disabled='isClipLoading' :placeholder="$store.state.clipBoard.textContent" id="clipInp"></textarea>
+    <div class="field has-addons">
+      <div class="control is-expanded">
+        <span class="fileClip"></span>
+      </div>
+              <div class="control">
+                
+              <a class="button is-success is-outlined" @click="fileSelect">
+              
+               <input type="file" style="display: none" ref="file" id="file" @change="fileChange" multiple> 
+                <i class="mdi mdi-file-plus "></i>
+              </a>
+              
+            </div>
+            <div class="control">
+                <a @click="view" class="button is-outlined is-success">
+                    <span v-if="!loading"><i class="mdi mdi-content-paste"></i></span>
+                    
+                </a>
+                  
+            </div>
+            <div class="control">
+                <a @click="copy" class="button is-outlined is-success">  
+                    <span v-if="!loading"><i class="mdi mdi-content-copy"></i></span>
+                    
+                </a>
+                  
+            </div>
+    </div>
+</div>
+
+  <!--
     <div class="field has-addons">
               <div class="control has-icons-left is-expanded">
                 <textarea class="input input-text is-success" type="text" v-model="content" :disabled='isClipLoading' :placeholder="$store.state.clipBoard.textContent" id="clipInp"></textarea>
@@ -22,20 +64,21 @@
               
             </div>
             <div class="control">
-                <a @click="view" class="button is-outlined is-success"> <!-- had to pass(false) to pld cos by defalut it passes $event-->
+                <a @click="view" class="button is-outlined is-success">  had to pass(false) to pld cos by defalut it passes $event
                     <span v-if="!loading"><i class="mdi mdi-content-paste"></i></span>
                     
                 </a>
                   
             </div>
             <div class="control">
-                <a @click="copy" class="button is-outlined is-success"> <!-- had to pass(false) to pld cos by defalut it passes $event-->
+                <a @click="copy" class="button is-outlined is-success">  had to pass(false) to pld cos by defalut it passes $event
                     <span v-if="!loading"><i class="mdi mdi-content-copy"></i></span>
                     
                 </a>
                   
             </div>
     </div>
+    -->
 </div>
 </template>
 
@@ -107,9 +150,8 @@ export default {
 </script>
 
 <style scoped>
-#clip_wrapper{
-    padding: 1.25rem;
-    width: 100vw;
+#clipInp{
+  height: 27vh;
 }
 .compose-box, .media-box {
   width: 98vw;
@@ -117,7 +159,6 @@ export default {
   bottom:0.25rem;
   padding: 0rem 0rem 0rem 0.5rem;
   background-color:unset;
-
 }
 .input-text{
   background-color: rgb(20, 20, 20);

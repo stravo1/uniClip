@@ -8,8 +8,8 @@
   <SignIn/>
 </div>
 
-<div class="notes-glance">
-  <NotesGlance :custom="true"><span @click="$router.push({name: 'notes'})"><u>notes</u></span> at a glance </NotesGlance>
+<div class="notes-glance" style="display: none">
+  <NotesGlance :custom="true"> at a glance </NotesGlance>
 </div>
 <div class="device-list">
 <DeviceList/>
@@ -60,12 +60,14 @@ export default {
 <style scoped>
 .clipboard{
   position: fixed;
-  top: 90vh;
+  width: 100vw;
+  padding: 1.5rem;
+  top: 10vh;
 }
 .device-list{
   position: fixed;
   width: 95vw;
-  top: 45vh;
+  top: 55vh;
 }
 .contaier{
   padding:30px;
