@@ -241,7 +241,8 @@ const clipBoard = {
       state.textContent = await dispatch('getFileContent', {
         fileId: state.textFile.id,
         format: "raw",
-        size: state.textFile.size
+        size: state.textFile.size,
+        refresh: false,
       })
       state.isClipLoading = false;
       //console.log(state.notesList);
@@ -318,7 +319,7 @@ const clipBoard = {
         }
         outResolve();
         //state.stack.pop()
-        console.log("Patched/saved", response);
+        //console.log("Patched/saved", response);
       };
 
       /*
@@ -332,16 +333,9 @@ const clipBoard = {
       return response;
     },
     async refreshClipBoard({state, commit, dispatch}){
-      console.log('refreshing')
+      //console.log('refreshing')
       if(state.isClipLoading || state.isTyping) return;
-      state.isClipLoading = true;
-      state.textContent = await dispatch('getFileContent', {
-        fileId: state.textFile.id,
-        format: "raw",
-        size: state.textFile.size,
-        refresh: false,
-      })
-      state.isClipLoading = false;
+      dispatch('setUpClipBoard')
     }
   }
 }

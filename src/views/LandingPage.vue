@@ -1,18 +1,38 @@
 <template>
 
-<div class="clipboard">
-  <Clipboard/>
-</div>
+
 
 <div class="sign-in">
   <SignIn/>
 </div>
 
-<div class="notes-glance">
-  <NotesGlance :custom="true"><span @click="$router.push({name: 'notes'})"><u>notes</u></span> at a glance </NotesGlance>
-</div>
+
 <div class="device-list">
 <DeviceList/>
+</div>
+<div class="clipboard_n_notes">
+  <div class="glance-header">
+        <span class="bodge2"><i v-show="isClipboard" class="mdi mdi-24px mdi-clipboard-outline"></i><i v-show="!isClipboard" class="mdi mdi-24px mdi-text"></i></span>
+        <p class="subtitle">
+            <div class="tabs is-boxed">
+              <ul>
+                <li :class="{'is-active' : isClipboard}"><a @click="isClipboard = true">Clipboard</a></li>
+                <li :class="{'is-active' : !isClipboard}"><a @click="isClipboard = false">Notes <XyzTransition xyz="fade"> <span @click="$router.push({name: 'notes'})" v-if="!isClipboard">&emsp;<i class="mdi mdi-arrow-right"></i></span> </XyzTransition> </a></li>
+              </ul>
+            </div>
+            <!--clipboard n <span @click="$router.push({name: 'notes'})"><u>notes</u></span>-->
+        </p>
+        <XyzTransition xyz="fade">
+        <span v-show="isClipboard" class="icon bodge1" @click="$store.dispatch('refreshClipBoard')">
+          <i v-show="isClipLoading" class="mdi mdi-autorenew mdi-spin"></i>
+          <i v-show="!isClipLoading" class="mdi mdi-autorenew"></i>
+        </span>
+        </XyzTransition>
+    </div>
+  <div v-show="isClipboard"><Clipboard></Clipboard></div>
+  <div v-show="!isClipboard">
+  <NotesGlance :custom="true" :headerDisable="true" ></NotesGlance>
+</div>
 </div>
 </template>
 
@@ -27,7 +47,7 @@ export default {
   name: 'Home',
   data(){
     return{
-
+      isClipboard: true,
     }
   },
   mounted(){
@@ -37,6 +57,11 @@ export default {
     DeviceList, SignIn, NotesGlance, Clipboard
   },
   methods: {
+   },
+   computed: {
+     isClipLoading(){
+          return this.$store.state.clipBoard.isClipLoading
+        }
    },
 
   //mixins:[touchMixin]
@@ -58,14 +83,16 @@ export default {
 </script>
 
 <style scoped>
-.clipboard{
+.clipboard_n_notes{
   position: fixed;
-  bottom: 0;
+  width: 100vw;
+  padding: 1.5rem;
+  top: 10vh;
 }
 .device-list{
   position: fixed;
   width: 95vw;
-  top: 42vh;
+  top: 55vh;
 }
 .contaier{
   padding:30px;
@@ -97,7 +124,12 @@ export default {
   position: fixed;
   width: 100vw;
   padding: 1.5rem;
-  top: 1vh;
+  top: 10vh;
 }
-
+.bodge1{
+  padding: 1.5rem 0;
+}
+.bodge2{
+  padding: 0.5rem 0 0 0;
+}
 </style>
