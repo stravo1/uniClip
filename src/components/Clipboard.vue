@@ -172,6 +172,9 @@ export default {
                 this.typing = ths.typing
             }
         },
+        isClipLoading(){
+          return this.$store.state.clipBoard.isClipLoading
+        }
         
     },
     components: {Preview}

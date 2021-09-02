@@ -244,7 +244,6 @@ const clipBoard = {
         size: state.textFile.size,
         refresh: false,
       })
-      console.log(state.mediaFile)
       state.isClipLoading = false;
       //console.log(state.notesList);
     },
