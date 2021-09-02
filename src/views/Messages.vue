@@ -48,7 +48,7 @@
   <div class="sub">
     <span :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}" class="time"><i style="padding: 0 3px 0 3px;" class="mdi mdi-clock"></i>{{$store.getters.timeFormatter(message.time)}}</span>
     <br v-if="!(message.context=='sent' && message.sender == $store.state.myDevice.name)">
-    <span v-show="groupsText(message)" :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}" class="groupText" @click="toggleGroup(message.message)"><i style="padding: 0 3px 0 3px;" class="mdi mdi-file-multiple"></i></span>
+    <span v-show="groupsText(message)" :class="{'fix-to-right':message.context=='sent' && message.sender == $store.state.myDevice.name}" class="groupText" @click="toggleGroup(message.message)">&gt; more files</span>
   </div>
 
 </div>
@@ -494,7 +494,7 @@ export default {
   color: whitesmoke;
 }
 .input-text::placeholder{
-  color: rgb(73, 73, 73);
+  color: rgb(140, 140, 140);
 }
 .emptyMessage{
   font-weight: 500;

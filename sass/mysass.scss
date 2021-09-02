@@ -19,9 +19,7 @@ $menu-label-font-size: 1.5rem;
 $panel-tabs-font-size: 1.5rem;
 $message-body-padding: 0.5rem 0.75rem;
 $input-radius:7px;
-$input-icon-color: rgb(73,
-73,
-73);
+$input-icon-color: rgb(140, 140, 140);
 $input-icon-active-color: whitesmoke;
 $grey-dark: hsl(0, 0%, 60%);
 $grey-light: $beige-light;
@@ -29,6 +27,10 @@ $danger: $purple;
 $success: $neonPink; //dirty patch here too
 $link: $neonBlue;
 $info: $neonPink;
+$success: rgb(100, 100, 100);
+$tabs-boxed-link-active-background-color:rgb(43, 43, 43);
+$tabs-boxed-link-active-border-color:rgb(70, 70,70);
+$tabs-border-bottom-color:rgb(70, 70, 70);
 $tabs-toggle-link-border-color:$neonPink;
 $tabs-toggle-link-border-width:2px;
 $tabs-toggle-link-radius:7px;
