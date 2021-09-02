@@ -1,6 +1,6 @@
 <template>
 <div v-show="$store.state.notes.isInstalled">
-    <div class="glance-header">
+    <div class="glance-header" v-show="!headerDisable">
         <i class="mdi mdi-24px mdi-text"></i>
         <p class="subtitle">
             <slot></slot>
@@ -71,7 +71,7 @@ export default {
             return this.$store.state.notes.notesList
         }
     },
-    props:['custom']
+    props:['custom','headerDisable']
 }
 </script>
 
@@ -91,6 +91,7 @@ export default {
     width: 100%;
     padding: 0.25rem 0.25rem;
     font-weight: 500;
+    margin-bottom: 1rem;
 }
 .glance-header .icon{
     grid-column: 3;

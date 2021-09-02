@@ -4572,7 +4572,7 @@ label.panel-block {
   white-space: nowrap; }
   .tabs a {
     align-items: center;
-    border-bottom-color: #dbdbdb;
+    border-bottom-color: #464646;
     border-bottom-style: solid;
     border-bottom-width: 1px;
     color: #999999;
@@ -4591,7 +4591,7 @@ label.panel-block {
       color: #75d5fd; }
   .tabs ul {
     align-items: center;
-    border-bottom-color: #dbdbdb;
+    border-bottom-color: #464646;
     border-bottom-style: solid;
     border-bottom-width: 1px;
     display: flex;
@@ -4623,8 +4623,8 @@ label.panel-block {
       background-color: whitesmoke;
       border-bottom-color: #dbdbdb; }
   .tabs.is-boxed li.is-active a {
-    background-color: white;
-    border-color: #dbdbdb;
+    background-color: #2b2b2b;
+    border-color: #464646;
     border-bottom-color: transparent !important; }
   .tabs.is-fullwidth li {
     flex-grow: 1;

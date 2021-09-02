@@ -14,7 +14,7 @@
           <p class="title">notes</p>
      </div>
     <div class="notes-glance">
-     <NotesGlance>most recent note </NotesGlance>
+     <NotesGlance :headerDisable='false'>most recent note </NotesGlance>
      </div>
      <div class="notes-list">
           <aside class="menu">
