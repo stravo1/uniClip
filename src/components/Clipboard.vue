@@ -4,8 +4,8 @@
       <div v-show="$store.state.notes.isInstalled">
         
     
-    <textarea class="input input-text is-success" type="text" v-model="content" :disabled='isClipLoading' :placeholder="$store.state.clipBoard.textContent" id="clipInp" style="border-bottom: none"></textarea>
-    <div class="field has-addons" style="background: rgb(33, 33, 33)">
+    <textarea class="input input-text is-success" type="text" v-model="content" :disabled='isClipLoading' :placeholder="$store.state.clipBoard.textContent" id="clipInp" style="border-bottom: none" autocomplete="off" spellcheck="false"></textarea>
+    <div class="field has-addons" style="background: rgb(33, 33, 33); border-radius: 0 0 0.35rem 0.35rem;">
       <div class="control is-expanded fileClipNameWrapper" @click="preview">
         <span class="fileClipName">{{ fileName() }}</span>
       </div>
@@ -21,14 +21,12 @@
             <div class="control separator">
                 <a @click="view" class="button is-outlined is-success no-border">
                     <span v-if="!loading"><i class="mdi mdi-content-paste"></i></span>
-                    
                 </a>
                   
             </div>
             <div class="control separator">
                 <a @click="copy" class="button is-outlined is-success no-border">  
                     <span v-if="!loading"><i class="mdi mdi-content-copy"></i></span>
-                    
                 </a>
                   
             </div>
@@ -200,10 +198,7 @@ export default {
     color: #777777;
 }
 .fileClipNameWrapper{
-    /*border: 2px solid rgb(100, 100, 100);*/
-    border-top: none;
-    border-right: none;
-    border-radius: 0 0 0 0.35rem;
+    border-radius: 0.35rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

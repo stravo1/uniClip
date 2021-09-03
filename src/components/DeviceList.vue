@@ -2,7 +2,7 @@
 <div class="menu">
   <div class="menu-label">
     <i class="mdi mdi-24px mdi-cellphone-link" style="padding : 0rem;"></i>
-    <span class="icon"><i class="mdi mdi-information-outline md-24px" @click="$router.push({name:'about' })" ></i></span>
+    <span class="icon"><i class="mdi mdi-cog-outline md-24px" @click="$router.push({name:'settings' })" ></i></span>
     <p class="subtitle is-5">devices</p>
   </div>
   <ul class="menu-list">

@@ -1,7 +1,4 @@
 <template>
-
-
-
 <div class="sign-in">
   <SignIn/>
 </div>
@@ -61,6 +58,9 @@ export default {
    computed: {
      isClipLoading(){
           return this.$store.state.clipBoard.isClipLoading
+        },
+      isTyping(){
+          return this.$store.state.clipBoard.isTyping
         }
    },
 
