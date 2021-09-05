@@ -71,6 +71,7 @@
     </div>
     -->
 </div>
+<span v-show="refresh"></span>
 </template>
 
 <script>
@@ -83,12 +84,14 @@ export default {
             loading:false,
             timer: null,
             typing: false,
+            timeOut: null,
             fileInp: []
         }
     },
     mounted(){
       var store = this.$store;
-      setInterval(() => {store.dispatch('refreshClipBoard')}, 15000)
+      var ths = this
+      setInterval(() => {store.dispatch('refreshClipBoard')}, this.timeOut*1000)
     },
     methods:{
         patch(){
@@ -172,6 +175,11 @@ export default {
         },
         isClipLoading(){
           return this.$store.state.clipBoard.isClipLoading
+        },
+        refresh(){
+          this.timeOut = this.$store.state.refreshTime
+          console.log(this.timeOut)
+          return this.$store.state.refreshTime
         }
         
     },

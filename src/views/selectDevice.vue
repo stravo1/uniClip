@@ -66,7 +66,7 @@ export default {
     async mounted(){
         if(!this.$store.state.signInState){alert('Please sign in first....'); this.$router.replace({name: 'myDevice'})}
         this.loading = true
-        if(localStorage.getItem('thisDeviceId')){alert('You are already signed in! To shift to any other registered device sign out first...'); this.$router.replace({name: 'myDevice'})}
+        //if(localStorage.getItem('thisDeviceId')){alert('You are already signed in! To shift to any other registered device sign out first...'); this.$router.replace({name: 'myDevice'})}
         var init = await this.$store.dispatch('searchFiles',{name:'initialized.json', folder:'appDataFolder', mType:'application/json'})
         //console.log(init.length, 'init')
         if (!init.length) {/*console.log(100)*/; this.$router.replace({name: 'initialize'}); this.loading = false; return}

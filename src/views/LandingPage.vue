@@ -63,6 +63,25 @@ export default {
           return this.$store.state.clipBoard.isTyping
         }
    },
+   mounted(){
+     var size = localStorage.getItem('sizeLim')
+     if(size){
+       this.$store.commit('setSizeLim', parseInt(size))
+     } else{
+       this.$store.commit('setSizeLim', 1024)
+       localStorage.setItem('sizeLim', 1024)
+
+     }
+     var time = localStorage.getItem('clipTime')
+     if(time){
+       console.log(time)
+       this.$store.commit('setRefreshTime', parseInt(time))
+     } else{
+       this.$store.commit('setRefreshTime', 15)
+       localStorage.setItem('clipTime', 15)
+
+     }
+   },
 
   //mixins:[touchMixin]
   
