@@ -139,7 +139,10 @@ export default {
 <style scoped>
 
 .settings-wrapper{
-  padding: 1rem
+  padding: 1rem;
+  white-space:nowrap;
+  overflow: scroll;
+  height: 100vh;
 }
 .settings-header .title{
      color: aqua;
