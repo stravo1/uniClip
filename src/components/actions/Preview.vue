@@ -14,7 +14,8 @@
             <div class="card-content">
             <div class="content">
                 <div  id='preview'>
-                    Preview of file will appear here...
+                    
+                    <p><i class='mdi mdi-file-alert-outline mdi-36px'></i></p><p style='left: 1.5rem;position: absolute;'><br><br>File size exceeded <a @click="$router.push({name: 'settings'}), $store.commit('setSelectedFile', null)">Preview size limit</a></p>
                 </div>
                 <div class="content">
                     <blockquote  id="info">
@@ -116,16 +117,17 @@ const blobMaker = async(fileId, accessToken) => {
       //console.log(blob,type)
       return [blob,type]
   };
-const urlMaker = async(file, accessToekn) => {
-    /*if(file.size > 500*1000){
-        //console.log("too big to preview!!")
-        var html = "<embed style='width : 50vw' src='" + "../../assets/error.png'" + "'id='preview' type='"+file.type+"'>"
-        document.getElementById('preview').innerHTML=html
+const urlMaker = async(file, accessToekn, size) => {
+    if(file.size > size){
+        //console.log("too big to preview!!", file.size, size)
+        //var html = ""
+        //document.getElementById('preview').innerHTML=html
  
-        var html2 = "<p class='title is-5'>Name: " + file.name + "</p>"+"<p class='subtitle is-5'>Type: " + file.type + "</p>"
+        var html2 = "<p class='title is-5'>Name: " + file.name + "</p>"+"<br><p class='subtitle is-5'>Size: " + (file.size/1024).toFixed() + "kb</p>"
         document.getElementById('info').innerHTML=html2
+        updateProgress({lengthComputable: true, loaded: 100, total:100})
         return true
-    }*/ //future feature
+    } //future feature
 
     var id = file.id
     var name = file.name
@@ -254,7 +256,7 @@ export default {
             if(file){
                 fileSize = file.size
                 nanobar.go(5)
-                this.req = await urlMaker(file,this.$store.state.accessToken)
+                this.req = await urlMaker(file,this.$store.state.accessToken, this.$store.state.fileSizeLimit*1024)
                 this.isActive = true
                 
             }

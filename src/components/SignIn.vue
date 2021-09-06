@@ -110,6 +110,7 @@ export default {
     },
     mounted(){
         //console.log("mounted")
+        this.$store.commit('setGAPI', gapi)
         var callback = this.signInStateUpdate
         this.loading = true
         var loader = this.loading

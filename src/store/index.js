@@ -166,6 +166,7 @@ const clipBoard = {
     mediaFile: null,
     xhr_l: null,
     isTyping: false,
+    refreshTimer: null,
   },
   mutations: {
     setInstalledState(state, bool){
@@ -177,6 +178,9 @@ const clipBoard = {
     setIsTyping(state, bool){
       state.isTyping = bool
     },
+    setRefreshTimer(state, timer){
+      state.refreshTimer = timer
+    }
   },
   actions: {
     async InstallClpiboard({state, dispatch, rootState}){
@@ -366,6 +370,9 @@ export default createStore({
     unreadMessages: [],
     fU: "",
     isInMessages: false,
+    GAPI: null,
+    fileSizeLimit: null,
+    refreshTime: null,
     //filesList: [{ name: 'file1', id: 1 }, { name: 'file2', id: 2 }, { name: 'file3', id: 3 }]
   },
   mutations: {
@@ -446,6 +453,15 @@ export default createStore({
       state.selectedFile = arg;
       //console.log("dirty set", arg);
     },
+    setGAPI(state, arg){
+      state.GAPI = arg;
+    },
+    setSizeLim(state, arg){
+      state.fileSizeLimit = arg
+    },
+    setRefreshTime(state, arg){
+      state.refreshTime = arg
+    }
   },
   actions: {
     async searchFiles({ state }, arg) {

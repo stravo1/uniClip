@@ -47,9 +47,9 @@
               </div>
               <div class="control">
                 
-              <a class="button is-success is-outlined is-rounded" @click="fileSelect">
+              <a class="button is-success is-outlined is-rounded" @click="fileSelectClip">
               
-               <input type="file" style="display: none" ref="file" id="file" @change="fileChange" multiple> 
+               <input type="file" style="display: none" ref="fileClip" id="fileClip" @change="fileChangeClip"> 
                 <i class="mdi mdi-file-plus "></i>
               </a>
               
@@ -71,6 +71,7 @@
     </div>
     -->
 </div>
+<span v-show="refresh"></span>
 </template>
 
 <script>
@@ -83,12 +84,13 @@ export default {
             loading:false,
             timer: null,
             typing: false,
-            fileInp: []
+            timeOut: 1,
+            fileInp: [],
+            refreshTimer: null,
         }
     },
     mounted(){
-      var store = this.$store;
-      setInterval(() => {store.dispatch('refreshClipBoard')}, 15000)
+      
     },
     methods:{
         patch(){
@@ -172,6 +174,25 @@ export default {
         },
         isClipLoading(){
           return this.$store.state.clipBoard.isClipLoading
+        },
+        refresh(){
+          var store = this.$store;
+          //var ths = this
+          
+          if(this.$store.state.refreshTime == null) {
+            this.timeOut = 15
+          } else {
+            if(this.$store.state.clipBoard.refreshTimer != null) {
+              clearInterval(this.$store.state.clipBoard.refreshTimer)
+            }
+            else{
+              //console.log(this.refreshTimer)
+            }
+            this.timeOut = this.$store.state.refreshTime
+            var refreshTimer = setInterval(() => {store.dispatch('refreshClipBoard')}, this.timeOut*1000)
+            this.$store.commit('setRefreshTimer',refreshTimer)
+          }
+          return this.$store.state.refreshTime
         }
         
     },
@@ -234,7 +255,7 @@ export default {
 }
 */
 .cross{
-  position:absolute;
+  grid-column: 3;
   right: 1rem;
 }
 .no-border{
