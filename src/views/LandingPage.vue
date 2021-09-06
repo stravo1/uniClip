@@ -74,11 +74,10 @@ export default {
      }
      var time = localStorage.getItem('clipTime')
      if(time){
-       console.log(time)
        this.$store.commit('setRefreshTime', parseInt(time))
      } else{
-       this.$store.commit('setRefreshTime', 15)
-       localStorage.setItem('clipTime', 15)
+       this.$store.commit('setRefreshTime', 10)
+       localStorage.setItem('clipTime', 10)
 
      }
    },

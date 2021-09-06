@@ -84,14 +84,13 @@ export default {
             loading:false,
             timer: null,
             typing: false,
-            timeOut: null,
-            fileInp: []
+            timeOut: 1,
+            fileInp: [],
+            refreshTimer: null,
         }
     },
     mounted(){
-      var store = this.$store;
-      var ths = this
-      setInterval(() => {store.dispatch('refreshClipBoard')}, this.timeOut*1000)
+      
     },
     methods:{
         patch(){
@@ -177,8 +176,22 @@ export default {
           return this.$store.state.clipBoard.isClipLoading
         },
         refresh(){
-          this.timeOut = this.$store.state.refreshTime
-          console.log(this.timeOut)
+          var store = this.$store;
+          //var ths = this
+          
+          if(this.$store.state.refreshTime == null) {
+            this.timeOut = 15
+          } else {
+            if(this.$store.state.clipBoard.refreshTimer != null) {
+              clearInterval(this.$store.state.clipBoard.refreshTimer)
+            }
+            else{
+              //console.log(this.refreshTimer)
+            }
+            this.timeOut = this.$store.state.refreshTime
+            var refreshTimer = setInterval(() => {store.dispatch('refreshClipBoard')}, this.timeOut*1000)
+            this.$store.commit('setRefreshTimer',refreshTimer)
+          }
           return this.$store.state.refreshTime
         }
         

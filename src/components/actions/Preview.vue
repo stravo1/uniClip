@@ -14,7 +14,8 @@
             <div class="card-content">
             <div class="content">
                 <div  id='preview'>
-                    Preview of file will appear here...
+                    
+                    <p><i class='mdi mdi-file-alert-outline mdi-36px'></i></p><p style='left: 1.5rem;position: absolute;'><br><br>File size exceeded <a @click="$router.push({name: 'settings'}), $store.commit('setSelectedFile', null)">Preview size limit</a></p>
                 </div>
                 <div class="content">
                     <blockquote  id="info">
@@ -119,8 +120,8 @@ const blobMaker = async(fileId, accessToken) => {
 const urlMaker = async(file, accessToekn, size) => {
     if(file.size > size){
         //console.log("too big to preview!!", file.size, size)
-        var html = "<p><i class='mdi mdi-file-alert-outline mdi-36px'></i></p><p style='left: 1.5rem;position: absolute;'><br><br>File size exceeded Preview size limit</p>"
-        document.getElementById('preview').innerHTML=html
+        //var html = ""
+        //document.getElementById('preview').innerHTML=html
  
         var html2 = "<p class='title is-5'>Name: " + file.name + "</p>"+"<br><p class='subtitle is-5'>Size: " + (file.size/1024).toFixed() + "kb</p>"
         document.getElementById('info').innerHTML=html2

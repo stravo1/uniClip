@@ -166,6 +166,7 @@ const clipBoard = {
     mediaFile: null,
     xhr_l: null,
     isTyping: false,
+    refreshTimer: null,
   },
   mutations: {
     setInstalledState(state, bool){
@@ -177,6 +178,9 @@ const clipBoard = {
     setIsTyping(state, bool){
       state.isTyping = bool
     },
+    setRefreshTimer(state, timer){
+      state.refreshTimer = timer
+    }
   },
   actions: {
     async InstallClpiboard({state, dispatch, rootState}){
