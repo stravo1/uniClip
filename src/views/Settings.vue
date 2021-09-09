@@ -142,7 +142,7 @@ export default {
   padding: 1rem;
   white-space:nowrap;
   overflow: scroll;
-  height: 100vh;
+  height: 95vh;
 }
 .settings-header .title{
      color: aqua;

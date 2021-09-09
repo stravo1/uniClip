@@ -16,8 +16,10 @@
                 <div  id='preview'>
                     
                     <p><i class='mdi mdi-file-alert-outline mdi-36px'></i></p><p style='left: 1.5rem;position: absolute;'><br><br>File size exceeded <a @click="$router.push({name: 'settings'}), $store.commit('setSelectedFile', null)">Preview size limit</a></p>
+                    <br>
+                    <br>
                 </div>
-                <div class="content">
+                <div class="content" style="margin: 1rem 0 0 0;">
                     <blockquote  id="info">
                         info of file will appear here...
                     </blockquote>
@@ -118,7 +120,10 @@ const blobMaker = async(fileId, accessToken) => {
       return [blob,type]
   };
 const urlMaker = async(file, accessToekn, size) => {
-    if(file.size > size){
+    if(size == 'ignore'){
+        //console.log('force downlaoding')
+    }
+    else if(file.size > size){
         //console.log("too big to preview!!", file.size, size)
         //var html = ""
         //document.getElementById('preview').innerHTML=html
@@ -126,7 +131,7 @@ const urlMaker = async(file, accessToekn, size) => {
         var html2 = "<p class='title is-5'>Name: " + file.name + "</p>"+"<br><p class='subtitle is-5'>Size: " + (file.size/1024).toFixed() + "kb</p>"
         document.getElementById('info').innerHTML=html2
         updateProgress({lengthComputable: true, loaded: 100, total:100})
-        return true
+        return "preview exceed"
     } //future feature
 
     var id = file.id
@@ -218,14 +223,23 @@ export default {
     data(){
         return{
             isActive:false,
-            req:[]
+            req:[],
+            forceDownloadPromise: null,
+            resolver: null
         }
     },
     methods:{
         close(){
             this.$emit('complete')
         },
-        download(){
+        async download(){
+            if(this.req == "preview exceed"){
+                this.forceDownloadPromise = new Promise((resolve, reject) => {
+                    this.resolver = resolve;
+                });
+                this.$store.commit('setSizeLim','ignore')
+            }
+            await this.forceDownloadPromise
             download(this.req)
         },
         async dlt(){ //add Are You Sure prompt
@@ -235,6 +249,13 @@ export default {
             this.close()
         },
         async share(){
+            if(this.req == "preview exceed"){
+                this.forceDownloadPromise = new Promise((resolve, reject) => {
+                    this.resolver = resolve;
+                });
+                this.$store.commit('setSizeLim','ignore')
+            }
+            await this.forceDownloadPromise
             var resultPara = {}
             var req = this.req
             try {
@@ -258,7 +279,11 @@ export default {
                 nanobar.go(5)
                 this.req = await urlMaker(file,this.$store.state.accessToken, this.$store.state.fileSizeLimit*1024)
                 this.isActive = true
-                
+                if(this.forceDownloadPromise != null) {
+                    this.resolver()
+                    var restore_size = localStorage.getItem('sizeLim')
+                    this.$store.commit('setSizeLim', parseInt(restore_size))
+                }
             }
             else{
                 this.isActive = false
