@@ -15,7 +15,7 @@
             <div class="content">
                 <div id='preview'>
                     <div id="eyoo" >
-                        <p><i class='mdi mdi-file-alert-outline mdi-36px'></i></p><p style='left: 1.5rem;position: absolute;'><br><br>File size exceeded <a @click="$router.push({name: 'settings'}), $store.commit('setSelectedFile', null)">Preview size limit</a></p>
+                        <p><i class='mdi mdi-file-alert-outline mdi-36px'></i></p><br /><p style='left: 1.5rem;position: absolute; width:100%; text-align:center;'><br><br>File size exceeded <a @click="$router.push({name: 'settings'}), $store.commit('setSelectedFile', null)">Preview size limit</a></p>
                     </div>
                     <p id="act_preview"></p>
                     <br>
