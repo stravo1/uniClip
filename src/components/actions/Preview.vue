@@ -15,7 +15,7 @@
             <div class="content">
                 <div id='preview'>
                     <div id="eyoo" >
-                        <p><i class='mdi mdi-file-alert-outline mdi-36px'></i></p><br /><p style='left: 1.5rem;position: absolute; width:100%; text-align:center;'><br><br>File size exceeded <a @click="$router.push({name: 'settings'}), $store.commit('setSelectedFile', null)">Preview size limit</a></p>
+                        <p><i class='mdi mdi-file-alert-outline mdi-36px'></i></p><br /><p style='left: 1.5rem;position: absolute; width:inherit; white-space:break-spaces; text-align:center;'><br><br>File size exceeded <a @click="$router.push({name: 'settings'}), $store.commit('setSelectedFile', null)">Preview size limit</a></p>
                     </div>
                     <p id="act_preview"></p>
                     <br>
@@ -173,7 +173,7 @@ const urlMaker = async(file, accessToekn, size) => {
     var html = "<a target='_blank' href='" + downloadUrl + "'><embed style='max-width : 50vw' src='" + downloadUrl + "'id='preview' type='"+response[1]+"'></a>"
     document.getElementById('eyoo').setAttribute("style","display: none")
     console.log("preview")
-    document.getElementById("act_preview").innerHTML+=html
+    document.getElementById("act_preview").innerHTML=html
     
     var html2 = "<p class='title is-6'>name: " + name + "</p>"+"<span></span><p class='subtitle is-6'>type: " + response[1] +"<br>size: " + (blob.size/1024).toFixed() + "kb</p>"
 
